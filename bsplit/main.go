@@ -33,7 +33,7 @@ func main() {
 	args := flag.Args()
 	data := make([]byte, 0)
 	if len(args) == 0 {
-		error("No files were given as input. Enter 'bsplit -h' for more information.")
+		error("No files were given as input. Enter 'bsplit -help' for more information.\n")
 	}
 	for _, s := range args {
 		f, err := os.Open(s)
