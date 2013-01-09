@@ -1,11 +1,8 @@
 goblin
 ======
 
-Plan 9 commands in Go
+Plan 9 commands reimplemented in Go
 
+License: MIT
 
-Similar Projects
-----------------
-
-* [gobox](https://github.com/surma/gobox) 
-* [goblin](https://bitbucket.org/amertune/goblin) - An old goblin effort by amertune.
+Authors: Uriel, Mortdeus
