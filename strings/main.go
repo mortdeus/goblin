@@ -13,8 +13,8 @@ const BUFSIZE int = 70
 var (
 	minspan = flag.Int("m", 6, "Defines the minimum span size for a series "+
 		"of runes to be considered a string.")
-	offsets = flag.Bool("o", false, "Print the file offset for the beginning "+
-		"of strings.")
+	offsets = flag.Bool("o", false, "Print the file offsets for the "+
+		"beginning of strings.")
 )
 
 func usage() {
@@ -28,8 +28,8 @@ func error(s string) {
 	os.Exit(1)
 }
 
-func prntstr(s string, start uint64) {
-	if( *offsets ) {
+func prntstr(s string, start int64) {
+	if *offsets {
 		fmt.Printf("%8d: %s\n", start, s)
 	} else {
 		fmt.Printf("%s\n", s)
@@ -38,28 +38,34 @@ func prntstr(s string, start uint64) {
 
 func stringit(f *os.File) {
 	buf := make([]rune, BUFSIZE)
-	var start uint64 = 0
+	var start, posn int64
 
 	b := bufio.NewReader(f)
 
+	posn = 0
+	start = 0
 	for {
 		c, size, err := b.ReadRune()
 		if err != nil {
 			break
 		}
-
-		start += uint64(size)
+		posn += int64(size)
 
 		if unicode.IsGraphic(c) {
+			if start == 0 {
+				start = posn
+			}
 			buf = append(buf, c)
 			if len(buf) == BUFSIZE {
 				prntstr(string(buf)+" ...", start)
 				buf = buf[0:0]
+				start = 0
 			}
 		} else {
 			if len(buf) >= *minspan {
 				prntstr(string(buf), start)
 				buf = buf[0:0]
+				start = 0
 			}
 		}
 	}
