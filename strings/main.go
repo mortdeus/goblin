@@ -33,14 +33,15 @@ func makeString(f *os.File) {
 	b := bufio.NewReader(f)
 
 	var position, start int64
-	
+
 	printString := func(buf []rune, start int64) {
 		if *verbose {
 			fmt.Printf("%8d: %s\n", start, string(buf))
 		} else {
 			fmt.Printf("%s\n", string(buf))
+		}
 	}
-	
+
 	for {
 		c, size, err := b.ReadRune()
 		if err != nil {
