@@ -77,7 +77,6 @@ func (self *dent) getInfo(fi os.FileInfo) {
 		return
 	}
 
-
 	/* The following is probably not portable */
 	s := fi.Sys().(*syscall.Stat_t)
 	u, _ := user.LookupId(strconv.Itoa(int(s.Uid)))
@@ -221,7 +220,7 @@ func ls(path string) {
 
 	for _, d := range dents {
 		if *kbytes {
-			nswidth := swidth-3
+			nswidth := swidth - 3
 			if nswidth < 1 {
 				nswidth = 1
 			}
