@@ -8,6 +8,7 @@ import (
 	"os/user"
 	"strconv"
 	"syscall"
+	"time"
 )
 
 const MAXDIRREAD int = 50
@@ -21,9 +22,9 @@ var (
 	long     = flag.Bool("l", false, "Long format list.")
 	usrname  = flag.Bool("m", false, "List the user who last modified the file.")
 	nosort   = flag.Bool("n", false, "Don't sort the list.")
-	fnlpath  = flag.Bool("p", false, "Only print the last path element.")
+	nopath   = flag.Bool("p", false, "Only print the last path element.")
 	reverse  = flag.Bool("r", false, "Reverse the sorting order.")
-	kbytes   = flag.Bool("s", false, "Use KBytes for size.")
+	kbytes   = flag.Bool("s", false, "Give size in KBytes for each file.")
 	timesort = flag.Bool("t", false, "Sort by latest-modified first.")
 	useatime = flag.Bool("u", false, "If -t sort by access time; if -u print "+
 		"last access time.")
@@ -46,6 +47,7 @@ type dent struct {
 	mode string
 	p    string
 	u    string
+	m    string
 	g    uint32
 	s    int64
 	n    string
@@ -65,6 +67,17 @@ func (self *dent) getInfo(fi os.FileInfo) {
 
 	if !*long {
 		return
+	}
+
+	yr := fi.ModTime().Year()
+	mon := fi.ModTime().Format("Jan")
+	day := fi.ModTime().Day()
+	hr, min, _ := fi.ModTime().Clock()
+
+	if time.Now().Year() == yr {
+		self.m = fmt.Sprintf("%s %2d %02d:%02d", mon, day, hr, min)
+	} else {
+		self.m = fmt.Sprintf("%s %2d %5d", mon, day, yr)
 	}
 
 	/* The following is probably not portable */
@@ -90,11 +103,12 @@ func (self *dent) getInfo(fi os.FileInfo) {
 }
 
 func (self *dent) String() string {
-	return fmt.Sprintf("%s %*s %*d %*d",
+	return fmt.Sprintf("%s %*s %*d %*d %s",
 		self.mode,
 		uwidth, self.u,
 		gwidth, self.g,
-		swidth, self.s)
+		swidth, self.s,
+		self.m)
 }
 
 func ls(path string) {
@@ -148,10 +162,14 @@ func ls(path string) {
 		for _, file := range fi {
 			d := new(dent)
 
-			if path == "" {
-				d.p = path
-			} else {
-				d.p = path + "/"
+			if *nopath {
+				path = ""
+			}
+
+			d.p = path
+
+			if path != "" {
+				d.p += "/"
 			}
 
 			d.getInfo(file)
