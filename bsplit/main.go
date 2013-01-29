@@ -49,7 +49,6 @@ func main() {
 			error(fmt.Sprintf("close %s: %s", s, err))
 		}
 	}
-	bsplit(data)
 }
 
 func bsplit(data []byte) {
