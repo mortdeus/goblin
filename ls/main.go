@@ -12,6 +12,10 @@ import (
 
 const MAXDIRREAD int = 50
 
+var uwidth int
+var gwidth int
+var swidth int
+
 var (
 	usedir   = flag.Bool("d", false, "List a directory instead of its contents.")
 	long     = flag.Bool("l", false, "Long format list.")
@@ -38,26 +42,62 @@ func error(s string) {
 	os.Exit(1)
 }
 
+type dent struct {
+	mode string
+	u    string
+	g    uint32
+	s    int64
+	n    string
+}
+
+/* Probably not portable */
+func (self *dent) getInfo(fi os.FileInfo) {
+	self.n = fi.Name()
+	self.s = fi.Size()
+	self.mode = fi.Mode().String()
+
+	l := len(strconv.Itoa(int(self.s)))
+	if l > swidth {
+		swidth = l
+	}
+
+	s := fi.Sys().(*syscall.Stat_t)
+	u, _ := user.LookupId(strconv.Itoa(int(s.Uid)))
+
+	if len(u.Username) > uwidth {
+		uwidth = len(u.Username)
+	}
+
+	gl := strconv.Itoa(int(s.Gid))
+	if len(gl) > gwidth {
+		gwidth = len(gl)
+	}
+
+	self.u = u.Username
+	self.g = s.Gid
+}
+
+func (self *dent) String() string {
+	return fmt.Sprintf("%s %*s %*d %*d %s",
+		self.mode,
+		uwidth, self.u,
+		gwidth, self.g,
+		swidth, self.s,
+		self.n)
+}
+
 func ls(path string) {
-	var uwidth int
-	var gwidth int
-	var swidth int
+	dents := make([]*dent, 0, MAXDIRREAD)
 
-	/* Probably not portable */
-	linuxGetUserGroupInfo := func(fi os.FileInfo) (string, uint32) {
-		s := fi.Sys().(*syscall.Stat_t)
-		u, _ := user.LookupId(strconv.Itoa(int(s.Uid)))
-
-		if len(u.Username) > uwidth {
-			uwidth = len(u.Username)
+	addDent := func(d *dent) {
+		l := len(dents)
+		if l+1 > cap(dents) {
+			n_dents := make([]*dent, l+MAXDIRREAD)
+			copy(n_dents, dents)
+			dents = n_dents
 		}
-
-		gl := strconv.Itoa(int(s.Gid))
-		if len(gl) > gwidth {
-			gwidth = len(gl)
-		}
-
-		return u.Username, s.Gid
+		dents = dents[0 : l+1]
+		dents[l] = d
 	}
 
 	f, err := os.Open(path)
@@ -77,18 +117,18 @@ func ls(path string) {
 
 		for _, file := range fi {
 			if *long {
-				usr, grp := linuxGetUserGroupInfo(file)
-				sze := file.Size()
-				if len(strconv.Itoa(int(sze))) > swidth {
-					swidth = len(strconv.Itoa(int(sze)))
-				}
-				fmt.Printf("%s %*s %*d %*d ",
-					file.Mode().String(),
-					uwidth, usr,
-					gwidth, grp,
-					swidth, sze)
+				d := new(dent)
+				d.getInfo(file)
+				addDent(d)
+			} else {
+				fmt.Printf("%s\n", file.Name())
 			}
-			fmt.Printf("%s\n", file.Name())
+		}
+	}
+
+	if *long {
+		for _, d := range dents {
+			fmt.Println(d.String())
 		}
 	}
 }
