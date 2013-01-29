@@ -25,9 +25,9 @@ var (
 	reverse  = flag.Bool("r", false, "Reverse the sorting order.")
 	kbytes   = flag.Bool("s", false, "Use KBytes for size.")
 	timesort = flag.Bool("t", false, "Sort by latest-modified first.")
-	useatime = flag.Bool("u", false, "If -t sort by access time; if -u print"+
+	useatime = flag.Bool("u", false, "If -t sort by access time; if -u print "+
 		"last access time.")
-	tlslash = flag.Bool("F", false, "Add / after all directories and * after"+
+	tlslash = flag.Bool("F", false, "Add / after all directories and * after "+
 		"all executables.")
 )
 
@@ -44,18 +44,30 @@ func error(s string) {
 
 type dent struct {
 	mode string
+	p    string
 	u    string
 	g    uint32
 	s    int64
 	n    string
+	d    bool
+	e    bool
 }
 
-/* Probably not portable */
 func (self *dent) getInfo(fi os.FileInfo) {
 	self.n = fi.Name()
 	self.s = fi.Size()
 	self.mode = fi.Mode().String()
+	self.d = fi.Mode().IsDir()
 
+	if fi.Mode().Perm()&0111 != 0 && !self.d {
+		self.e = true
+	}
+
+	if !*long {
+		return
+	}
+
+	/* The following is probably not portable */
 	l := len(strconv.Itoa(int(self.s)))
 	if l > swidth {
 		swidth = l
@@ -78,12 +90,11 @@ func (self *dent) getInfo(fi os.FileInfo) {
 }
 
 func (self *dent) String() string {
-	return fmt.Sprintf("%s %*s %*d %*d %s",
+	return fmt.Sprintf("%s %*s %*d %*d",
 		self.mode,
 		uwidth, self.u,
 		gwidth, self.g,
-		swidth, self.s,
-		self.n)
+		swidth, self.s)
 }
 
 func ls(path string) {
@@ -100,7 +111,26 @@ func ls(path string) {
 		dents[l] = d
 	}
 
-	f, err := os.Open(path)
+	printFName := func(d *dent) {
+		fmt.Printf("%s%s", d.p, d.n)
+		if *tlslash {
+			if d.d {
+				fmt.Print("/")
+			} else if d.e {
+				fmt.Print("*")
+			}
+		}
+		fmt.Print("\n")
+	}
+
+	var pth string
+	if path == "" {
+		pth = "."
+	} else {
+		pth = path
+	}
+
+	f, err := os.Open(pth)
 	if err != nil {
 		error(fmt.Sprint("%s", err))
 	}
@@ -116,20 +146,24 @@ func ls(path string) {
 		}
 
 		for _, file := range fi {
-			if *long {
-				d := new(dent)
-				d.getInfo(file)
-				addDent(d)
+			d := new(dent)
+
+			if path == "" {
+				d.p = path
 			} else {
-				fmt.Printf("%s\n", file.Name())
+				d.p = path + "/"
 			}
+
+			d.getInfo(file)
+			addDent(d)
 		}
 	}
 
-	if *long {
-		for _, d := range dents {
-			fmt.Println(d.String())
+	for _, d := range dents {
+		if *long {
+			fmt.Printf("%s ", d.String())
 		}
+		printFName(d)
 	}
 }
 
@@ -139,7 +173,7 @@ func main() {
 	args := flag.Args()
 
 	if len(args) == 0 {
-		ls(".")
+		ls("")
 	} else {
 		for _, path := range args {
 			ls(path)
