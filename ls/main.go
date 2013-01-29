@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"os/user"
+	"sort"
 	"strconv"
 	"syscall"
 	"time"
@@ -47,7 +48,7 @@ type dent struct {
 	mode string
 	p    string
 	u    string
-	m    string
+	t    time.Time
 	g    uint32
 	s    int64
 	n    string
@@ -58,8 +59,15 @@ type dent struct {
 func (self *dent) getInfo(fi os.FileInfo) {
 	self.n = fi.Name()
 	self.s = fi.Size()
+
+	l := len(strconv.Itoa(int(self.s)))
+	if l > swidth {
+		swidth = l
+	}
+
 	self.mode = fi.Mode().String()
 	self.d = fi.Mode().IsDir()
+	self.t = fi.ModTime()
 
 	if fi.Mode().Perm()&0111 != 0 && !self.d {
 		self.e = true
@@ -69,23 +77,8 @@ func (self *dent) getInfo(fi os.FileInfo) {
 		return
 	}
 
-	yr := fi.ModTime().Year()
-	mon := fi.ModTime().Format("Jan")
-	day := fi.ModTime().Day()
-	hr, min, _ := fi.ModTime().Clock()
-
-	if time.Now().Year() == yr {
-		self.m = fmt.Sprintf("%s %2d %02d:%02d", mon, day, hr, min)
-	} else {
-		self.m = fmt.Sprintf("%s %2d %5d", mon, day, yr)
-	}
 
 	/* The following is probably not portable */
-	l := len(strconv.Itoa(int(self.s)))
-	if l > swidth {
-		swidth = l
-	}
-
 	s := fi.Sys().(*syscall.Stat_t)
 	u, _ := user.LookupId(strconv.Itoa(int(s.Uid)))
 
@@ -103,13 +96,46 @@ func (self *dent) getInfo(fi os.FileInfo) {
 }
 
 func (self *dent) String() string {
+	/* Put the time parsing here so we can sort easier elsewhere */
+	yr := self.t.Year()
+	mon := self.t.Format("Jan")
+	day := self.t.Day()
+	hr, min, _ := self.t.Clock()
+	var m string
+
+	if time.Now().Year() == yr {
+		m = fmt.Sprintf("%s %2d %02d:%02d", mon, day, hr, min)
+	} else {
+		m = fmt.Sprintf("%s %2d %5d", mon, day, yr)
+	}
+
 	return fmt.Sprintf("%s %*s %*d %*d %s",
 		self.mode,
 		uwidth, self.u,
 		gwidth, self.g,
 		swidth, self.s,
-		self.m)
+		m)
 }
+
+/* Sorting Helpers */
+type dents []*dent
+
+func (d dents) Len() int      { return len(d) }
+func (d dents) Swap(i, j int) { d[i], d[j] = d[j], d[i] }
+
+type ByName struct{ dents }
+
+func (s ByName) Less(i, j int) bool { return s.dents[i].n < s.dents[j].n }
+
+type ByMTime struct{ dents }
+
+func (s ByMTime) Less(i, j int) bool {
+	return s.dents[i].t.Unix() > s.dents[j].t.Unix()
+}
+
+type Reverse struct{ sort.Interface }
+
+func (r Reverse) Less(i, j int) bool { return r.Interface.Less(j, i) }
 
 func ls(path string) {
 	dents := make([]*dent, 0, MAXDIRREAD)
@@ -177,7 +203,31 @@ func ls(path string) {
 		}
 	}
 
+	if !*nosort {
+		if !*timesort {
+			if !*reverse {
+				sort.Sort(ByName{dents})
+			} else {
+				sort.Sort(Reverse{ByName{dents}})
+			}
+		} else {
+			if !*reverse {
+				sort.Sort(ByMTime{dents})
+			} else {
+				sort.Sort(Reverse{ByMTime{dents}})
+			}
+		}
+	}
+
 	for _, d := range dents {
+		if *kbytes {
+			nswidth := swidth-3
+			if nswidth < 1 {
+				nswidth = 1
+			}
+			fmt.Printf("%*d ", nswidth, d.s/1024)
+		}
+
 		if *long {
 			fmt.Printf("%s ", d.String())
 		}
