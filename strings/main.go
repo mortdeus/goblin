@@ -4,21 +4,19 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"unicode"
 )
 
-const BUFSIZE int = 70
+const BUFSIZE = 70
 
-var (
-	minSpan = flag.Int("m", 6, "Defines the minimum span size for a series "+
+var minSpan = flag.Int(
+	"m", 6, "Defines the minimum span size for a series "+
 		"of runes to be considered a string.")
-	verbose = flag.Bool("v", false, "Print the file offsets for the "+
-		"beginning of strings.")
-)
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage: strings [-v] [-m min] [file ...]\n")
+	fmt.Fprintf(os.Stderr, "Usage: strings [-m min] [file ...]\n")
 	flag.PrintDefaults()
 	os.Exit(2)
 }
@@ -29,48 +27,47 @@ func error(s string) {
 }
 
 func makeString(f *os.File) {
-	buf := make([]rune, BUFSIZE)
+	buf := make([]rune, 0)
 	b := bufio.NewReader(f)
 
-	var position, start int64
-	
-	printString := func(buf []rune, start int64) {
-		if *verbose {
-			fmt.Printf("%8d: %s\n", start, string(buf))
-		} else {
-			fmt.Printf("%s\n", string(buf))
-	}
-	
+	var position, start int
+
 	for {
-		c, size, err := b.ReadRune()
+		c, offset, err := b.ReadRune()
+		position += offset
 		if err != nil {
+			if err != io.EOF {
+				panic(err)
+			}
 			break
 		}
-		position += int64(size)
-
-		if unicode.IsGraphic(c) {
+		if unicode.IsPrint(c) {
 			if start == 0 {
 				start = position
 			}
+			if c == unicode.ReplacementChar {
+				buf = buf[0:0]
+				start = 0
+				continue
+			}
 			buf = append(buf, c)
-			if len(buf) == BUFSIZE {
-				buf = append(buf, []rune("...")...)
-				printString(buf, start)
+			if len(buf) >= BUFSIZE {
+				fmt.Printf("%d:%s ...\n", start, string(buf))
 				buf = buf[0:0]
 				start = 0
 			}
 		} else {
 			if len(buf) >= *minSpan {
-				printString(buf, start)
-				buf = buf[0:0]
-				start = 0
+				fmt.Printf("%d:%s\n", start, string(buf))
 			}
+			buf = buf[0:0]
+			start = 0
 		}
 	}
-
 	if len(buf) >= *minSpan {
-		printString(buf, start)
+		fmt.Printf("%d:%s\n", start, string(buf))
 	}
+
 }
 
 func main() {
@@ -84,13 +81,10 @@ func main() {
 		for _, path := range args {
 			f, err := os.Open(path)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "open %s: %s", path, err)
-				continue
+				error(fmt.Sprintf("open %s: %s", path, err))
 			}
 			makeString(f)
 			f.Close()
 		}
 	}
-
-	os.Exit(0)
 }
