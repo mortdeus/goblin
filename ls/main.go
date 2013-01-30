@@ -48,7 +48,11 @@ type dent struct {
 	mode string
 	p    string
 	u    string
+	Atim syscall.Timespec
+	Ctim syscall.Timespec
 	t    time.Time
+	qver int32
+	qpth uint64
 	g    uint32
 	s    int64
 	n    string
@@ -73,12 +77,18 @@ func (self *dent) getInfo(fi os.FileInfo) {
 		self.e = true
 	}
 
-	if !*long {
-		return
-	}
-
 	/* The following is probably not portable */
 	s := fi.Sys().(*syscall.Stat_t)
+
+	self.Ctim = s.Ctim
+	self.Atim = s.Atim
+	self.qver = s.Mtim.Sec + s.Ctim.Sec
+	self.qpth = s.Ino
+
+	if *useatime {
+		self.t = time.Unix(int64(self.Atim.Sec), int64(self.Atim.Nsec))
+	}
+
 	u, _ := user.LookupId(strconv.Itoa(int(s.Uid)))
 
 	if len(u.Username) > uwidth {
@@ -162,6 +172,21 @@ func ls(path string) {
 		fmt.Print("\n")
 	}
 
+	processDent := func(file os.FileInfo, p string) {
+		d := new(dent)
+
+		if *nopath {
+			p = ""
+		}
+		d.p = p
+		if p != "" {
+			d.p += "/"
+		}
+
+		d.getInfo(file)
+		addDent(d)
+	}
+
 	var pth string
 	if path == "" {
 		pth = "."
@@ -171,49 +196,45 @@ func ls(path string) {
 
 	f, err := os.Open(pth)
 	if err != nil {
-		error(fmt.Sprint("%s", err))
+		error(fmt.Sprintf("%s", err))
 	}
 
-	for {
-		fi, err := f.Readdir(MAXDIRREAD)
-		if err != nil {
-			if err == io.EOF {
-				break
-			} else {
-				error(fmt.Sprint("%s", err))
+	s, err := f.Stat()
+	if err != nil {
+		error(fmt.Sprintf("%s", err))
+	}
+
+	if !s.Mode().IsDir() || *usedir {
+		processDent(s, "")
+	} else {
+		for {
+			fi, err := f.Readdir(MAXDIRREAD)
+			if err != nil {
+				if err == io.EOF {
+					break
+				} else {
+					error(fmt.Sprint("%s", err))
+				}
+			}
+
+			for _, file := range fi {
+				processDent(file, path)
 			}
 		}
 
-		for _, file := range fi {
-			d := new(dent)
-
-			if *nopath {
-				path = ""
-			}
-
-			d.p = path
-
-			if path != "" {
-				d.p += "/"
-			}
-
-			d.getInfo(file)
-			addDent(d)
-		}
-	}
-
-	if !*nosort {
-		if !*timesort {
-			if !*reverse {
-				sort.Sort(ByName{dents})
+		if !*nosort {
+			if !*timesort {
+				if !*reverse {
+					sort.Sort(ByName{dents})
+				} else {
+					sort.Sort(Reverse{ByName{dents}})
+				}
 			} else {
-				sort.Sort(Reverse{ByName{dents}})
-			}
-		} else {
-			if !*reverse {
-				sort.Sort(ByMTime{dents})
-			} else {
-				sort.Sort(Reverse{ByMTime{dents}})
+				if !*reverse {
+					sort.Sort(ByMTime{dents})
+				} else {
+					sort.Sort(Reverse{ByMTime{dents}})
+				}
 			}
 		}
 	}
@@ -225,6 +246,11 @@ func ls(path string) {
 				nswidth = 1
 			}
 			fmt.Printf("%*d ", nswidth, d.s/1024)
+		}
+
+		/* Provided for compatibility only */
+		if *usrname {
+			fmt.Print("[] ")
 		}
 
 		if *long {
