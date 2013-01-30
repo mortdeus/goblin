@@ -21,6 +21,7 @@ const MAXDIRREAD int = 50
 var uwidth int
 var gwidth int
 var swidth int
+var dwidth int
 
 var (
 	usedir   = flag.Bool("d", false, "List a directory instead of its contents.")
@@ -68,6 +69,7 @@ type dent struct {
 	mode string
 	p    string
 	u    string
+	dev  uint32
 	Atim syscall.Timespec
 	Ctim syscall.Timespec
 	t    time.Time
@@ -104,6 +106,12 @@ func (self *dent) getInfo(fi os.FileInfo) {
 	self.Atim = s.Atim
 	self.qver = s.Mtim.Sec + s.Ctim.Sec
 	self.qpth = s.Ino
+	self.dev = s.Nlink
+
+	devs := strconv.Itoa(int(s.Dev))
+	if len(devs) > dwidth {
+		dwidth = len(devs)
+	}
 
 	if *useatime {
 		self.t = time.Unix(int64(self.Atim.Sec), int64(self.Atim.Nsec))
@@ -138,8 +146,9 @@ func (self *dent) String() string {
 		m = fmt.Sprintf("%s %2d %5d", mon, day, yr)
 	}
 
-	return fmt.Sprintf("%s %*s %*d %*d %s",
+	return fmt.Sprintf("%s %*d %*s %*d %*d %s",
 		self.mode,
+		dwidth, self.dev,
 		uwidth, self.u,
 		gwidth, self.g,
 		swidth, self.s,
