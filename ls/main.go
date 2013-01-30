@@ -12,6 +12,10 @@ import (
 	"time"
 )
 
+/* 
+ * We only read in a certain number of dirents at a time, which should make
+ * things a little more robust on unreliable file systems.
+ */
 const MAXDIRREAD int = 50
 
 var uwidth int
@@ -42,6 +46,22 @@ func usage() {
 func error(s string) {
 	fmt.Fprint(os.Stderr, s, "\n")
 	os.Exit(1)
+}
+
+func main() {
+	flag.Usage = usage
+	flag.Parse()
+	args := flag.Args()
+
+	if len(args) == 0 {
+		ls("")
+	} else {
+		for _, path := range args {
+			ls(path)
+		}
+	}
+
+	os.Exit(0)
 }
 
 type dent struct {
@@ -256,22 +276,7 @@ func ls(path string) {
 		if *long {
 			fmt.Printf("%s ", d.String())
 		}
+
 		printFName(d)
 	}
-}
-
-func main() {
-	flag.Usage = usage
-	flag.Parse()
-	args := flag.Args()
-
-	if len(args) == 0 {
-		ls("")
-	} else {
-		for _, path := range args {
-			ls(path)
-		}
-	}
-
-	os.Exit(0)
 }
