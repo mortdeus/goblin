@@ -225,12 +225,12 @@ func ls(path string) {
 
 	f, err := os.Open(pth)
 	if err != nil {
-		error(fmt.Sprintf("%s", err))
+		error(err.Error())
 	}
 
 	s, err := f.Stat()
 	if err != nil {
-		error(fmt.Sprintf("%s", err))
+		error(err.Error())
 	}
 
 	if !s.Mode().IsDir() || *usedir {
@@ -242,7 +242,7 @@ func ls(path string) {
 				if err == io.EOF {
 					break
 				} else {
-					error(fmt.Sprint("%s", err))
+					error(err.Error())
 				}
 			}
 

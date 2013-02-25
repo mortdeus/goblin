@@ -55,7 +55,7 @@ func main() {
 			break
 		}
 		if err != nil {
-			xerror(fmt.Sprintf("read: %s", err))
+			xerror(err.Error())
 		}
 		for i, f := range files {
 			if f == nil {
@@ -63,11 +63,7 @@ func main() {
 			}
 			_, err := f.Write(buf[:n])
 			if err != nil {
-				path := "stdout"
-				if i < len(args) {
-					path = args[i]
-				}
-				fmt.Fprintf(os.Stderr, "write %s: %s, dropping\n", path, err)
+				fmt.Fprintf(os.Stderr, "%s - dropping\n", err)
 				files[i] = nil
 			}
 		}

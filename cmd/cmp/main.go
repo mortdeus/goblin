@@ -34,11 +34,11 @@ func main() {
 	}
 	f1, err := os.Open(args[0])
 	if err != nil {
-		error(fmt.Sprintf("open %s: %s", args[0], err))
+		error(err.Error())
 	}
 	f2, err := os.Open(args[1])
 	if err != nil {
-		error(fmt.Sprintf("open %s: %s", args[1], err))
+		error(err.Error())
 	}
 
 	xseek := func(f *os.File, fn string, os string) {
@@ -48,7 +48,7 @@ func main() {
 		}
 		_, err = f.Seek(o, 0)
 		if err != nil {
-			error(fmt.Sprintf("seek %s %s: %s", fn, os, err))
+			error(err.Error())
 		}
 	}
 
@@ -70,10 +70,10 @@ func main() {
 			break
 		}
 		if err1 != nil {
-			error(fmt.Sprintf("%s: read: %s", args[0], err1.Error()))
+			error(err1.Error())
 		}
 		if err2 != nil {
-			error(fmt.Sprintf("%s: read: %s", args[1], err2.Error()))
+			error(err2.Error())
 		}
 		if b1 != b2 {
 			if *sflag {

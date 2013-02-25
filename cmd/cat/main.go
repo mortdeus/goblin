@@ -15,10 +15,10 @@ func cat(f io.Reader, s string) {
 			return
 		}
 		if err != nil {
-			error(fmt.Sprintf("%s: read: %s", s, err))
+			error(err.Error())
 		}
 		if n, err = os.Stdout.Write(b[:n]); err != nil {
-			error(fmt.Sprintf("write: %s", err))
+			error(err.Error())
 		}
 	}
 }
@@ -44,7 +44,7 @@ func main() {
 		for _, s := range args {
 			f, err := os.Open(s)
 			if err != nil {
-				error(fmt.Sprintf("open %s: %s", s, err))
+				error(err.Error())
 			}
 			cat(f, s)
 		}

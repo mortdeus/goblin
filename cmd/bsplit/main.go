@@ -23,10 +23,12 @@ func usage() {
 	flag.PrintDefaults()
 	os.Exit(2)
 }
+
 func error(s string) {
 	fmt.Fprint(os.Stderr, s, "\n")
 	os.Exit(1)
 }
+
 func main() {
 	flag.Usage = usage
 	flag.Parse()
@@ -38,15 +40,15 @@ func main() {
 	for _, s := range args {
 		f, err := os.Open(s)
 		if err != nil {
-			error(fmt.Sprintf("open %s: %s", s, err))
+			error(err.Error())
 		}
 		if fdata, err := ioutil.ReadAll(f); err != nil {
-			error(fmt.Sprintf("read %s: %s", s, err))
+			error(err.Error())
 		} else {
 			data = append(data, fdata...)
 		}
 		if err := f.Close(); err != nil {
-			error(fmt.Sprintf("close %s: %s", s, err))
+			error(err.Error())
 		}
 	}
 }
@@ -57,13 +59,13 @@ func bsplit(data []byte) {
 	for {
 		f, err := os.Create(*prefix + strconv.Itoa(count))
 		if err != nil {
-			error(fmt.Sprintf("create %s: %s", f.Name(), err))
+			error(err.Error())
 		}
 		if _, err := io.CopyN(f, buf, int64(*size*1024)); err != nil {
 			if err == io.EOF {
 				return
 			}
-			error(fmt.Sprintf("write %s: %s", f.Name(), err))
+			error(err.Error())
 		}
 		f.Close()
 		count++

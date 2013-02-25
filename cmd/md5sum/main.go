@@ -21,8 +21,7 @@ func error(s string) {
 func sum(f *os.File, path string) {
 	h := md5.New()
 	if _, err := io.Copy(h, f); err != nil {
-		fmt.Fprintf(os.Stderr, "read %s: %s\n", path, err)
-		return
+		error(err.Error())
 	}
 	if path == "" {
 		fmt.Printf("%x\n", h.Sum(nil))
@@ -41,7 +40,7 @@ func main() {
 		for _, path := range args {
 			f, err := os.Open(path)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "open %s: %s\n", path, err)
+				fmt.Fprintf(os.Stderr, err.Error())
 				continue
 			}
 			sum(f, path)
