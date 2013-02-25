@@ -86,7 +86,7 @@ type Sym struct {
 	Fconst    float64
 	Label     *Node
 	Lexical   uint16
-	Name      []byte
+	Name      string
 	Block     uint16
 	Sueblock  uint16
 	Class     byte
@@ -429,7 +429,7 @@ var (
 	firstdcl     *Decl
 	fperror      int
 
-	hash [NHASH]*Sym
+	hash map[string]*Sym
 	hunk string
 
 	include []string
@@ -444,8 +444,7 @@ var (
 	lastfield,
 	lineno,
 	nearln,
-	nhunk int32
-
+	nhunk,
 	nerrors,
 	newflag,
 	ninclude int
@@ -453,15 +452,8 @@ var (
 	nodproto,
 	nodcast *Node
 
-	//Whats the go equiv of biobuf? 
-	//bufio.Reader, Bytes.Buffer, slice???
-
-	//Biobuf	outbuf;
-	//Biobuf	diagbuf;
-
 	outfile,
-	pathname,
-	symb string
+	pathname string
 
 	taggen,
 	thechar,

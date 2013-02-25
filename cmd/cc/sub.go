@@ -581,20 +581,20 @@ var (
 	}
 )
 
-//Should et be a byte?
-func typ(et int, d *Type) *Type {
+func typ(et byte, d *Type) *Type {
 
 	t := new(Type)
-	t.Etype = byte(et)
+	t.Etype = et
 	t.Link = d
 	t.Down = new(Type)
 	t.Sym = new(Sym)
-	
+
 	if et < NTYPE {
 		t.Width = int32(Ewidth[et])
 	} else {
-		t.Width = -1 // for TDOT or TOLD in prototype
+		// for TDOT or TOLD in prototype
+		t.Width = -1
 	}
-	
+
 	return t
 }
