@@ -410,7 +410,7 @@ var (
 	dynexp  *Dynexp
 	ndynexp int
 
-	enum = struct {
+	en = struct {
 		tenum     *Type   /* type of entire enum */
 		cenum     *Type   /* type of current enum run */
 		lastenum  int64   /* value of current enum */
@@ -442,7 +442,6 @@ var (
 	lastbit,
 	nsymb,
 	lastfield,
-	lineno,
 	nearln,
 	nhunk,
 	nerrors,
@@ -452,7 +451,6 @@ var (
 	nodproto,
 	nodcast *Node
 
-	outfile,
 	pathname string
 
 	taggen,

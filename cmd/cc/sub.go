@@ -223,6 +223,27 @@ func (t *tokens) Init() error {
 	return nil
 }
 
+func (Node) New(t int, l, r *Node) *Node {
+	n := new(Node)
+	n.Op = t
+	n.Left = l
+	n.Right = r
+	if l && t != OGOTO {
+		n.Lineno = l.Lineno
+	} else if r != nil {
+		n.Lineno = r.Lineno
+	} else {
+		n.Lineno = Compiler.Lineno
+	}
+	newflag = 1
+	return n
+}
+func (Node) New1(o int, l, r *Node) *Node {
+	n := Node.New(o, l, r)
+	n.Lineno = nearln
+	return n
+}
+
 var (
 	tHashInit = [...]Init{
 		{TXXX, 0x17527bbd, ""},

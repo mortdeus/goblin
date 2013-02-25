@@ -54,6 +54,7 @@ var (
 		{"volatile", LVOLATILE, 0},
 		{"while", LWHILE, 0},
 	}
+	Types [NALLTYPES]*Type
 )
 
 type compiler struct {
@@ -74,8 +75,6 @@ type compiler struct {
 	OutBuf,
 	DiagBuf,
 	OutFile os.File
-
-	Types [NALLTYPES]*Type
 }
 
 func (c *compiler) Init() error {
@@ -86,23 +85,23 @@ func (c *compiler) Init() error {
 	c.Lineno = 1
 	c.Peekc = IGN
 
-	c.Types[TXXX] = new(Type)
-	c.Types[TCHAR] = typ(TCHAR, new(Type))
-	c.Types[TUCHAR] = typ(TUCHAR, new(Type))
-	c.Types[TSHORT] = typ(TSHORT, new(Type))
-	c.Types[TUSHORT] = typ(TUSHORT, new(Type))
-	c.Types[TINT] = typ(TINT, new(Type))
-	c.Types[TUINT] = typ(TUINT, new(Type))
-	c.Types[TLONG] = typ(TLONG, new(Type))
-	c.Types[TULONG] = typ(TULONG, new(Type))
-	c.Types[TVLONG] = typ(TVLONG, new(Type))
-	c.Types[TUVLONG] = typ(TUVLONG, new(Type))
-	c.Types[TFLOAT] = typ(TFLOAT, new(Type))
-	c.Types[TDOUBLE] = typ(TDOUBLE, new(Type))
-	c.Types[TVOID] = typ(TVOID, new(Type))
-	c.Types[TENUM] = typ(TENUM, new(Type))
-	c.Types[TFUNC] = typ(TFUNC, c.Types[TINT])
-	c.Types[TIND] = typ(TIND, c.Types[TVOID])
+	Types[TXXX] = new(Type)
+	Types[TCHAR] = typ(TCHAR, new(Type))
+	Types[TUCHAR] = typ(TUCHAR, new(Type))
+	Types[TSHORT] = typ(TSHORT, new(Type))
+	Types[TUSHORT] = typ(TUSHORT, new(Type))
+	Types[TINT] = typ(TINT, new(Type))
+	Types[TUINT] = typ(TUINT, new(Type))
+	Types[TLONG] = typ(TLONG, new(Type))
+	Types[TULONG] = typ(TULONG, new(Type))
+	Types[TVLONG] = typ(TVLONG, new(Type))
+	Types[TUVLONG] = typ(TUVLONG, new(Type))
+	Types[TFLOAT] = typ(TFLOAT, new(Type))
+	Types[TDOUBLE] = typ(TDOUBLE, new(Type))
+	Types[TVOID] = typ(TVOID, new(Type))
+	Types[TENUM] = typ(TENUM, new(Type))
+	Types[TFUNC] = typ(TFUNC, Types[TINT])
+	Types[TIND] = typ(TIND, Types[TVOID])
 
 	for _, h := range hash {
 		h = new(Sym)
