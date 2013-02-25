@@ -1,13 +1,16 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
 func main() {
 	for _, s := range os.Args[1:] {
-		fi, _ := os.Stat(s)
+		fi, err := os.Stat(s)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err.Error())
+		}
 		mt := fi.ModTime()
 		fmt.Printf("%d %s", mt, s)
 	}
