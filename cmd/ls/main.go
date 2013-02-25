@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-/* 
+/*
  * We only read in a certain number of dirents at a time, which should make
  * things a little more robust on unreliable file systems.
  */

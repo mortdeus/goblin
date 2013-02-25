@@ -9,9 +9,9 @@ import (
 )
 
 func usage() {
-        fmt.Fprintf(os.Stderr, "usage: sleep seconds\n")
-        flag.PrintDefaults()
-        os.Exit(2)
+	fmt.Fprintf(os.Stderr, "usage: sleep seconds\n")
+	flag.PrintDefaults()
+	os.Exit(2)
 }
 
 func error(s string) {
@@ -31,7 +31,7 @@ func main() {
 		usage()
 	}
 	for ; n > 0; n-- {
-		time.Sleep(1*time.Second)
+		time.Sleep(1 * time.Second)
 	}
 	os.Exit(0)
 }

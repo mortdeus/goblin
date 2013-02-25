@@ -22,12 +22,12 @@ type tokens struct {
 	TypeIL, TypeFD, TypeAF, TypeSU,
 	TypeSUV, TypeILP, TypeCHL, TypeCHLP, TypeCHLPFD [NALLTYPES]byte
 
-	//This has to match 
+	//This has to match
 	TypeWord    [NALLTYPES]byte
 	TypeComplex [NALLTYPES]byte
 
-	//In kencc these are int32 arrays. 
-	//As far as I can tell they dont have to be, and uint32 makes sense. 
+	//In kencc these are int32 arrays.
+	//As far as I can tell they dont have to be, and uint32 makes sense.
 	Asign, AsAdd, Cast, Add,
 	Sub, Mul, And, Rel []uint32
 }

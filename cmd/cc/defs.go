@@ -506,6 +506,6 @@ var (
 	typeHash3 uint32 = 0x2edab8c9, 0x1dc74fb8, 0x1f241331
 
 	//This needs to be created in the backend(e.g. 5c, 6c, 8c, etc.) init func before the compiler is initialized because
-	//it is platform dependent and is implemented via preprocessor macros in the C version.  
+	//it is platform dependent and is implemented via preprocessor macros in the C version.
 	Ewidth []int8
 )

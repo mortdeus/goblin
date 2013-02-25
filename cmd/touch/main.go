@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
 	"flag"
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -13,14 +13,14 @@ var newt = flag.Int64("t", time.Now().Unix(), "Set the modified time.")
 func main() {
 	flag.Usage = usage
 	flag.Parse()
-	
+
 	var t time.Time
 	if newt != nil {
 		t = time.Unix(*newt, 0)
 	} else {
 		t = time.Now()
 	}
-	
+
 	for _, a := range flag.Args() {
 		err := os.Chtimes(a, t, t) // ??? We set the atime too
 
@@ -34,7 +34,7 @@ func main() {
 				f.Close()
 			}
 
-			if err == nil  && newt != nil {
+			if err == nil && newt != nil {
 				err = os.Chtimes(a, t, t)
 			}
 
