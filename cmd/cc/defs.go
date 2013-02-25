@@ -122,11 +122,10 @@ type Init struct {
 	S     string
 }
 
-var fi = struct{
+var fi = struct {
 	p string
 	c int
 }{}
-
 
 //io
 type Io struct {
@@ -396,7 +395,7 @@ var (
 	dynimp  *Dynimp
 	ndynimp int
 
-	dynexp  *Dynexp/
+	dynexp  *Dynexp
 	ndynexp int
 
 	en = struct {
@@ -406,161 +405,111 @@ var (
 		floatenum float64 /* value of current enum */
 	}{}
 
-	autobn       int
-	autoffset    int32
-	blockno      int
-	dclstack     *Decl
-	debug        [256]int
-	ehist        *Hist
+	autobn    int
+	autoffset int32
+	blockno   int
+
+	//Array?
+	dclstack *Decl
+	debug    [256]int
+
+	ehist *Hist
+
 	firstbit     int32
 	firstarg     *Sym
 	firstargtype *Type
 	firstdcl     *Decl
 	fperror      int
-	hash         [NHASH]*Sym
-	hunk         string
-	include      []string
-	iofree       *Io
-	ionext       *Io
-	iostack      *Io
-	lastbit      int32
-	lastclass    byte
-	lastdcl      *Type
-	lastfield    int32
-	lasttype     *Type
-	lineno       int32
-	nearln       int32
-	nerrors      int
-	newflag      int
-	nhunk        int32
-	ninclude     int
-	nodproto     *Node
-	nodcast      *Node
-	nsymb        int32
+
+	hash [NHASH]*Sym
+	hunk string
+
+	include []string
+
+	iofree,
+	ionext,
+	iostack *Io
+
+	lastclass byte
+
+	lastdcl,
+	lasttype *Type
+
+	lastbit,
+	nsymb,
+	lastfield,
+	lineno,
+	nearln,
+	nhunk int32
+
+	nerrors,
+	newflag,
+	ninclude int
+
+	nodproto,
+	nodcast *Node
+
+	//Whats the go equiv of biobuf? 
+	//bufio.Reader, Bytes.Buffer, slice???
+
 	//Biobuf	outbuf;
 	//Biobuf	diagbuf;
-	outfile         string
-	pathname        string
-	peekc           int
-	stkoff          int32
-	strf            *Type
-	strl            *Type
-	symb            string
-	symstring       *Sym
-	taggen          int
-	tfield          *Type
-	tufield         *Type
-	thechar         int
-	thestring       string
-	thisfn          *Type
-	thunk           int32
-	types           [NALLTYPES]*Type
-	fntypes         [NALLTYPES]*Type
-	initlist        *Node
-	term            [NTERM]Term
-	nterm           int
-	packflg         int
-	fproundflg      int
-	textflag        int
-	dataflag        int
-	flag_largemodel int
-	ncontin         int
-	canreach        int
-	warnreach       int
-	zbits           Bits
 
-	onames,
-	tnames,
-	gnames,
-	cnames,
-	qnames,
-	bnames []string
-	tab                    [NTYPE][NTYPE]byte
-	comrel, invrel, logrel []byte
-	ncast, tadd, tand,
-	targ, tasadd, tasign, tcast,
+	outfile,
+	pathname,
+	symb string
+
+	taggen,
+	thechar,
+	peekc int
+
+	stkoff int32
+
+	symstring *Sym
+
+	strf,
+	strl,
+	tfield,
+	thisfn,
+	tufield *Type
+
+	thestring string
+
+	thunk    int32
+	types    [NALLTYPES]*Type
+	fntypes  [NALLTYPES]*Type
+	initlist *Node
+	term     [NTERM]Term
+
+	nterm,
+	packflg,
+	fproundflg,
+	textflag,
+	dataflag,
+	flag_largemodel,
+	ncontin,
+	canreach,
+	warnreach int
+
+	zbits Bits
+
+	tab [NTYPE][NTYPE]byte
+
+	ncast, tadd, tand, targ, tasadd, tasign, tcast,
 	tdot, tfunct, tindir, tmul,
 	tnot, trel, tsub []int32
 
-	typeaf    []byte
-	typefd    []byte
-	typei     []byte
-	typesu    []byte
-	typesuv   []byte
-	typeu     []byte
-	typev     []byte
-	typec     []byte
-	typeh     []byte
-	typeil    []byte
-	typeilp   []byte
-	typechl   []byte
-	typechlv  []byte
-	typechlvp []byte
-	typechlp  []byte
-	typechlpf []byte
+	typeaf, typefd, typei, typesu,
+	typesuv, typeu, typev, typec,
+	typeh, typeil, typeilp, typechl,
+	typechlv, typechlvp, typechlp, typechlpf []byte
 
-	typeword  *byte
+	typeword,
 	typecmplx *byte
 
-	TypeHash1    uint32 = 0x2edab8c9
-	TypeHash2    uint32 = 0x1dc74fb8
-	TypeHash3    uint32 = 0x1f241331
-	TypeHash     [NALLTYPES]uint32
-	TypeHashInit = [...]Init{
-		{TXXX, 0x17527bbd, 0},
-		{TCHAR, 0x5cedd32b, 0},
-		{TUCHAR, 0x552c4454, 0},
-		{TSHORT, 0x63040b4b, 0},
-		{TUSHORT, 0x32a45878, 0},
-		{TINT, 0x4151d5bd, 0},
-		{TUINT, 0x5ae707d6, 0},
-		{TLONG, 0x5ef20f47, 0},
-		{TULONG, 0x36d8eb8f, 0},
-		{TVLONG, 0x6e5e9590, 0},
-		{TUVLONG, 0x75910105, 0},
-		{TFLOAT, 0x25fd7af1, 0},
-		{TDOUBLE, 0x7c40a1b2, 0},
-		{TIND, 0x1b832357, 0},
-		{TFUNC, 0x6babc9cb, 0},
-		{TARRAY, 0x7c50986d, 0},
-		{TVOID, 0x44112eff, 0},
-		{TSTRUCT, 0x7c2da3bf, 0},
-		{TUNION, 0x3eb25e98, 0},
-		{TENUM, 0x44b54f61, 0},
-		{TFILE, 0x19242ac3, 0},
-		{TOLD, 0x22b15988, 0},
-		{TDOT, 0x0204f6b3, 0},
-		{-1, 0, 0},
-	}
+	typeHash1,
+	typeHash2,
+	typeHash3 uint32 = 0x2edab8c9, 0x1dc74fb8, 0x1f241331
 
-	TypeNames [NALLTYPES]string
-
-	TypeNamesInit = [...]Init{
-		{TXXX, 0, "TXXX"},
-		{TCHAR, 0, "CHAR"},
-		{TUCHAR, 0, "UCHAR"},
-		{TSHORT, 0, "SHORT"},
-		{TUSHORT, 0, "USHORT"},
-		{TINT, 0, "INT"},
-		{TUINT, 0, "UINT"},
-		{TLONG, 0, "LONG"},
-		{TULONG, 0, "ULONG"},
-		{TVLONG, 0, "VLONG"},
-		{TUVLONG, 0, "UVLONG"},
-		{TFLOAT, 0, "FLOAT"},
-		{TDOUBLE, 0, "DOUBLE"},
-		{TIND, 0, "IND"},
-		{TFUNC, 0, "FUNC"},
-		{TARRAY, 0, "ARRAY"},
-		{TVOID, 0, "VOID"},
-		{TSTRUCT, 0, "STRUCT"},
-		{TUNION, 0, "UNION"},
-		{TENUM, 0, "ENUM"},
-		{TFILE, 0, "FILE"},
-		{TOLD, 0, "OLD"},
-		{TDOT, 0, "DOT"},
-		{-1, 0, 0},
-	}
-
-// 	schar	ewidth[];
+	EWidth []int8
 )
