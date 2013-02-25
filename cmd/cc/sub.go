@@ -6,11 +6,10 @@ import (
 )
 
 var (
-	Table  *table
-	isInit = false
+	Tokens *tokens
 )
 
-type table struct {
+type tokens struct {
 	THash  [NALLTYPES]uint32
 	BNames [NALIGN]string
 	TNames [NALLTYPES]string
@@ -23,21 +22,21 @@ type table struct {
 	TypeIL, TypeFD, TypeAF, TypeSU,
 	TypeSUV, TypeILP, TypeCHL, TypeCHLP, TypeCHLPFD [NALLTYPES]byte
 
-	TypeWord    *[]byte
-	TypeComplex *[]byte
+	//This has to match 
+	TypeWord    [NALLTYPES]byte
+	TypeComplex [NALLTYPES]byte
 
-	//AsIgn ignore? ASign Sign? 
+	//In kencc these are int32 arrays. 
+	//As far as I can tell they dont have to be, and uint32 makes sense. 
 	Asign, AsAdd, Cast, Add,
-	Sub, Mul, And, Rel []int32
+	Sub, Mul, And, Rel []uint32
 }
 
-func (t *table) Init() error {
-	if isInit {
-		return errors.New("Table already initialized.")
+func (t *tokens) Init() error {
+	if t != nil {
+		return errors.New("Tokens are already initialized.")
 	}
-	isInit = true
-	t = new(table)
-
+	t = new(tokens)
 	urk := func(name string, max, i int) (err error) {
 		if i >= max {
 			err = errors.New(fmt.Sprintf("Bad Tinit: %s %v >= %v", name, i, max))
@@ -171,6 +170,56 @@ func (t *table) Init() error {
 		}
 		t.TypeSU[p] = 1
 	}
+	for _, p := range tasignInit {
+		if err := urk("tasign", len(t.Asign), p.Code); err != nil {
+			return err
+		}
+		t.Asign[p.Code] = p.Value
+	}
+	for _, p := range tasaddInit {
+		if err := urk("tasadd", len(t.AsAdd), p.Code); err != nil {
+			return err
+		}
+		t.AsAdd[p.Code] = p.Value
+	}
+	for _, p := range tcastInit {
+		if err := urk("tcast", len(t.Cast), p.Code); err != nil {
+			return err
+		}
+		t.Cast[p.Code] = p.Value
+	}
+	for _, p := range taddInit {
+		if err := urk("tadd", len(t.Add), p.Code); err != nil {
+			return err
+		}
+		t.Add[p.Code] = p.Value
+	}
+	for _, p := range tsubInit {
+		if err := urk("tsub", len(t.Sub), p.Code); err != nil {
+			return err
+		}
+		t.Sub[p.Code] = p.Value
+	}
+	for _, p := range tmulInit {
+		if err := urk("tmul", len(t.Mul), p.Code); err != nil {
+			return err
+		}
+		t.Mul[p.Code] = p.Value
+	}
+	for _, p := range tandInit {
+		if err := urk("tand", len(t.And), p.Code); err != nil {
+			return err
+		}
+		t.And[p.Code] = p.Value
+	}
+	for _, p := range trelInit {
+		if err := urk("trel", len(t.Rel), p.Code); err != nil {
+			return err
+		}
+		t.Rel[p.Code] = p.Value
+	}
+	t.TypeWord = t.TypeCHLP
+	t.TypeComplex = t.TypeSUV
 	return nil
 }
 
@@ -408,4 +457,144 @@ var (
 	typefdInit     = [...]int{TFLOAT, TDOUBLE}
 	typeafInit     = [...]int{TFUNC, TARRAY}
 	typesuInit     = [...]int{TSTRUCT, TUNION}
+
+	tasignInit = [...]Init{
+		{TCHAR, BNUMBER, ""},
+		{TUCHAR, BNUMBER, ""},
+		{TSHORT, BNUMBER, ""},
+		{TUSHORT, BNUMBER, ""},
+		{TINT, BNUMBER, ""},
+		{TUINT, BNUMBER, ""},
+		{TLONG, BNUMBER, ""},
+		{TULONG, BNUMBER, ""},
+		{TVLONG, BNUMBER, ""},
+		{TUVLONG, BNUMBER, ""},
+		{TFLOAT, BNUMBER, ""},
+		{TDOUBLE, BNUMBER, ""},
+		{TIND, BIND, ""},
+		{TSTRUCT, BSTRUCT, ""},
+		{TUNION, BUNION, ""},
+	}
+	tasaddInit = [...]Init{
+		{TCHAR, BNUMBER, ""},
+		{TUCHAR, BNUMBER, ""},
+		{TSHORT, BNUMBER, ""},
+		{TUSHORT, BNUMBER, ""},
+		{TINT, BNUMBER, ""},
+		{TUINT, BNUMBER, ""},
+		{TLONG, BNUMBER, ""},
+		{TULONG, BNUMBER, ""},
+		{TVLONG, BNUMBER, ""},
+		{TUVLONG, BNUMBER, ""},
+		{TFLOAT, BNUMBER, ""},
+		{TDOUBLE, BNUMBER, ""},
+		{TIND, BINTEGER, ""},
+	}
+	tcastInit = [...]Init{
+		{TCHAR, BNUMBER | BIND | BVOID, ""},
+		{TUCHAR, BNUMBER | BIND | BVOID, ""},
+		{TSHORT, BNUMBER | BIND | BVOID, ""},
+		{TUSHORT, BNUMBER | BIND | BVOID, ""},
+		{TINT, BNUMBER | BIND | BVOID, ""},
+		{TUINT, BNUMBER | BIND | BVOID, ""},
+		{TLONG, BNUMBER | BIND | BVOID, ""},
+		{TULONG, BNUMBER | BIND | BVOID, ""},
+		{TVLONG, BNUMBER | BIND | BVOID, ""},
+		{TUVLONG, BNUMBER | BIND | BVOID, ""},
+		{TFLOAT, BNUMBER | BVOID, ""},
+		{TDOUBLE, BNUMBER | BVOID, ""},
+		{TIND, BINTEGER | BIND | BVOID, ""},
+		{TVOID, BVOID, ""},
+		{TSTRUCT, BSTRUCT | BVOID, ""},
+		{TUNION, BUNION | BVOID, ""},
+	}
+	taddInit = [...]Init{
+		{TCHAR, BNUMBER | BIND, ""},
+		{TUCHAR, BNUMBER | BIND, ""},
+		{TSHORT, BNUMBER | BIND, ""},
+		{TUSHORT, BNUMBER | BIND, ""},
+		{TINT, BNUMBER | BIND, ""},
+		{TUINT, BNUMBER | BIND, ""},
+		{TLONG, BNUMBER | BIND, ""},
+		{TULONG, BNUMBER | BIND, ""},
+		{TVLONG, BNUMBER | BIND, ""},
+		{TUVLONG, BNUMBER | BIND, ""},
+		{TFLOAT, BNUMBER, ""},
+		{TDOUBLE, BNUMBER, ""},
+		{TIND, BINTEGER, ""},
+	}
+	tsubInit = [...]Init{
+		{TCHAR, BNUMBER, ""},
+		{TUCHAR, BNUMBER, ""},
+		{TSHORT, BNUMBER, ""},
+		{TUSHORT, BNUMBER, ""},
+		{TINT, BNUMBER, ""},
+		{TUINT, BNUMBER, ""},
+		{TLONG, BNUMBER, ""},
+		{TULONG, BNUMBER, ""},
+		{TVLONG, BNUMBER, ""},
+		{TUVLONG, BNUMBER, ""},
+		{TFLOAT, BNUMBER, ""},
+		{TDOUBLE, BNUMBER, ""},
+		{TIND, BINTEGER | BIND, ""},
+	}
+	tmulInit = [...]Init{
+		{TCHAR, BNUMBER, ""},
+		{TUCHAR, BNUMBER, ""},
+		{TSHORT, BNUMBER, ""},
+		{TUSHORT, BNUMBER, ""},
+		{TINT, BNUMBER, ""},
+		{TUINT, BNUMBER, ""},
+		{TLONG, BNUMBER, ""},
+		{TULONG, BNUMBER, ""},
+		{TVLONG, BNUMBER, ""},
+		{TUVLONG, BNUMBER, ""},
+		{TFLOAT, BNUMBER, ""},
+		{TDOUBLE, BNUMBER, ""},
+	}
+	tandInit = [...]Init{
+		{TCHAR, BINTEGER, ""},
+		{TUCHAR, BINTEGER, ""},
+		{TSHORT, BINTEGER, ""},
+		{TUSHORT, BINTEGER, ""},
+		{TINT, BNUMBER, ""},
+		{TUINT, BNUMBER, ""},
+		{TLONG, BINTEGER, ""},
+		{TULONG, BINTEGER, ""},
+		{TVLONG, BINTEGER, ""},
+		{TUVLONG, BINTEGER, ""},
+	}
+	trelInit = [...]Init{
+		{TCHAR, BNUMBER, ""},
+		{TUCHAR, BNUMBER, ""},
+		{TSHORT, BNUMBER, ""},
+		{TUSHORT, BNUMBER, ""},
+		{TINT, BNUMBER, ""},
+		{TUINT, BNUMBER, ""},
+		{TLONG, BNUMBER, ""},
+		{TULONG, BNUMBER, ""},
+		{TVLONG, BNUMBER, ""},
+		{TUVLONG, BNUMBER, ""},
+		{TFLOAT, BNUMBER, ""},
+		{TDOUBLE, BNUMBER, ""},
+		{TIND, BIND, ""},
+	}
 )
+
+//Should et be a byte?
+func typ(et int, d *Type) *Type {
+
+	t := new(Type)
+	t.Etype = byte(et)
+	t.Link = d
+	t.Down = new(Type)
+	t.Sym = new(Sym)
+	
+	if et < NTYPE {
+		t.Width = int32(Ewidth[et])
+	} else {
+		t.Width = -1 // for TDOT or TOLD in prototype
+	}
+	
+	return t
+}

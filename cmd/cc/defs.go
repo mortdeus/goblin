@@ -25,6 +25,17 @@ const (
 	Plan9 = 1 << iota
 	Unix
 	Windows
+
+	EOF = -1
+	IGN = -2
+	ESC = 1 << 20
+)
+const (
+	Numdec = 1 << iota
+	Numlong
+	Numuns
+	Numvlong
+	Numflt
 )
 
 func SIGN(n uint64) uint64 {
@@ -293,8 +304,9 @@ const (
 	TUNION
 	TENUM
 	NTYPE
-
-	TAUTO = NTYPE
+)
+const (
+	TAUTO = NTYPE + iota
 	TEXTERN
 	TSTATIC
 	TTYPEDEF
@@ -333,37 +345,37 @@ const (
 	GINCOMPLETE = 1 << 2
 )
 const (
-	BCHAR     int64 = 1 << TCHAR
-	BUCHAR    int64 = 1 << TUCHAR
-	BSHORT    int64 = 1 << TSHORT
-	BUSHORT   int64 = 1 << TUSHORT
-	BINT      int64 = 1 << TINT
-	BUINT     int64 = 1 << TUINT
-	BLONG     int64 = 1 << TLONG
-	BULONG    int64 = 1 << TULONG
-	BVLONG    int64 = 1 << TVLONG
-	BUVLONG   int64 = 1 << TUVLONG
-	BFLOAT    int64 = 1 << TFLOAT
-	BDOUBLE   int64 = 1 << TDOUBLE
-	BIND      int64 = 1 << TIND
-	BFUNC     int64 = 1 << TFUNC
-	BARRAY    int64 = 1 << TARRAY
-	BVOID     int64 = 1 << TVOID
-	BSTRUCT   int64 = 1 << TSTRUCT
-	BUNION    int64 = 1 << TUNION
-	BENUM     int64 = 1 << TENUM
-	BFILE     int64 = 1 << TFILE
-	BDOT      int64 = 1 << TDOT
-	BCONSTNT  int64 = 1 << TCONSTNT
-	BVOLATILE int64 = 1 << TVOLATILE
-	BUNSIGNED int64 = 1 << TUNSIGNED
-	BSIGNED   int64 = 1 << TSIGNED
-	BAUTO     int64 = 1 << TAUTO
-	BEXTERN   int64 = 1 << TEXTERN
-	BSTATIC   int64 = 1 << TSTATIC
-	BTYPEDEF  int64 = 1 << TTYPEDEF
-	BTYPESTR  int64 = 1 << TTYPESTR
-	BREGISTER int64 = 1 << TREGISTER
+	BCHAR     = 1 << TCHAR
+	BUCHAR    = 1 << TUCHAR
+	BSHORT    = 1 << TSHORT
+	BUSHORT   = 1 << TUSHORT
+	BINT      = 1 << TINT
+	BUINT     = 1 << TUINT
+	BLONG     = 1 << TLONG
+	BULONG    = 1 << TULONG
+	BVLONG    = 1 << TVLONG
+	BUVLONG   = 1 << TUVLONG
+	BFLOAT    = 1 << TFLOAT
+	BDOUBLE   = 1 << TDOUBLE
+	BIND      = 1 << TIND
+	BFUNC     = 1 << TFUNC
+	BARRAY    = 1 << TARRAY
+	BVOID     = 1 << TVOID
+	BSTRUCT   = 1 << TSTRUCT
+	BUNION    = 1 << TUNION
+	BENUM     = 1 << TENUM
+	BFILE     = 1 << TFILE
+	BDOT      = 1 << TDOT
+	BCONSTNT  = 1 << TCONSTNT
+	BVOLATILE = 1 << TVOLATILE
+	BUNSIGNED = 1 << TUNSIGNED
+	BSIGNED   = 1 << TSIGNED
+	BAUTO     = 1 << TAUTO
+	BEXTERN   = 1 << TEXTERN
+	BSTATIC   = 1 << TSTATIC
+	BTYPEDEF  = 1 << TTYPEDEF
+	BTYPESTR  = 1 << TTYPESTR
+	BREGISTER = 1 << TREGISTER
 
 	BINTEGER = BCHAR | BUCHAR | BSHORT | BUSHORT | BINT | BUINT | BLONG | BULONG | BVLONG | BUVLONG
 	BNUMBER  = BINTEGER | BFLOAT | BDOUBLE
@@ -398,16 +410,12 @@ var (
 	dynexp  *Dynexp
 	ndynexp int
 
-	en = struct {
+	enum = struct {
 		tenum     *Type   /* type of entire enum */
 		cenum     *Type   /* type of current enum run */
 		lastenum  int64   /* value of current enum */
 		floatenum float64 /* value of current enum */
 	}{}
-
-	autobn    int
-	autoffset int32
-	blockno   int
 
 	//Array?
 	dclstack *Decl
@@ -425,10 +433,6 @@ var (
 	hunk string
 
 	include []string
-
-	iofree,
-	ionext,
-	iostack *Io
 
 	lastclass byte
 
@@ -475,8 +479,8 @@ var (
 
 	thestring string
 
-	thunk    int32
-	types    [NALLTYPES]*Type
+	thunk int32
+
 	fntypes  [NALLTYPES]*Type
 	initlist *Node
 	term     [NTERM]Term
@@ -511,5 +515,7 @@ var (
 	typeHash2,
 	typeHash3 uint32 = 0x2edab8c9, 0x1dc74fb8, 0x1f241331
 
-	EWidth []int8
+	//This needs to be created in the backend(e.g. 5c, 6c, 8c, etc.) init func before the compiler is initialized because
+	//it is platform dependent and is implemented via preprocessor macros in the C version.  
+	Ewidth []int8
 )
