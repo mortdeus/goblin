@@ -18,7 +18,7 @@ func usage() {
 	os.Exit(2)
 }
 
-func xerror(s string) {
+func errExit(s string) {
 	fmt.Fprint(os.Stderr, s, "\n")
 	os.Exit(1)
 }
@@ -55,7 +55,7 @@ func main() {
 			break
 		}
 		if err != nil {
-			xerror(err.Error())
+			errExit(err.Error())
 		}
 		for i, f := range files {
 			if f == nil {

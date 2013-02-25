@@ -16,7 +16,7 @@ func usage() {
 	os.Exit(2)
 }
 
-func error(s string) {
+func errExit(s string) {
 	fmt.Fprint(os.Stderr, s, "\n")
 	os.Exit(1)
 }
@@ -33,7 +33,7 @@ func main() {
 	} else {
 		s, err := strconv.ParseInt(args[0], 0, 64)
 		if err != nil {
-			error(fmt.Sprint("bad number: ", err))
+			errExit(fmt.Sprint("bad number: ", err))
 		}
 		now = time.Unix(s, 0)
 	}

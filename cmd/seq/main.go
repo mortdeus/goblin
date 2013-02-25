@@ -35,15 +35,15 @@ func main() {
 
 	first, err := strconv.ParseFloat(firsts, 64)
 	if err != nil {
-		fail(err)
+		errExit(err)
 	}
 	incr, err := strconv.ParseFloat(incrs, 64)
 	if err != nil {
-		fail(err)
+		errExit(err)
 	}
 	last, err := strconv.ParseFloat(lasts, 64)
 	if err != nil {
-		fail(err)
+		errExit(err)
 	}
 
 	if incr == 0 {
@@ -71,7 +71,7 @@ func main() {
 
 }
 
-func fail(err error) {
+func errExit(err error) {
 	fmt.Fprintf(os.Stderr, "%s\n", err)
 	os.Exit(2)
 }

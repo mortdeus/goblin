@@ -44,7 +44,7 @@ func usage() {
 	os.Exit(2)
 }
 
-func error(s string) {
+func errExit(s string) {
 	fmt.Fprint(os.Stderr, s, "\n")
 	os.Exit(1)
 }
@@ -225,12 +225,12 @@ func ls(path string) {
 
 	f, err := os.Open(pth)
 	if err != nil {
-		error(err.Error())
+		errExit(err.Error())
 	}
 
 	s, err := f.Stat()
 	if err != nil {
-		error(err.Error())
+		errExit(err.Error())
 	}
 
 	if !s.Mode().IsDir() || *usedir {
@@ -242,7 +242,7 @@ func ls(path string) {
 				if err == io.EOF {
 					break
 				} else {
-					error(err.Error())
+					errExit(err.Error())
 				}
 			}
 

@@ -11,10 +11,8 @@ import (
 
 const BUFSIZE = 70
 
-var minSpan = flag.Int(
-	"m", 6, "Defines the minimum span size for a series "+
+var minSpan = flag.Int("m", 6, "Defines the minimum span size for a series "+
 		"of runes to be considered a string.")
-var help = flag.String("help", value, usage)
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage: strings [-m min] [file ...]\n")
@@ -22,7 +20,7 @@ func usage() {
 	os.Exit(2)
 }
 
-func error(s string) {
+func errExit(s string) {
 	fmt.Fprint(os.Stderr, s, "\n")
 	os.Exit(1)
 }
@@ -82,7 +80,7 @@ func main() {
 		for _, path := range args {
 			f, err := os.Open(path)
 			if err != nil {
-				error(fmt.Sprintf("open %s: %s", path, err))
+				errExit(err.Error())
 			}
 			makeString(f)
 			f.Close()

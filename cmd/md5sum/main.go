@@ -13,7 +13,7 @@ func usage() {
 	os.Exit(2)
 }
 
-func error(s string) {
+func errExit(s string) {
 	fmt.Fprint(os.Stderr, s, "\n")
 	os.Exit(1)
 }
@@ -21,7 +21,7 @@ func error(s string) {
 func sum(f *os.File, path string) {
 	h := md5.New()
 	if _, err := io.Copy(h, f); err != nil {
-		error(err.Error())
+		errExit(err.Error())
 	}
 	if path == "" {
 		fmt.Printf("%x\n", h.Sum(nil))
