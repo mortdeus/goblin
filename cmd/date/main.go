@@ -12,12 +12,12 @@ var nflag = flag.Bool("n", false, "print as number of seconds since epoch")
 var uflag = flag.Bool("u", false, "print utc")
 
 func usage() {
-        fmt.Fprintf(os.Stderr, "usage: date [-un] [seconds]\n")
-        os.Exit(2)
+	fmt.Fprintf(os.Stderr, "usage: date [-un] [seconds]\n")
+	os.Exit(2)
 }
 
-func error(s string) {
-	fmt.Fprint(os.Stderr, s, "\n")
+func errExit(err error) {
+	fmt.Fprintln(os.Stderr, "date:", err)
 	os.Exit(1)
 }
 
@@ -33,7 +33,7 @@ func main() {
 	} else {
 		s, err := strconv.ParseInt(args[0], 0, 64)
 		if err != nil {
-			error(fmt.Sprint("bad number: ", err))
+			errExit(fmt.Errorf("bad number: %s", err))
 		}
 		now = time.Unix(s, 0)
 	}

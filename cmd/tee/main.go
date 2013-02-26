@@ -18,8 +18,8 @@ func usage() {
 	os.Exit(2)
 }
 
-func xerror(s string) {
-	fmt.Fprint(os.Stderr, s, "\n")
+func errExit(err error) {
+	fmt.Fprintln(os.Stderr, "tee:", err)
 	os.Exit(1)
 }
 
@@ -55,7 +55,7 @@ func main() {
 			break
 		}
 		if err != nil {
-			xerror(fmt.Sprintf("read: %s", err))
+			errExit(err)
 		}
 		for i, f := range files {
 			if f == nil {
@@ -63,11 +63,7 @@ func main() {
 			}
 			_, err := f.Write(buf[:n])
 			if err != nil {
-				path := "stdout"
-				if i < len(args) {
-					path = args[i]
-				}
-				fmt.Fprintf(os.Stderr, "write %s: %s, dropping\n", path, err)
+				fmt.Fprintf(os.Stderr, "%s - dropping\n", err)
 				files[i] = nil
 			}
 		}

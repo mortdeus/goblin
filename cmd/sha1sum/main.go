@@ -13,16 +13,15 @@ func usage() {
 	os.Exit(2)
 }
 
-func error(s string) {
-	fmt.Fprint(os.Stderr, s, "\n")
+func errExit(err error) {
+	fmt.Fprintln(os.Stderr, "sha1sum:", err)
 	os.Exit(1)
 }
 
 func sum(f *os.File, path string) {
 	h := sha1.New()
 	if _, err := io.Copy(h, f); err != nil {
-		fmt.Fprintf(os.Stderr, "read %s: %s\n", path, err)
-		return
+		errExit(err)
 	}
 	if path == "" {
 		fmt.Printf("%x\n", h.Sum(nil))
@@ -41,7 +40,7 @@ func main() {
 		for _, path := range args {
 			f, err := os.Open(path)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "open %s: %s\n", path, err)
+				fmt.Fprintln(os.Stderr, err.Error())
 				continue
 			}
 			sum(f, path)

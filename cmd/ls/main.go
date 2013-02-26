@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-/* 
+/*
  * We only read in a certain number of dirents at a time, which should make
  * things a little more robust on unreliable file systems.
  */
@@ -44,8 +44,8 @@ func usage() {
 	os.Exit(2)
 }
 
-func error(s string) {
-	fmt.Fprint(os.Stderr, s, "\n")
+func errExit(err error) {
+	fmt.Fprintln(os.Stderr, "ls:", err)
 	os.Exit(1)
 }
 
@@ -225,12 +225,12 @@ func ls(path string) {
 
 	f, err := os.Open(pth)
 	if err != nil {
-		error(fmt.Sprintf("%s", err))
+		errExit(err)
 	}
 
 	s, err := f.Stat()
 	if err != nil {
-		error(fmt.Sprintf("%s", err))
+		errExit(err)
 	}
 
 	if !s.Mode().IsDir() || *usedir {
@@ -242,7 +242,7 @@ func ls(path string) {
 				if err == io.EOF {
 					break
 				} else {
-					error(fmt.Sprint("%s", err))
+					errExit(err)
 				}
 			}
 
