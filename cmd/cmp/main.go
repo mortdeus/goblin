@@ -18,9 +18,9 @@ func usage() {
 	os.Exit(2)
 }
 
-func errExit(s string) {
+func errExit(err error) {
 	if !*sflag {
-		fmt.Fprint(os.Stderr, s, "\n")
+		fmt.Fprintln(os.Stderr, "cmp:", err)
 	}
 	os.Exit(1)
 }
@@ -34,21 +34,21 @@ func main() {
 	}
 	f1, err := os.Open(args[0])
 	if err != nil {
-		errExit(err.Error())
+		errExit(err)
 	}
 	f2, err := os.Open(args[1])
 	if err != nil {
-		errExit(err.Error())
+		errExit(err)
 	}
 
 	xseek := func(f *os.File, fn string, os string) {
 		o, err := strconv.ParseInt(os, 0, 64)
 		if err != nil {
-			errExit(fmt.Sprintf("bad offset %s: %s", os, err))
+			errExit(fmt.Errorf("bad offset %s: %s", os, err))
 		}
 		_, err = f.Seek(o, 0)
 		if err != nil {
-			errExit(err.Error())
+			errExit(err)
 		}
 	}
 
@@ -70,10 +70,10 @@ func main() {
 			break
 		}
 		if err1 != nil {
-			errExit(err1.Error())
+			errExit(err1)
 		}
 		if err2 != nil {
-			errExit(err2.Error())
+			errExit(err2)
 		}
 		if b1 != b2 {
 			if *sflag {

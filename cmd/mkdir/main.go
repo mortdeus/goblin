@@ -23,7 +23,7 @@ func main() {
 			err = os.Mkdir(a, m)
 		}
 		if err != nil {
-			fmt.Fprintln(os.Stderr, err.Error())
+			fmt.Fprintln(os.Stderr, "mkdir:", err)
 		}
 	}
 }

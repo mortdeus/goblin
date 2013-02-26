@@ -14,11 +14,6 @@ func usage() {
 	os.Exit(2)
 }
 
-func errExit(s string) {
-	fmt.Fprint(os.Stderr, s, "\n")
-	os.Exit(1)
-}
-
 func main() {
 	flag.Usage = usage
 	flag.Parse()

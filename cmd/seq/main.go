@@ -72,7 +72,7 @@ func main() {
 }
 
 func errExit(err error) {
-	fmt.Fprintf(os.Stderr, "%s\n", err)
+	fmt.Fprintln(os.Stderr, "seq:", err)
 	os.Exit(2)
 }
 

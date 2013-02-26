@@ -20,8 +20,8 @@ func usage() {
 	os.Exit(2)
 }
 
-func errExit(s string) {
-	fmt.Fprint(os.Stderr, s, "\n")
+func errExit(err error) {
+	fmt.Fprintln(os.Stderr, "strings:", err)
 	os.Exit(1)
 }
 
@@ -36,7 +36,7 @@ func makeString(f *os.File) {
 		position += offset
 		if err != nil {
 			if err != io.EOF {
-				panic(err)
+				errExit(err)
 			}
 			break
 		}
@@ -80,7 +80,7 @@ func main() {
 		for _, path := range args {
 			f, err := os.Open(path)
 			if err != nil {
-				errExit(err.Error())
+				errExit(err)
 			}
 			makeString(f)
 			f.Close()
