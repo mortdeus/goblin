@@ -5,24 +5,33 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"strconv"
 )
 
-var lflag = flag.Bool("l", false, "do not print and character")
-var sflag = flag.Bool("s", false, "silent, do not print errors")
-var Lflag = flag.Bool("L", false, "print line number of difference")
+var (
+	cmd = struct{ name, flags string }{
+		"name",
+		"[ –f foo] [ –b bar ] [ file ... ]",
+	}
+
+	lflag = flag.Bool("l", false, "do not print and character")
+	sflag = flag.Bool("s", false, "silent, do not print errors")
+	Lflag = flag.Bool("L", false, "print line number of difference")
+)
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: cmp [-lsL] file1 file2 [offset1 [offset2]]\n")
+	fmt.Fprintf(os.Stderr, "Usage:"+cmd.name+"\t"+cmd.flags)
+	flag.PrintDefaults()
 	os.Exit(2)
 }
 
-func errExit(err error) {
-	if !*sflag {
-		fmt.Fprintln(os.Stderr, "cmp:", err)
+func fatal(err error) {
+	if *sflag {
+		os.Exit(1)
 	}
-	os.Exit(1)
+	log.Fatalln(cmd.name + ":\t" + err.Error())
 }
 
 func main() {
@@ -34,21 +43,21 @@ func main() {
 	}
 	f1, err := os.Open(args[0])
 	if err != nil {
-		errExit(err)
+		fatal(err)
 	}
 	f2, err := os.Open(args[1])
 	if err != nil {
-		errExit(err)
+		fatal(err)
 	}
 
 	xseek := func(f *os.File, fn string, os string) {
 		o, err := strconv.ParseInt(os, 0, 64)
 		if err != nil {
-			errExit(fmt.Errorf("bad offset %s: %s", os, err))
+			fatal(fmt.Errorf("bad offset %s: %s", os, err))
 		}
 		_, err = f.Seek(o, 0)
 		if err != nil {
-			errExit(err)
+			fatal(err)
 		}
 	}
 
@@ -70,10 +79,10 @@ func main() {
 			break
 		}
 		if err1 != nil {
-			errExit(err1)
+			fatal(err1)
 		}
 		if err2 != nil {
-			errExit(err2)
+			fatal(err2)
 		}
 		if b1 != b2 {
 			if *sflag {
