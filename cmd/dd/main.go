@@ -98,6 +98,8 @@ func dd(inf *os.File, outf *os.File) {
 	var incnt int = 0
 	var outcnt int = 0
 
+	var skipcnt int = 0
+
 	var incblkin int = 0
 	var incblkout int = 0
 
@@ -107,10 +109,6 @@ func dd(inf *os.File, outf *os.File) {
 	}
 
 	writeOut := func() {
-		if incnt <= *skip {
-			return
-		}
-
 		if *ibs == *obs {
 			passThrough()
 			outcnt++
@@ -159,8 +157,12 @@ func dd(inf *os.File, outf *os.File) {
 
 		ibuf = append(ibuf, c)
 		if len(ibuf) >= *ibs {
-			writeOut()
-			incnt++
+			if skipcnt < *skip {
+				skipcnt++
+			} else {
+				writeOut()
+				incnt++
+			}
 			ibuf = ibuf[0:0]
 		}
 
