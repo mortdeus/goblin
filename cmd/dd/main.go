@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 var (
@@ -21,9 +22,19 @@ var (
 	trunc   = flag.Int("trunc", 1, "By default, dd truncates the output file when it opens it; -trunc=0 opens without truncation.")
 	quiet   = flag.Bool("quiet", false, "Don't print number of blocks read and written when finished.")
 	//files = flag.Int("files", 1, "Catenate n input files.")
-	//conv = flag.String("conv", "", "Set conversion mode.")
-	//conbufsz = flag.Int("cbs", 0, "Set conversion buffer size.")
+	conv     = flag.String("conv", "", "Set conversion mode.")
+	conbufsz = flag.Int("cbs", 0, "Set conversion buffer size.")
 )
+
+const (
+	lcase   = 1 << iota
+	ucase   = 1 << iota
+	swab    = 1 << iota
+	noerror = 1 << iota
+	sync    = 1 << iota
+)
+
+var convmod int = 0
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage: dd [ option value ] ...\n")
@@ -81,6 +92,23 @@ func main() {
 		}
 	}
 
+	if len(*conv) > 0 {
+		clist := strings.Split(*conv, ",")
+		for _, opt := range clist {
+			if opt == "lcase" {
+				convmod |= lcase
+			} else if opt == "ucase" {
+				convmod |= ucase
+			} else if opt == "swab" {
+				convmod |= swab
+			} else if opt == "noerror" {
+				convmod |= noerror
+			} else if opt == "sync" {
+				convmod |= sync
+			}
+		}
+	}
+
 	dd(in, out)
 
 	in.Close()
@@ -108,7 +136,34 @@ func dd(inf *os.File, outf *os.File) {
 		out.Flush()
 	}
 
+	uc := func(b *byte) {
+		if *b >= 'a' && *b <= 'z' {
+			*b -= 32
+		}
+	}
+
+	lc := func(b *byte) {
+		if *b >= 'A' && *b <= 'Z' {
+			*b += 32
+		}
+	}
+
+	swb := func() {
+		l := len(ibuf)
+		var a byte
+		for i := 0; i < l; i++ {
+			a = ibuf[i]
+			i++
+			ibuf[i-1] = ibuf[i]
+			ibuf[i] = a
+		}
+	}
+
 	writeOut := func() {
+		if convmod&swab == swab {
+			swb()
+		}
+
 		if *ibs == *obs {
 			passThrough()
 			outcnt++
@@ -129,6 +184,10 @@ func dd(inf *os.File, outf *os.File) {
 
 	finishUp := func() {
 		if len(ibuf) > 0 {
+			if convmod&swab == swab {
+				swb()
+			}
+
 			if *ibs == *obs {
 				passThrough()
 				incblkout++
@@ -148,11 +207,20 @@ func dd(inf *os.File, outf *os.File) {
 	for {
 		c, err := in.ReadByte()
 		if err != nil {
-			if err != io.EOF {
+			if err != io.EOF && convmod&noerror != noerror {
 				errExit(err)
+				continue
 			}
 			finishUp()
 			break
+		}
+
+		if convmod&lcase == lcase {
+			lc(&c)
+		}
+
+		if convmod&ucase == ucase {
+			uc(&c)
 		}
 
 		ibuf = append(ibuf, c)
