@@ -6,11 +6,16 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"strconv"
 )
 
 var (
+	cmd = struct{ name, flags string }{
+		"bsplit",
+		"[ –p prefix ] [ –s size ] [ file ... ]",
+	}
 	prefix = flag.String("p", "bs",
 		"Prefix for the set of output filenames returned by bsplit.")
 	size = flag.Int("s", 524288, "Size of each contiguous block of data"+
@@ -18,15 +23,13 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr,
-		"Usage:	bsplit [ –p prefix ] [ –s size ] [ file ... ]\n")
+	fmt.Fprintf(os.Stderr, "Usage:"+cmd.name+"\t"+cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
 
-func error(s string) {
-	fmt.Fprint(os.Stderr, s, "\n")
-	os.Exit(1)
+func fatal(err error) {
+	log.Fatalln(cmd.name + ":\t" + err.Error())
 }
 
 func main() {
@@ -35,20 +38,21 @@ func main() {
 	args := flag.Args()
 	data := make([]byte, 0)
 	if len(args) == 0 {
-		error("No files were given as input. Enter 'bsplit -help' for more information.\n")
+		fatal(fmt.Errorf("%s", "No files were given as input."+
+			" Enter 'bsplit -help' for more information.\n"))
 	}
 	for _, s := range args {
 		f, err := os.Open(s)
 		if err != nil {
-			error(err.Error())
+			fatal(err)
 		}
 		if fdata, err := ioutil.ReadAll(f); err != nil {
-			error(err.Error())
+			fatal(err)
 		} else {
 			data = append(data, fdata...)
 		}
 		if err := f.Close(); err != nil {
-			error(err.Error())
+			fatal(err)
 		}
 	}
 }
@@ -59,13 +63,13 @@ func bsplit(data []byte) {
 	for {
 		f, err := os.Create(*prefix + strconv.Itoa(count))
 		if err != nil {
-			error(err.Error())
+			fatal(err)
 		}
 		if _, err := io.CopyN(f, buf, int64(*size*1024)); err != nil {
 			if err == io.EOF {
 				return
 			}
-			error(err.Error())
+			fatal(err)
 		}
 		f.Close()
 		count++

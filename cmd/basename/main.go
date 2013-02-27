@@ -7,10 +7,18 @@ import (
 	"strings"
 )
 
-var dflag = flag.Bool("d", false, "print directories, not file")
+var (
+	cmd = struct{ name, flags string }{
+		"name",
+		"[ –f foo] [ –b bar ] [ file ... ]",
+	}
+	//Flags
+	dflag = flag.Bool("d", false, "print directories, not file")
+)
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: basename [-d] string [suffix]\n")
+	fmt.Fprintf(os.Stderr, "Usage:"+cmd.name+"\t"+cmd.flags)
+	flag.PrintDefaults()
 	os.Exit(2)
 }
 
