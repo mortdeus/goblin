@@ -12,8 +12,8 @@ var (
 		"touch",
 		"[ -c ] [ -t time] files...",
 	}
-	dontCreate = flag.Bool("c", false, "If the file doesn't exist, don't create it.")
-	newt       = flag.Int64("t", time.Now().Unix(), "Set the modified time.")
+	dontCreate = flag.Bool("c", false, "don't create non-existend file")
+	newt       = flag.Int64("t", time.Now().Unix(), "new modification time")
 )
 
 func fatal(err error) {

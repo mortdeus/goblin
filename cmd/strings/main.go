@@ -16,8 +16,7 @@ var (
 		"strings",
 		"[-m min] [file ...]",
 	}
-	minSpan = flag.Int("m", 6, "Defines the minimum span size for a series "+
-		"of runes to be considered a string.")
+	minSpan = flag.Int("m", 6, "minimum length of recognized strings")
 )
 
 func usage() {

@@ -11,8 +11,8 @@ var (
 		"mkdir",
 		"[-p] [-m mode] dir...",
 	}
-	mkParents = flag.Bool("p", false, "Create any necessary parent directories.")
-	mode      = flag.Int("m", 0777, "Permissions to use when creating the directory.")
+	mkParents = flag.Bool("p", false, "create necessary parent directories")
+	mode      = flag.Int("m", 0777, "permissions for new directory")
 )
 
 func usage() {

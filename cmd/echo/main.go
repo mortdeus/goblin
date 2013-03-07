@@ -11,7 +11,7 @@ var (
 		"echo",
 		"[ -n ] [ arg ...]",
 	}
-	nflag = flag.Bool("n", false, "suppresses newline.")
+	nflag = flag.Bool("n", false, "suppress newline")
 )
 
 func usage() {

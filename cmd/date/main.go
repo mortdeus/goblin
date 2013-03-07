@@ -14,7 +14,7 @@ var (
 		"[ -u ] [ -n ] [ seconds ]",
 	}
 	nflag = flag.Bool("n", false, "print as number of seconds since epoch")
-	uflag = flag.Bool("u", false, "print utc")
+	uflag = flag.Bool("u", false, "print UTC")
 )
 
 func usage() {

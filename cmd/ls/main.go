@@ -29,18 +29,16 @@ var (
 	swidth int
 	dwidth int
 
-	usedir   = flag.Bool("d", false, "List a directory instead of its contents.")
-	long     = flag.Bool("l", false, "Long format list.")
-	usrname  = flag.Bool("m", false, "List the user who last modified the file.")
-	nosort   = flag.Bool("n", false, "Don't sort the list.")
-	nopath   = flag.Bool("p", false, "Only print the last path element.")
-	reverse  = flag.Bool("r", false, "Reverse the sorting order.")
-	kbytes   = flag.Bool("s", false, "Give size in KBytes for each file.")
-	timesort = flag.Bool("t", false, "Sort by latest-modified first.")
-	useatime = flag.Bool("u", false, "If -t sort by access time; if -u print "+
-		"last access time.")
-	tlslash = flag.Bool("F", false, "Add / after all directories and * after "+
-		"all executables.")
+	usedir   = flag.Bool("d", false, "list directory instead of its contents")
+	long     = flag.Bool("l", false, "use long format")
+	usrname  = flag.Bool("m", false, "list user who last modified the file")
+	nosort   = flag.Bool("n", false, "don't sort list")
+	nopath   = flag.Bool("p", false, "only print the last path element")
+	reverse  = flag.Bool("r", false, "reverse sorting order")
+	kbytes   = flag.Bool("s", false, "give size in KBytes for each file")
+	timesort = flag.Bool("t", false, "sort by latest-modified first")
+	useatime = flag.Bool("u", false, "use atime for sorting / printing")
+	tlslash = flag.Bool("f", false, "add / after directories and * after executables")
 )
 
 func usage() {
