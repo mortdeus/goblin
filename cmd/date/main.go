@@ -8,16 +8,23 @@ import (
 	"time"
 )
 
-var nflag = flag.Bool("n", false, "print as number of seconds since epoch")
-var uflag = flag.Bool("u", false, "print utc")
+var (
+	cmd = struct{ name, flags string }{
+		"date",
+		"[ -u ] [ -n ] [ seconds ]",
+	}
+	nflag = flag.Bool("n", false, "print as number of seconds since epoch")
+	uflag = flag.Bool("u", false, "print utc")
+)
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: date [-un] [seconds]\n")
+	fmt.Fprintln(os.Stderr, "Usage", cmd.name, cmd.flags)
+	flag.PrintDefaults()
 	os.Exit(2)
 }
 
-func errExit(err error) {
-	fmt.Fprintln(os.Stderr, "date:", err)
+func fatal(err error) {
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
 	os.Exit(1)
 }
 
@@ -33,7 +40,7 @@ func main() {
 	} else {
 		s, err := strconv.ParseInt(args[0], 0, 64)
 		if err != nil {
-			errExit(fmt.Errorf("bad number: %s", err))
+			fatal(fmt.Errorf("bad number: %s", err))
 		}
 		now = time.Unix(s, 0)
 	}

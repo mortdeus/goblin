@@ -6,10 +6,16 @@ import (
 	"os"
 )
 
-var nflag = flag.Bool("n", false, "suppresses newline.")
+var (
+	cmd = struct{ name, flags string }{
+		"echo",
+		"[ -n ] [ arg ...]",
+	}
+	nflag = flag.Bool("n", false, "suppresses newline.")
+)
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage: echo [ -n ] [ arg ... ] \n")
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
@@ -21,7 +27,7 @@ func main() {
 	for _, arg := range args {
 		fmt.Printf("%v", arg)
 	}
-	if !(*nflag) {
+	if !*nflag {
 		fmt.Print("\n")
 	}
 }

@@ -18,12 +18,17 @@ import (
  */
 const MAXDIRREAD int = 50
 
-var uwidth int
-var gwidth int
-var swidth int
-var dwidth int
-
 var (
+	cmd = struct{ name, flags string }{
+		"ls",
+		"[-dlmnprstuF] [file ...]",
+	}
+
+	uwidth int
+	gwidth int
+	swidth int
+	dwidth int
+
 	usedir   = flag.Bool("d", false, "List a directory instead of its contents.")
 	long     = flag.Bool("l", false, "Long format list.")
 	usrname  = flag.Bool("m", false, "List the user who last modified the file.")
@@ -39,13 +44,13 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage: ls [-dlmnprstuF] [file ...]\n")
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
 
-func errExit(err error) {
-	fmt.Fprintln(os.Stderr, "ls:", err)
+func fatal(err error) {
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
 	os.Exit(1)
 }
 
@@ -61,8 +66,6 @@ func main() {
 			ls(path)
 		}
 	}
-
-	os.Exit(0)
 }
 
 type dent struct {
@@ -225,12 +228,12 @@ func ls(path string) {
 
 	f, err := os.Open(pth)
 	if err != nil {
-		errExit(err)
+		fatal(err)
 	}
 
 	s, err := f.Stat()
 	if err != nil {
-		errExit(err)
+		fatal(err)
 	}
 
 	if !s.Mode().IsDir() || *usedir {
@@ -242,7 +245,7 @@ func ls(path string) {
 				if err == io.EOF {
 					break
 				} else {
-					errExit(err)
+					fatal(err)
 				}
 			}
 

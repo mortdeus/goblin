@@ -7,11 +7,28 @@ import (
 	"strconv"
 )
 
-var pad = flag.Bool("w", false, "Equalize the widths of all numbers by padding with leading zeros as necessary.")
-var format = flag.String("f", "%g", "Use the print(3)-style format for printing each number.")
+var (
+	cmd = struct{name, flags string}{
+		"seq",
+		"[-fformat] [-w] [first [incr]] last",
+	}
+
+	pad = flag.Bool("w", false, "Equalize the widths of all numbers by padding with leading zeros as necessary.")
+	format = flag.String("f", "%g", "Use the print(3)-style format for printing each number.")
+)
+
+func usage() {
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
+	flag.PrintDefaults()
+	os.Exit(2)
+}
+
+func fatal(err error) {
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
+	os.Exit(2)
+}
 
 func main() {
-
 	flag.Usage = usage
 	flag.Parse()
 	args := flag.Args()
@@ -35,15 +52,15 @@ func main() {
 
 	first, err := strconv.ParseFloat(firsts, 64)
 	if err != nil {
-		errExit(err)
+		fatal(err)
 	}
 	incr, err := strconv.ParseFloat(incrs, 64)
 	if err != nil {
-		errExit(err)
+		fatal(err)
 	}
 	last, err := strconv.ParseFloat(lasts, 64)
 	if err != nil {
-		errExit(err)
+		fatal(err)
 	}
 
 	if incr == 0 {
@@ -69,15 +86,4 @@ func main() {
 		}
 	}
 
-}
-
-func errExit(err error) {
-	fmt.Fprintln(os.Stderr, "seq:", err)
-	os.Exit(2)
-}
-
-func usage() {
-	fmt.Print("usage: seq [-fformat] [-w] [first [incr]] last")
-	flag.PrintDefaults()
-	os.Exit(2)
 }

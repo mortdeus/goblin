@@ -5,15 +5,14 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"strconv"
 )
 
 var (
 	cmd = struct{ name, flags string }{
-		"name",
-		"[ –f foo] [ –b bar ] [ file ... ]",
+		"cmp",
+		"[ –l ] [ -s ] [ -L ] [ file ... ]",
 	}
 
 	lflag = flag.Bool("l", false, "do not print and character")
@@ -22,16 +21,16 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage:"+cmd.name+"\t"+cmd.flags)
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
 
 func fatal(err error) {
-	if *sflag {
-		os.Exit(1)
+	if !*sflag {
+		fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
 	}
-	log.Fatalln(cmd.name + ":\t" + err.Error())
+	os.Exit(1)
 }
 
 func main() {
@@ -103,5 +102,4 @@ func main() {
 			l++
 		}
 	}
-	os.Exit(0)
 }

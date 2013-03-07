@@ -6,8 +6,20 @@ import (
 	"os"
 )
 
-var mkParents = flag.Bool("p", false, "Create any necessary parent directories.")
-var mode = flag.Int("m", 0777, "Permissions to use when creating the directory.")
+var (
+	cmd = struct{ name, flags string }{
+		"mkdir",
+		"[-p] [-m mode] dir...",
+	}
+	mkParents = flag.Bool("p", false, "Create any necessary parent directories.")
+	mode      = flag.Int("m", 0777, "Permissions to use when creating the directory.")
+)
+
+func usage() {
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
+	flag.PrintDefaults()
+	os.Exit(2)
+}
 
 func main() {
 	flag.Usage = usage
@@ -23,13 +35,7 @@ func main() {
 			err = os.Mkdir(a, m)
 		}
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "mkdir:", err)
+			fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
 		}
 	}
-}
-
-func usage() {
-	fmt.Print("usage: mkdir [-p] [-m mode] dir...")
-	flag.PrintDefaults()
-	os.Exit(2)
 }
