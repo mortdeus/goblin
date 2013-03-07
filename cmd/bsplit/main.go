@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"os"
 	"strconv"
 )
@@ -23,13 +22,14 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage:"+cmd.name+"\t"+cmd.flags)
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
 
 func fatal(err error) {
-	log.Fatalln(cmd.name + ":\t" + err.Error())
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
+	os.Exit(1)
 }
 
 func main() {

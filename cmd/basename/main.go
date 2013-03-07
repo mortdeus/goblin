@@ -9,15 +9,14 @@ import (
 
 var (
 	cmd = struct{ name, flags string }{
-		"name",
-		"[ –f foo] [ –b bar ] [ file ... ]",
+		"basename",
+		"[ -d ] string [ suffix ]",
 	}
-	//Flags
 	dflag = flag.Bool("d", false, "print directories, not file")
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage:"+cmd.name+"\t"+cmd.flags)
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
@@ -41,7 +40,7 @@ func main() {
 		} else {
 			fmt.Print(".\n")
 		}
-		os.Exit(0)
+		return
 	}
 	if pr != "" {
 		pr = pr[1:]
@@ -52,5 +51,4 @@ func main() {
 		pr = pr[:len(pr)-len(args[1])]
 	}
 	fmt.Print(pr, "\n")
-	os.Exit(0)
 }
