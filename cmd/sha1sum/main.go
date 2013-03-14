@@ -8,20 +8,25 @@ import (
 	"os"
 )
 
+var cmd = struct{name, flags string}{
+	"sha1sum",
+	"[file ...]",
+}
+
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: sha1sum [file ...]\n")
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	os.Exit(2)
 }
 
-func errExit(err error) {
-	fmt.Fprintln(os.Stderr, "sha1sum:", err)
+func fatal(err error) {
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
 	os.Exit(1)
 }
 
 func sum(f *os.File, path string) {
 	h := sha1.New()
 	if _, err := io.Copy(h, f); err != nil {
-		errExit(err)
+		fatal(err)
 	}
 	if path == "" {
 		fmt.Printf("%x\n", h.Sum(nil))
@@ -40,12 +45,11 @@ func main() {
 		for _, path := range args {
 			f, err := os.Open(path)
 			if err != nil {
-				fmt.Fprintln(os.Stderr, err.Error())
+				fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
 				continue
 			}
 			sum(f, path)
 			f.Close()
 		}
 	}
-	os.Exit(0)
 }

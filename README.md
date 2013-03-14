@@ -12,6 +12,7 @@ Authors: Uriel, Mortdeus
 Progress  
 Legend:	[*cmd:done, &cmd:work in progress, !cmd: not started] 
 
+```
 !abaco      !deroff    !ktrace    !plumb     !syscall   
 !acid       !diff      !leak      !pr        !tail   
 !acme       !doc2txt   !lens      !prof      !tar   
@@ -37,7 +38,7 @@ Legend:	[*cmd:done, &cmd:work in progress, !cmd: not started]
 !col        !grep      !nedmail   *sleep     !venti   
 !colors     !gs        !netstat   !soelim    !vi   
 !comm       !gview     !news      !sort      !vnc   
-!con        !gzip      !nm        !spell     !vt   
+!con        &gzip      !nm        !spell     !vt   
 !cp         !hget      !ns        !spin      !wc   
 !cpp        !history   !p         !split     !weather   
 !cpu        !hoc       !page      !src       !who   
@@ -47,5 +48,6 @@ Legend:	[*cmd:done, &cmd:work in progress, !cmd: not started]
 !dc         !jpg       !pic       *strings   !yesterday   
 !dd         !kbmap     !pipefile  !strip   
 !delkey     !kill      !plot      !sum
+```
 
 

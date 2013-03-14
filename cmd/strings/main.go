@@ -11,17 +11,22 @@ import (
 
 const BUFSIZE = 70
 
-var minSpan = flag.Int("m", 6, "Defines the minimum span size for a series "+
-		"of runes to be considered a string.")
+var (
+	cmd = struct{ name, flags string }{
+		"strings",
+		"[-m min] [file ...]",
+	}
+	minSpan = flag.Int("m", 6, "minimum length of recognized strings")
+)
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage: strings [-m min] [file ...]\n")
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
 
-func errExit(err error) {
-	fmt.Fprintln(os.Stderr, "strings:", err)
+func fatal(err error) {
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
 	os.Exit(1)
 }
 
@@ -36,7 +41,7 @@ func makeString(f *os.File) {
 		position += offset
 		if err != nil {
 			if err != io.EOF {
-				errExit(err)
+				fatal(err)
 			}
 			break
 		}
@@ -80,7 +85,7 @@ func main() {
 		for _, path := range args {
 			f, err := os.Open(path)
 			if err != nil {
-				errExit(err)
+				fatal(err)
 			}
 			makeString(f)
 			f.Close()

@@ -8,18 +8,24 @@ import (
 	"os/signal"
 )
 
-var iflag = flag.Bool("i", false, "ignore interrupts")
-var aflag = flag.Bool("a", false, "append instead of overwriting")
-var uflag = flag.Bool("u", false, "unix relic, ignored")
+var (
+	cmd = struct{ name, flags string }{
+		"tee",
+		"[-ai] [file ...]",
+	}
+	iflag = flag.Bool("i", false, "ignore interrupts")
+	aflag = flag.Bool("a", false, "append instead of overwriting")
+	uflag = flag.Bool("u", false, "unix relic, ignored")
+)
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: tee [-ai] [file ...]\n")
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
 
-func errExit(err error) {
-	fmt.Fprintln(os.Stderr, "tee:", err)
+func fatal(err error) {
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
 	os.Exit(1)
 }
 
@@ -55,7 +61,7 @@ func main() {
 			break
 		}
 		if err != nil {
-			errExit(err)
+			fatal(err)
 		}
 		for i, f := range files {
 			if f == nil {
@@ -68,6 +74,4 @@ func main() {
 			}
 		}
 	}
-
-	os.Exit(0)
 }

@@ -8,9 +8,13 @@ import (
 	"time"
 )
 
+var cmd = struct{ name, flags string }{
+	"sleep",
+	"seconds",
+}
+
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: sleep seconds\n")
-	flag.PrintDefaults()
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	os.Exit(2)
 }
 
@@ -28,5 +32,4 @@ func main() {
 	for ; n > 0; n-- {
 		time.Sleep(1 * time.Second)
 	}
-	os.Exit(0)
 }

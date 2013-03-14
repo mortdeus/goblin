@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"log"
 	"os"
 )
 
@@ -14,13 +13,16 @@ var cmd = struct{ name, flags string }{
 }
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage:"+cmd.name+"\t"+cmd.flags)
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
+
 func fatal(err error) {
-	log.Fatalln(cmd.name + ":\t" + err.Error())
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
+	os.Exit(1)
 }
+
 func main() {
 	flag.Usage = usage
 	flag.Parse()
@@ -31,12 +33,13 @@ func main() {
 		for _, s := range args {
 			f, err := os.Open(s)
 			if err != nil {
-				log.Fatal(err)
+				fatal(err)
 			}
 			cat(f, s)
 		}
 	}
 }
+
 func cat(f io.Reader, s string) {
 	b := make([]byte, 8*1024)
 	for {
