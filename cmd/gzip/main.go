@@ -11,13 +11,22 @@ import (
 )
 
 var (
-	cflag bool
-	level int = -1
+	cmd = struct{ name, flags string }{
+		"gzip",
+		"[-cvD[1-9]] [file ...]",
+	}
+	cflag   bool
+	level   int = -1
 	verbose bool
 )
 
+func fatal(err error) {
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
+	os.Exit(1)
+}
+
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage: gzip [-vcD] [-1-9] [file ...]\n")
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	os.Exit(2)
 }
 
@@ -35,7 +44,7 @@ func gzipFile(name string) {
 
 	in, err := os.Open(name)
 	if err != nil {
-		log.Fatal(err)
+		fatal(err)
 	}
 	defer in.Close()
 	if !cflag {
@@ -49,7 +58,7 @@ func gzipFile(name string) {
 		}
 		out, err := os.Create(newname)
 		if err != nil {
-			log.Fatal(err)
+			fatal(err)
 		}
 		defer out.Close()
 		err = doGzip(in, out)
@@ -61,7 +70,7 @@ func gzipFile(name string) {
 	} else {
 		err = doGzip(in, os.Stdout)
 		if err != nil {
-			log.Fatal(err)
+			fatal(err)
 		}
 	}
 }
@@ -86,7 +95,7 @@ func main() {
 	if len(args) == 0 {
 		err := doGzip(os.Stdin, os.Stdout)
 		if err != nil {
-			log.Fatal(err)
+			fatal(err)
 		}
 	} else {
 		for _, v := range args {
