@@ -182,19 +182,19 @@ const (
 
 //Operators
 const (
-	OXXX = iota
-	OADD
-	OADDR
-	OAND
-	OANDAND
-	OARRAY
-	OAS
+	OXXX    = iota
+	OADD    //+
+	OADDR   //
+	OAND    //&
+	OANDAND //&&
+	OARRAY  //[]
+	OAS     //=
 	OASI
-	OASADD
-	OASAND
-	OASASHL
-	OASASHR
-	OASDIV
+	OASADD  //+=
+	OASAND  //&=
+	OASASHL //<<=
+	OASASHR /*>>=
+	OASDIV  //  /=
 	OASHL
 	OASHR
 	OASLDIV

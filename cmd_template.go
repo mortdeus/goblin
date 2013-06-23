@@ -4,7 +4,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 )
 
@@ -19,7 +18,7 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage:"+cmd.name+"\t"+cmd.flags)
+	fmt.Fprintf(os.Stderr, "Usage: %s\t%s\n", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
@@ -29,8 +28,7 @@ func fatal(err error) {
 	//if *sflag {
 	//	os.Exit(1)
 	//}
-
-	log.Fatalln(cmd.name + ":\t" + err.Error())
+	fmt.Fprintf(os.Stderr, "%s:\t%s\n", cmd.name, err.Error())
 }
 
 func main() {

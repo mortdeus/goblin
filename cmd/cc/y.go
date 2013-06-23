@@ -4,12 +4,12 @@ package cc
 import __yyfmt__ "fmt"
 //line cc.y:2
 		
-//line cc.y:4
+//line cc.y:5
 type yySymType struct{
 	yys int
 	node *Node
 	sym *Sym
-	type_ *Type
+	type1 *Type
 	tycl struct{
 		t *Type
 		c byte
@@ -200,7 +200,7 @@ const yyEofCode = 1
 const yyErrCode = 2
 const yyMaxDepth = 200
 
-//line cc.y:1203
+//line cc.y:1199
 
 
 //line yacctab:1
@@ -861,12 +861,12 @@ yydefault:
 	switch yynt {
 
 	case 3:
-		//line cc.y:77
+		//line cc.y:78
 		{
 			dodecl(xdecl, lastclass, lasttype, new(Node))
 		}
 	case 5:
-		//line cc.y:82
+		//line cc.y:83
 		{
 			lastdcl = new(Type)
 			firstarg = new(Sym)
@@ -881,12 +881,12 @@ yydefault:
 			argmark(yyS[yypt-0].node, 0)
 		}
 	case 6:
-		//line cc.y:96
+		//line cc.y:97
 		{
 			argmark(yyS[yypt-2].node, 1)
 		}
 	case 7:
-		//line cc.y:100
+		//line cc.y:101
 		{
 			n := revertdcl()
 			if n{
@@ -897,24 +897,24 @@ yydefault:
 			}
 		}
 	case 8:
-		//line cc.y:112
+		//line cc.y:113
 		{
 			dodecl(xdecl, lastclass, lasttype, yyS[yypt-0].node)
 		}
 	case 9:
-		//line cc.y:116
+		//line cc.y:117
 		{
 			yyS[yypt-0].node = dodecl(xdecl, lastclass, lasttype, yyS[yypt-0].node)
 		}
 	case 10:
-		//line cc.y:120
+		//line cc.y:121
 		{
-			doinit(yyS[yypt-3].node.sym, yyS[yypt-3].node.type_, 0, yyS[yypt-0].node)
+			doinit(yyS[yypt-3].node.sym, yyS[yypt-3].node.Type, 0, yyS[yypt-0].node)
 		}
 	case 12:
 		yyVAL.node = yyS[yypt-0].node
 	case 13:
-		//line cc.y:128
+		//line cc.y:129
 		{
 			yyVAL.node = Node.new(OIND, yyS[yypt-0].node, new(Node))
 			yyVAL.node.garb = simpleg(yyS[yypt-1].lval)
@@ -922,50 +922,50 @@ yydefault:
 	case 14:
 		yyVAL.node = yyS[yypt-0].node
 	case 15:
-		//line cc.y:136
+		//line cc.y:137
 		{
 			yyVAL.node = yyS[yypt-1].node;
 		}
 	case 16:
-		//line cc.y:140
+		//line cc.y:141
 		{
 			yyVAL.node = Node.new(OFUNC, yyS[yypt-3].node, yyS[yypt-1].node)
 		}
 	case 17:
-		//line cc.y:144
+		//line cc.y:145
 		{
 			yyVAL.node = Node.new(OARRAY, yyS[yypt-3].node, yyS[yypt-1].node)
 		}
 	case 18:
-		//line cc.y:153
+		//line cc.y:154
 		{
 			yyVAL.node = dodecl(adecl, lastclass, lasttype, new(Node))
 		}
 	case 19:
-		//line cc.y:157
+		//line cc.y:158
 		{
 			yyVAL.node = yyS[yypt-1].node;
 		}
 	case 20:
-		//line cc.y:163
+		//line cc.y:164
 		{
 			dodecl(adecl, lastclass, lasttype, yyS[yypt-0].node)
 			yyVAL.node = new(Node)
 		}
 	case 21:
-		//line cc.y:168
+		//line cc.y:169
 		{
 			yyS[yypt-0].node = dodecl(adecl, lastclass, lasttype, yyS[yypt-0].node)
 		}
 	case 22:
-		//line cc.y:172
+		//line cc.y:173
 		{
-			w := yyS[yypt-3].node.sym.type_.width
-			yyVAL.node = doinit(yyS[yypt-3].node.sym, yyS[yypt-3].node.type, 0, yyS[yypt-0].node)
+			w := yyS[yypt-3].node.sym.Type.width
+			yyVAL.node = doinit(yyS[yypt-3].node.sym, yyS[yypt-3].node.Type, 0, yyS[yypt-0].node)
 			yyVAL.node = contig(yyS[yypt-3].node.sym, yyVAL.node, w)
 		}
 	case 23:
-		//line cc.y:178
+		//line cc.y:179
 		{
 			yyVAL.node = yyS[yypt-2].node;
 			if yyS[yypt-0].node != nil{ 
@@ -977,62 +977,62 @@ yydefault:
 			}
 		}
 	case 26:
-		//line cc.y:197
+		//line cc.y:198
 		{
 			dodecl(pdecl, lastclass, lasttype, yyS[yypt-0].node)
 		}
 	case 28:
-		//line cc.y:207
+		//line cc.y:208
 		{
-			lasttype = yyS[yypt-0].Type;
+			lasttype = yyS[yypt-0].ytype;
 		}
 	case 30:
-		//line cc.y:212
+		//line cc.y:213
 		{
-			lasttype = yyS[yypt-0].Type;
+			lasttype = yyS[yypt-0].ytype;
 		}
 	case 32:
-		//line cc.y:218
+		//line cc.y:219
 		{
 			lastfield = 0;
 			edecl(CXXX, lasttype, S)
 		}
 	case 34:
-		//line cc.y:226
+		//line cc.y:227
 		{
 			dodecl(edecl, CXXX, lasttype, yyS[yypt-0].node)
 		}
 	case 36:
-		//line cc.y:233
+		//line cc.y:234
 		{
 			lastbit = 0;
 			firstbit = 1;
 		}
 	case 37:
-		//line cc.y:238
+		//line cc.y:239
 		{
 			yyVAL.node = Node.new(OBIT, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 38:
-		//line cc.y:242
+		//line cc.y:243
 		{
 			yyVAL.node = Node.new(OBIT, new(Node), yyS[yypt-0].node)
 		}
 	case 39:
-		//line cc.y:250
+		//line cc.y:251
 		{
 			yyVAL.node = new(Node)
 		}
 	case 40:
 		yyVAL.node = yyS[yypt-0].node
 	case 41:
-		//line cc.y:257
+		//line cc.y:258
 		{
 			yyVAL.node = Node.new(OIND, new(Node), new(Node))
 			yyVAL.node.garb = simpleg(yyS[yypt-0].lval)
 		}
 	case 42:
-		//line cc.y:262
+		//line cc.y:263
 		{
 			yyVAL.node = Node.new(OIND, yyS[yypt-0].node, new(Node))
 			yyVAL.node.garb = simpleg(yyS[yypt-1].lval)
@@ -1042,44 +1042,44 @@ yydefault:
 	case 44:
 		yyVAL.node = yyS[yypt-0].node
 	case 45:
-		//line cc.y:271
+		//line cc.y:272
 		{
 			yyVAL.node = Node.new(OFUNC, yyS[yypt-3].node, yyS[yypt-1].node)
 		}
 	case 46:
-		//line cc.y:275
+		//line cc.y:276
 		{
 			yyVAL.node = Node.new(OARRAY, yyS[yypt-3].node, yyS[yypt-1].node)
 		}
 	case 47:
-		//line cc.y:281
+		//line cc.y:282
 		{
 			yyVAL.node = Node.new(OFUNC, new(Node), new(Node))
 		}
 	case 48:
-		//line cc.y:285
+		//line cc.y:286
 		{
 			yyVAL.node = Node.new(OARRAY, new(Node), yyS[yypt-1].node)
 		}
 	case 49:
-		//line cc.y:289
+		//line cc.y:290
 		{
 			yyVAL.node = yyS[yypt-1].node;
 		}
 	case 50:
 		yyVAL.node = yyS[yypt-0].node
 	case 51:
-		//line cc.y:296
+		//line cc.y:297
 		{
 			yyVAL.node = Node.new(OINIT, invert(yyS[yypt-1].node), new(Node))
 		}
 	case 52:
-		//line cc.y:302
+		//line cc.y:303
 		{
 			yyVAL.node = Node.new(OARRAY, yyS[yypt-1].node, new(Node))
 		}
 	case 53:
-		//line cc.y:306
+		//line cc.y:307
 		{
 			yyVAL.node = Node.new(OELEM, new(Node), new(Node))
 			yyVAL.node.sym = yyS[yypt-0].sym;
@@ -1089,14 +1089,14 @@ yydefault:
 	case 55:
 		yyVAL.node = yyS[yypt-0].node
 	case 56:
-		//line cc.y:315
+		//line cc.y:316
 		{
 			yyVAL.node = Node.new(OLIST, yyS[yypt-2].node, yyS[yypt-1].node)
 		}
 	case 57:
 		yyVAL.node = yyS[yypt-0].node
 	case 58:
-		//line cc.y:320
+		//line cc.y:321
 		{
 			yyVAL.node = Node.new(OLIST, yyS[yypt-1].node, yyS[yypt-0].node)
 		}
@@ -1105,46 +1105,46 @@ yydefault:
 	case 60:
 		yyVAL.node = yyS[yypt-0].node
 	case 61:
-		//line cc.y:328
+		//line cc.y:329
 		{
 			yyVAL.node = Node.new(OLIST, yyS[yypt-1].node, yyS[yypt-0].node)
 		}
 	case 62:
-		//line cc.y:333
+		//line cc.y:334
 		{
 			yyVAL.node = new(Node);
 		}
 	case 63:
-		//line cc.y:337
+		//line cc.y:338
 		{
 			yyVAL.node = invert(yyS[yypt-0].node)
 		}
 	case 64:
 		yyVAL.node = yyS[yypt-0].node
 	case 65:
-		//line cc.y:345
+		//line cc.y:346
 		{
 			yyVAL.node = Node.new(OPROTO, yyS[yypt-0].node, new(Node))
-			yyVAL.node.type = yyS[yypt-1].Type;
+			yyVAL.node.Type = yyS[yypt-1].ytype;
 		}
 	case 66:
-		//line cc.y:350
+		//line cc.y:351
 		{
 			yyVAL.node = Node.new(OPROTO, yyS[yypt-0].node, new(Node))
-			yyVAL.node.type = yyS[yypt-1].Type;
+			yyVAL.node.Type = yyS[yypt-1].ytype;
 		}
 	case 67:
-		//line cc.y:355
+		//line cc.y:356
 		{
 			yyVAL.node = Node.new(ODOTDOT, new(Node), new(Node))
 		}
 	case 68:
-		//line cc.y:359
+		//line cc.y:360
 		{
 			yyVAL.node = Node.new(OLIST, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 69:
-		//line cc.y:365
+		//line cc.y:366
 		{
 			yyVAL.node = invert(yyS[yypt-1].node)
 		//	if $2 != nil
@@ -1154,79 +1154,80 @@ yydefault:
 			}
 		}
 	case 70:
-		//line cc.y:375
+		//line cc.y:376
 		{
 			yyVAL.node = new(Node)
 		}
 	case 71:
-		//line cc.y:379
+		//line cc.y:380
 		{
 			yyVAL.node = Node.new(OLIST, yyS[yypt-1].node, yyS[yypt-0].node)
 		}
 	case 72:
-		//line cc.y:383
+		//line cc.y:384
 		{
 			yyVAL.node = Node.new(OLIST, yyS[yypt-1].node, yyS[yypt-0].node)
 		}
 	case 73:
 		yyVAL.node = yyS[yypt-0].node
 	case 74:
-		//line cc.y:390
+		//line cc.y:391
 		{
 			yyVAL.node = Node.new(OLIST, yyS[yypt-1].node, yyS[yypt-0].node)
 		}
 	case 75:
-		//line cc.y:396
+		//line cc.y:397
 		{
 			yyVAL.node = Node.new(OCASE, yyS[yypt-1].node, new(Node))
 		}
 	case 76:
-		//line cc.y:400
+		//line cc.y:401
 		{
 			yyVAL.node = Node.new(OCASE, new(Node), new(Node))
 		}
 	case 77:
-		//line cc.y:404
+		//line cc.y:405
 		{
 			yyVAL.node = Node.new(OLABEL, dcllabel(yyS[yypt-1].sym, 1), new(Node))
 		}
 	case 78:
-		//line cc.y:410
+		//line cc.y:411
 		{
 			yyVAL.node = new(Node)
 		}
 	case 79:
 		yyVAL.node = yyS[yypt-0].node
 	case 80:
-		//line cc.y:415
+		//line cc.y:416
 		{
 			yyVAL.node = Node.new(OLIST, yyS[yypt-1].node, yyS[yypt-0].node)
 		}
 	case 81:
 		yyVAL.node = yyS[yypt-0].node
 	case 82:
-		//line cc.y:422
+		//line cc.y:423
 		{
 			yyVAL.node = yyS[yypt-0].node;
 		}
 	case 83:
 		yyVAL.node = yyS[yypt-0].node
 	case 84:
-		//line cc.y:428
+		//line cc.y:429
 		{
 			markdcl()
 		}
 	case 85:
-		//line cc.y:432
+		//line cc.y:433
 		{
 			yyVAL.node = revertdcl()
-			if yyVAL.node
+			if yyVAL.node{
 				yyVAL.node = Node.new(OLIST, yyVAL.node, yyS[yypt-0].node)
-			else
+			}else{
 				yyVAL.node = yyS[yypt-0].node;
+			}
 		}
 	case 86:
-		//line cc.y:440
+		//line cc.y:442
 		{
 			yyVAL.node = Node.new(OIF, yyS[yypt-2].node, new(OLIST, yyS[yypt-0].node, new(Node)))
 			if yyS[yypt-0].node == nil{
@@ -1234,7 +1235,7 @@ yydefault:
 			}
 		}
 	case 87:
-		//line cc.y:447
+		//line cc.y:449
 		{
 			yyVAL.node = Node.new(OIF, yyS[yypt-4].node, new(OLIST, yyS[yypt-2].node, yyS[yypt-0].node))
 			if yyS[yypt-2].node == nil{
@@ -1245,10 +1246,10 @@ yydefault:
 			}
 		}
 	case 88:
-		//line cc.y:456
+		//line cc.y:458
 		{ markdcl() }
 	case 89:
-		//line cc.y:457
+		//line cc.y:459
 		{
 			yyVAL.node = revertdcl()
 			if yyVAL.node{
@@ -1261,434 +1262,434 @@ yydefault:
 			yyVAL.node = Node.new(OFOR, Node.new(OLIST, yyS[yypt-4].node, Node.new(OLIST, yyS[yypt-6].node, yyS[yypt-2].node)), yyS[yypt-0].node)
 		}
 	case 90:
-		//line cc.y:469
+		//line cc.y:471
 		{
 			yyVAL.node = Node.new(OWHILE, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 91:
-		//line cc.y:473
+		//line cc.y:475
 		{
 			yyVAL.node = Node.new(ODWHILE, yyS[yypt-2].node, yyS[yypt-5].node)
 		}
 	case 92:
-		//line cc.y:477
+		//line cc.y:479
 		{
 			yyVAL.node = Node.new(ORETURN, yyS[yypt-1].node, new(Node))
-			yyVAL.node.type = thisfn.link;
+			yyVAL.node.Type = thisfn.link;
 		}
 	case 93:
-		//line cc.y:482
+		//line cc.y:484
 		{
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
 			yyVAL.node.vconst = 0;
-			yyVAL.node.type = types[TINT];
+			yyVAL.node.Type = types[TINT];
 			yyS[yypt-2].node = Node.new(OSUB, yyVAL.node, yyS[yypt-2].node)
 	
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
 			yyVAL.node.vconst = 0;
-			yyVAL.node.type = types[TINT];
+			yyVAL.node.Type = types[TINT];
 			yyS[yypt-2].node = Node.new(OSUB, yyVAL.node, yyS[yypt-2].node)
 	
 			yyVAL.node = Node.new(OSWITCH, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 94:
-		//line cc.y:496
+		//line cc.y:498
 		{
 			yyVAL.node = Node.new(OBREAK, new(Node), new(Node))
 		}
 	case 95:
-		//line cc.y:500
+		//line cc.y:502
 		{
 			yyVAL.node = Node.new(OCONTINUE, new(Node), new(Node))
 		}
 	case 96:
-		//line cc.y:504
+		//line cc.y:506
 		{
 			yyVAL.node = Node.new(OGOTO, dcllabel(yyS[yypt-1].sym, 0), new(Node))
 		}
 	case 97:
-		//line cc.y:508
+		//line cc.y:510
 		{
 			yyVAL.node = Node.new(OUSED, yyS[yypt-2].node, new(Node))
 		}
 	case 98:
-		//line cc.y:512
+		//line cc.y:514
 		{
 			yyVAL.node = Node.new(OPREFETCH, yyS[yypt-2].node, new(Node))
 		}
 	case 99:
-		//line cc.y:516
+		//line cc.y:518
 		{
 			yyVAL.node = Node.new(OSET, yyS[yypt-2].node, new(Node))
 		}
 	case 100:
-		//line cc.y:521
+		//line cc.y:523
 		{
 			yyVAL.node = new(Node)
 		}
 	case 101:
 		yyVAL.node = yyS[yypt-0].node
 	case 102:
-		//line cc.y:527
+		//line cc.y:529
 		{
 			yyVAL.node = new(Node)
 		}
 	case 103:
 		yyVAL.node = yyS[yypt-0].node
 	case 104:
-		//line cc.y:534
+		//line cc.y:536
 		{
 			yyVAL.node = Node.new(OCAST, yyS[yypt-0].node, new(Node))
-			yyVAL.node.type = types[TLONG];
+			yyVAL.node.Type = types[TLONG];
 		}
 	case 105:
 		yyVAL.node = yyS[yypt-0].node
 	case 106:
-		//line cc.y:542
+		//line cc.y:544
 		{
 			yyVAL.node = Node.new(OCOMMA, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 107:
 		yyVAL.node = yyS[yypt-0].node
 	case 108:
-		//line cc.y:549
+		//line cc.y:551
 		{
 			yyVAL.node = Node.new(OMUL, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 109:
-		//line cc.y:553
+		//line cc.y:555
 		{
 			yyVAL.node = Node.new(ODIV, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 110:
-		//line cc.y:557
+		//line cc.y:559
 		{
 			yyVAL.node = Node.new(OMOD, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 111:
-		//line cc.y:561
+		//line cc.y:563
 		{
 			yyVAL.node = Node.new(OADD, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 112:
-		//line cc.y:565
+		//line cc.y:567
 		{
 			yyVAL.node = Node.new(OSUB, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 113:
-		//line cc.y:569
+		//line cc.y:571
 		{
 			yyVAL.node = Node.new(OASHR, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 114:
-		//line cc.y:573
+		//line cc.y:575
 		{
 			yyVAL.node = Node.new(OASHL, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 115:
-		//line cc.y:577
+		//line cc.y:579
 		{
 			yyVAL.node = Node.new(OLT, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 116:
-		//line cc.y:581
+		//line cc.y:583
 		{
 			yyVAL.node = Node.new(OGT, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 117:
-		//line cc.y:585
+		//line cc.y:587
 		{
 			yyVAL.node = Node.new(OLE, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 118:
-		//line cc.y:589
+		//line cc.y:591
 		{
 			yyVAL.node = Node.new(OGE, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 119:
-		//line cc.y:593
+		//line cc.y:595
 		{
 			yyVAL.node = Node.new(OEQ, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 120:
-		//line cc.y:597
+		//line cc.y:599
 		{
 			yyVAL.node = Node.new(ONE, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 121:
-		//line cc.y:601
+		//line cc.y:603
 		{
 			yyVAL.node = Node.new(OAND, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 122:
-		//line cc.y:605
+		//line cc.y:607
 		{
 			yyVAL.node = Node.new(OXOR, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 123:
-		//line cc.y:609
+		//line cc.y:611
 		{
 			yyVAL.node = Node.new(OOR, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 124:
-		//line cc.y:613
+		//line cc.y:615
 		{
 			yyVAL.node = Node.new(OANDAND, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 125:
-		//line cc.y:617
+		//line cc.y:619
 		{
 			yyVAL.node = Node.new(OOROR, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 126:
-		//line cc.y:621
+		//line cc.y:623
 		{
 			yyVAL.node = Node.new(OCOND, yyS[yypt-4].node, Node.new(OLIST, yyS[yypt-2].node, yyS[yypt-0].node))
 		}
 	case 127:
-		//line cc.y:625
+		//line cc.y:627
 		{
 			yyVAL.node = Node.new(OAS, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 128:
-		//line cc.y:629
+		//line cc.y:631
 		{
 			yyVAL.node = Node.new(OASADD, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 129:
-		//line cc.y:633
+		//line cc.y:635
 		{
 			yyVAL.node = Node.new(OASSUB, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 130:
-		//line cc.y:637
+		//line cc.y:639
 		{
 			yyVAL.node = Node.new(OASMUL, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 131:
-		//line cc.y:641
+		//line cc.y:643
 		{
 			yyVAL.node = Node.new(OASDIV, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 132:
-		//line cc.y:645
+		//line cc.y:647
 		{
 			yyVAL.node = Node.new(OASMOD, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 133:
-		//line cc.y:649
+		//line cc.y:651
 		{
 			yyVAL.node = Node.new(OASASHL, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 134:
-		//line cc.y:653
+		//line cc.y:655
 		{
 			yyVAL.node = Node.new(OASASHR, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 135:
-		//line cc.y:657
+		//line cc.y:659
 		{
 			yyVAL.node = Node.new(OASAND, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 136:
-		//line cc.y:661
+		//line cc.y:663
 		{
 			yyVAL.node = Node.new(OASXOR, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 137:
-		//line cc.y:665
+		//line cc.y:667
 		{
 			yyVAL.node = Node.new(OASOR, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 138:
 		yyVAL.node = yyS[yypt-0].node
 	case 139:
-		//line cc.y:672
+		//line cc.y:674
 		{
 			yyVAL.node = Node.new(OCAST, yyS[yypt-0].node, new(Node))
-			dodecl(NODECL, CXXX, yyS[yypt-3].Type, yyS[yypt-2].node)
-			yyVAL.node.type = lastdcl;
+			dodecl(NODECL, CXXX, yyS[yypt-3].ytype, yyS[yypt-2].node)
+			yyVAL.node.Type = lastdcl;
 			yyVAL.node.xcast = 1;
 		}
 	case 140:
-		//line cc.y:679
+		//line cc.y:681
 		{
 			yyVAL.node = Node.new(OSTRUCT, yyS[yypt-1].node, new(Node))
-			dodecl(NODECL, CXXX, yyS[yypt-5].Type, yyS[yypt-4].node)
-			yyVAL.node.type = lastdcl;
+			dodecl(NODECL, CXXX, yyS[yypt-5].ytype, yyS[yypt-4].node)
+			yyVAL.node.Type = lastdcl;
 		}
 	case 141:
 		yyVAL.node = yyS[yypt-0].node
 	case 142:
-		//line cc.y:688
+		//line cc.y:690
 		{
 			yyVAL.node = Node.new(OIND, yyS[yypt-0].node, new(Node))
 		}
 	case 143:
-		//line cc.y:692
+		//line cc.y:694
 		{
 			yyVAL.node = Node.new(OADDR, yyS[yypt-0].node, new(Node))
 		}
 	case 144:
-		//line cc.y:696
+		//line cc.y:698
 		{
 			yyVAL.node = Node.new(OPOS, yyS[yypt-0].node, new(Node))
 		}
 	case 145:
-		//line cc.y:700
+		//line cc.y:702
 		{
 			yyVAL.node = Node.new(ONEG, yyS[yypt-0].node, new(Node))
 		}
 	case 146:
-		//line cc.y:704
+		//line cc.y:706
 		{
 			yyVAL.node = Node.new(ONOT, yyS[yypt-0].node, new(Node))
 		}
 	case 147:
-		//line cc.y:708
+		//line cc.y:710
 		{
 			yyVAL.node = Node.new(OCOM, yyS[yypt-0].node, new(Node))
 		}
 	case 148:
-		//line cc.y:712
+		//line cc.y:714
 		{
 			yyVAL.node = Node.new(OPREINC, yyS[yypt-0].node, new(Node))
 		}
 	case 149:
-		//line cc.y:716
+		//line cc.y:718
 		{
 			yyVAL.node = Node.new(OPREDEC, yyS[yypt-0].node, new(Node))
 		}
 	case 150:
-		//line cc.y:720
+		//line cc.y:722
 		{
 			yyVAL.node = Node.new(OSIZE, yyS[yypt-0].node, new(Node))
 		}
 	case 151:
-		//line cc.y:724
+		//line cc.y:726
 		{
 			yyVAL.node = Node.new(OSIGN, yyS[yypt-0].node, new(Node))
 		}
 	case 152:
-		//line cc.y:730
+		//line cc.y:732
 		{
 			yyVAL.node = yyS[yypt-1].node;
 		}
 	case 153:
-		//line cc.y:734
+		//line cc.y:736
 		{
 			yyVAL.node = Node.new(OSIZE, new(Node), new(Node))
-			dodecl(NODECL, CXXX, yyS[yypt-2].Type, yyS[yypt-1].node)
-			yyVAL.node.type = lastdcl;
+			dodecl(NODECL, CXXX, yyS[yypt-2].ytype, yyS[yypt-1].node)
+			yyVAL.node.Type = lastdcl;
 		}
 	case 154:
-		//line cc.y:740
+		//line cc.y:742
 		{
 			yyVAL.node = Node.new(OSIGN, new(Node), new(Node))
-			dodecl(NODECL, CXXX, yyS[yypt-2].Type, yyS[yypt-1].node)
-			yyVAL.node.type = lastdcl;
+			dodecl(NODECL, CXXX, yyS[yypt-2].ytype, yyS[yypt-1].node)
+			yyVAL.node.Type = lastdcl;
 		}
 	case 155:
-		//line cc.y:746
+		//line cc.y:748
 		{
 			yyVAL.node = Node.new(OFUNC, yyS[yypt-3].node, new(Node))
 			if yyS[yypt-3].node.op == ONAME{
-				if yyS[yypt-3].node.type == nil{
+				if yyS[yypt-3].node.Type == nil{
 					dodecl(xdecl, CXXX, types[TINT], yyVAL.node)
 				}
 			}
 			yyVAL.node.right = invert(yyS[yypt-1].node)
 		}
 	case 156:
-		//line cc.y:756
+		//line cc.y:758
 		{
 			yyVAL.node = Node.new(OIND, Node.new(OADD, yyS[yypt-3].node, yyS[yypt-1].node), new(Node))
 		}
 	case 157:
-		//line cc.y:760
+		//line cc.y:762
 		{
 			yyVAL.node = Node.new(ODOT, Node.new(OIND, yyS[yypt-2].node, new(Node)), new(Node))
 			yyVAL.node.sym = yyS[yypt-0].sym;
 		}
 	case 158:
-		//line cc.y:765
+		//line cc.y:767
 		{
 			yyVAL.node = Node.new(ODOT, yyS[yypt-2].node, new(Node))
 			yyVAL.node.sym = yyS[yypt-0].sym;
 		}
 	case 159:
-		//line cc.y:770
+		//line cc.y:772
 		{
 			yyVAL.node = Node.new(OPOSTINC, yyS[yypt-1].node, new(Node))
 		}
 	case 160:
-		//line cc.y:774
+		//line cc.y:776
 		{
 			yyVAL.node = Node.new(OPOSTDEC, yyS[yypt-1].node, new(Node))
 		}
 	case 161:
 		yyVAL.node = yyS[yypt-0].node
 	case 162:
-		//line cc.y:779
+		//line cc.y:781
 		{
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
-			yyVAL.node.type = types[TINT]
+			yyVAL.node.Type = types[TINT]
 			yyVAL.node.vconst = yyS[yypt-0].vval
 			yyVAL.node.cstring = symb
 		}
 	case 163:
-		//line cc.y:786
+		//line cc.y:788
 		{
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
-			yyVAL.node.type = types[TLONG]
+			yyVAL.node.Type = types[TLONG]
 			yyVAL.node.vconst = yyS[yypt-0].vval
 			yyVAL.node.cstring = symb
 		}
 	case 164:
-		//line cc.y:793
+		//line cc.y:795
 		{
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
-			yyVAL.node.type = types[TUINT]
+			yyVAL.node.Type = types[TUINT]
 			yyVAL.node.vconst = yyS[yypt-0].vval
 			yyVAL.node.cstring = symb
 		}
 	case 165:
-		//line cc.y:800
+		//line cc.y:802
 		{
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
-			yyVAL.node.type = types[TULONG]
+			yyVAL.node.Type = types[TULONG]
 			yyVAL.node.vconst = yyS[yypt-0].vval
 			yyVAL.node.cstring = symb
 		}
 	case 166:
-		//line cc.y:807
+		//line cc.y:809
 		{
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
-			yyVAL.node.type = types[TDOUBLE]
+			yyVAL.node.Type = types[TDOUBLE]
 			yyVAL.node.fconst = yyS[yypt-0].dval
 			yyVAL.node.cstring = symb
 		}
 	case 167:
-		//line cc.y:814
+		//line cc.y:816
 		{
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
-			yyVAL.node.type = types[TFLOAT]
+			yyVAL.node.Type = types[TFLOAT]
 			yyVAL.node.fconst = yyS[yypt-0].dval
 			yyVAL.node.cstring = symb
 		}
 	case 168:
-		//line cc.y:821
+		//line cc.y:823
 		{
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
-			yyVAL.node.type = types[TVLONG]
+			yyVAL.node.Type = types[TVLONG]
 			yyVAL.node.vconst = yyS[yypt-0].vval
 			yyVAL.node.cstring = symb
 		}
 	case 169:
-		//line cc.y:828
+		//line cc.y:830
 		{
 			yyVAL.node = Node.new(OCONST, new(Node), new(Node))
-			yyVAL.node.type = types[TUVLONG]
+			yyVAL.node.Type = types[TUVLONG]
 			yyVAL.node.vconst = yyS[yypt-0].vval
 			yyVAL.node.cstring = symb
 		}
@@ -1697,63 +1698,57 @@ yydefault:
 	case 171:
 		yyVAL.node = yyS[yypt-0].node
 	case 172:
-		//line cc.y:839
+		//line cc.y:841
 		{
 			yyVAL.node = Node.new(OSTRING, new(Node), new(Node))
-			yyVAL.node.type = typ(TARRAY, types[TCHAR])
-			yyVAL.node.type.width = yyS[yypt-0].sval.l + 1
+			yyVAL.node.Type = typ(TARRAY, types[TCHAR])
+			yyVAL.node.Type.width = yyS[yypt-0].sval.l + 1
 			yyVAL.node.cstring = yyS[yypt-0].sval.s
 			yyVAL.node.sym = symstring
 			yyVAL.node.etype = TARRAY
 			yyVAL.node.class = CSTATIC
 		}
 	case 173:
-		//line cc.y:849
+		//line cc.y:851
 		{
-			char *s
-			int n
-	
-			n = yyS[yypt-1].node.type.width - 1
-			s = alloc(n+yyS[yypt-0].sval.l+MAXALIGN)
+			n := yyS[yypt-1].node.Type.width - 1
+			s := alloc(n+yyS[yypt-0].sval.l+MAXALIGN)
 	
 			memcpy(s, yyS[yypt-1].node.cstring, n)
 			memcpy(s+n, yyS[yypt-0].sval.s, yyS[yypt-0].sval.l)
 			s[n+yyS[yypt-0].sval.l] = 0
 	
 			yyVAL.node = yyS[yypt-1].node
-			yyVAL.node.type.width += yyS[yypt-0].sval.l
+			yyVAL.node.Type.width += yyS[yypt-0].sval.l
 			yyVAL.node.cstring = s
 		}
 	case 174:
-		//line cc.y:867
+		//line cc.y:866
 		{
 			yyVAL.node = Node.new(OLSTRING, new(Node), new(Node))
-			yyVAL.node.type = typ(TARRAY, types[TUSHORT])
-			yyVAL.node.type.width = yyS[yypt-0].sval.l + sizeof(ushort)
-			yyVAL.node.rstring = (ushort*)yyS[yypt-0].sval.s
+			yyVAL.node.Type = typ(TARRAY, types[TUSHORT])
+			yyVAL.node.Type.width = yyS[yypt-0].sval.l + sizeof(ushort)
+			yyVAL.node.rstring = *ushort(yyS[yypt-0].sval.s)
 			yyVAL.node.sym = symstring
 			yyVAL.node.etype = TARRAY
 			yyVAL.node.class = CSTATIC
 		}
 	case 175:
-		//line cc.y:877
+		//line cc.y:876
 		{
-			char *s
-			int n
-	
-			n = yyS[yypt-1].node.type.width - sizeof(ushort)
-			s = alloc(n+yyS[yypt-0].sval.l+MAXALIGN)
+			n := yyS[yypt-1].node.Type.width - sizeof(ushort)
+			s := alloc(n+yyS[yypt-0].sval.l+MAXALIGN)
 	
 			memcpy(s, yyS[yypt-1].node.rstring, n)
 			memcpy(s+n, yyS[yypt-0].sval.s, yyS[yypt-0].sval.l)
-			*(ushort*)(s+n+yyS[yypt-0].sval.l) = 0
+			*(*ushort)(s+n+yyS[yypt-0].sval.l) = 0
 	
 			yyVAL.node = yyS[yypt-1].node
-			yyVAL.node.type.width += yyS[yypt-0].sval.l
-			yyVAL.node.rstring = (ushort*)s
+			yyVAL.node.Type.width += yyS[yypt-0].sval.l
+			yyVAL.node.rstring = *ushort(s)
 		}
 	case 176:
-		//line cc.y:894
+		//line cc.y:890
 		{
 			yyVAL.node = new(Node)
 		}
@@ -1762,12 +1757,12 @@ yydefault:
 	case 178:
 		yyVAL.node = yyS[yypt-0].node
 	case 179:
-		//line cc.y:902
+		//line cc.y:898
 		{
 			yyVAL.node = Node.new(OLIST, yyS[yypt-2].node, yyS[yypt-0].node)
 		}
 	case 180:
-		//line cc.y:908
+		//line cc.y:904
 		{
 			yyVAL.tyty.t1 = strf
 			yyVAL.tyty.t2 = strl
@@ -1781,216 +1776,216 @@ yydefault:
 			lasttype = new(Type)
 		}
 	case 181:
-		//line cc.y:921
+		//line cc.y:917
 		{
-			yyVAL.Type = strf
+			yyVAL.ytype = strf
 			strf = yyS[yypt-2].tyty.t1
 			strl = yyS[yypt-2].tyty.t2
 			lasttype = yyS[yypt-2].tyty.t3
 			lastclass = yyS[yypt-2].tyty.c
 		}
 	case 182:
-		//line cc.y:930
+		//line cc.y:926
 		{
 			lastclass = CXXX
 			lasttype = types[TINT]
 		}
 	case 184:
-		//line cc.y:938
+		//line cc.y:934
 		{
-			yyVAL.tycl.t = yyS[yypt-0].Type
+			yyVAL.tycl.t = yyS[yypt-0].ytype
 			yyVAL.tycl.c = CXXX
 		}
 	case 185:
-		//line cc.y:943
+		//line cc.y:939
 		{
 			yyVAL.tycl.t = simplet(yyS[yypt-0].lval)
 			yyVAL.tycl.c = CXXX
 		}
 	case 186:
-		//line cc.y:948
+		//line cc.y:944
 		{
 			yyVAL.tycl.t = simplet(yyS[yypt-0].lval)
 			yyVAL.tycl.c = simplec(yyS[yypt-0].lval)
 			yyVAL.tycl.t = garbt(yyVAL.tycl.t, yyS[yypt-0].lval)
 		}
 	case 187:
-		//line cc.y:954
+		//line cc.y:950
 		{
-			yyVAL.tycl.t = yyS[yypt-1].Type
+			yyVAL.tycl.t = yyS[yypt-1].ytype
 			yyVAL.tycl.c = simplec(yyS[yypt-0].lval)
 			yyVAL.tycl.t = garbt(yyVAL.tycl.t, yyS[yypt-0].lval)
 			if yyS[yypt-0].lval & ^BCLASS & ^BGARB {
-				diag(new(Node), "duplicate types given: %T and %Q", yyS[yypt-1].Type, yyS[yypt-0].lval)
+				diag(new(Node), "duplicate types given: %T and %Q", yyS[yypt-1].ytype, yyS[yypt-0].lval)
 			}
 		}
 	case 188:
-		//line cc.y:963
+		//line cc.y:959
 		{
 			yyVAL.tycl.t = simplet(typebitor(yyS[yypt-1].lval, yyS[yypt-0].lval))
 			yyVAL.tycl.c = simplec(yyS[yypt-0].lval)
 			yyVAL.tycl.t = garbt(yyVAL.tycl.t, yyS[yypt-0].lval)
 		}
 	case 189:
-		//line cc.y:969
+		//line cc.y:965
 		{
-			yyVAL.tycl.t = yyS[yypt-1].Type
+			yyVAL.tycl.t = yyS[yypt-1].ytype
 			yyVAL.tycl.c = simplec(yyS[yypt-2].lval)
 			yyVAL.tycl.t = garbt(yyVAL.tycl.t, yyS[yypt-2].lval|yyS[yypt-0].lval)
 		}
 	case 190:
-		//line cc.y:975
+		//line cc.y:971
 		{
 			yyVAL.tycl.t = simplet(yyS[yypt-0].lval)
 			yyVAL.tycl.c = simplec(yyS[yypt-1].lval)
 			yyVAL.tycl.t = garbt(yyVAL.tycl.t, yyS[yypt-1].lval)
 		}
 	case 191:
-		//line cc.y:981
+		//line cc.y:977
 		{
 			yyVAL.tycl.t = simplet(typebitor(yyS[yypt-1].lval, yyS[yypt-0].lval))
 			yyVAL.tycl.c = simplec(yyS[yypt-2].lval|yyS[yypt-0].lval)
 			yyVAL.tycl.t = garbt(yyVAL.tycl.t, yyS[yypt-2].lval|yyS[yypt-0].lval)
 		}
 	case 192:
-		//line cc.y:989
+		//line cc.y:985
 		{
-			yyVAL.Type = yyS[yypt-0].tycl.t
+			yyVAL.ytype = yyS[yypt-0].tycl.t
 			if yyS[yypt-0].tycl.c != CXXX{
 				diag(new(Node), "illegal combination of class 4: %s", cnames[yyS[yypt-0].tycl.c])
 			}
 		}
 	case 193:
-		//line cc.y:998
+		//line cc.y:994
 		{
 			lasttype = yyS[yypt-0].tycl.t
 			lastclass = yyS[yypt-0].tycl.c
 		}
 	case 194:
-		//line cc.y:1005
+		//line cc.y:1001
 		{
 			dotag(yyS[yypt-0].sym, TSTRUCT, 0)
-			yyVAL.Type = yyS[yypt-0].sym.suetag
+			yyVAL.ytype = yyS[yypt-0].sym.suetag
 		}
 	case 195:
-		//line cc.y:1010
+		//line cc.y:1006
 		{
 			dotag(yyS[yypt-0].sym, TSTRUCT, autobn)
 		}
 	case 196:
-		//line cc.y:1014
+		//line cc.y:1010
 		{
-			yyVAL.Type = yyS[yypt-2].sym.suetag
-			if yyVAL.Type.link != nil{
+			yyVAL.ytype = yyS[yypt-2].sym.suetag
+			if yyVAL.ytype.link != nil{
 				diag(new(Node), "redeclare tag: %s", yyS[yypt-2].sym.name)
 			}
-			yyVAL.Type.link = yyS[yypt-0].Type
-			sualign(yyVAL.Type)
+			yyVAL.ytype.link = yyS[yypt-0].ytype
+			sualign(yyVAL.ytype)
 		}
 	case 197:
-		//line cc.y:1023
+		//line cc.y:1019
 		{
 			taggen++
 			sprint(symb, "_%d_", taggen)
-			yyVAL.Type = dotag(lookup(), TSTRUCT, autobn)
-			yyVAL.Type.link = yyS[yypt-0].Type
-			sualign(yyVAL.Type)
+			yyVAL.ytype = dotag(lookup(), TSTRUCT, autobn)
+			yyVAL.ytype.link = yyS[yypt-0].ytype
+			sualign(yyVAL.ytype)
 		}
 	case 198:
-		//line cc.y:1031
+		//line cc.y:1027
 		{
 			dotag(yyS[yypt-0].sym, TUNION, 0)
-			yyVAL.Type = yyS[yypt-0].sym.suetag
+			yyVAL.ytype = yyS[yypt-0].sym.suetag
 		}
 	case 199:
-		//line cc.y:1036
+		//line cc.y:1032
 		{
 			dotag(yyS[yypt-0].sym, TUNION, autobn)
 		}
 	case 200:
-		//line cc.y:1040
+		//line cc.y:1036
 		{
-			yyVAL.Type = yyS[yypt-2].sym.suetag
-			if yyVAL.Type.link != nil{
+			yyVAL.ytype = yyS[yypt-2].sym.suetag
+			if yyVAL.ytype.link != nil{
 				diag(new(Node), "redeclare tag: %s", yyS[yypt-2].sym.name)
 			}
-			yyVAL.Type.link = yyS[yypt-0].Type
-			sualign(yyVAL.Type)
+			yyVAL.ytype.link = yyS[yypt-0].ytype
+			sualign(yyVAL.ytype)
 		}
 	case 201:
-		//line cc.y:1049
+		//line cc.y:1045
 		{
 			taggen++
 			sprint(symb, "_%d_", taggen)
-			yyVAL.Type = dotag(lookup(), TUNION, autobn)
-			yyVAL.Type.link = yyS[yypt-0].Type
-			sualign(yyVAL.Type)
+			yyVAL.ytype = dotag(lookup(), TUNION, autobn)
+			yyVAL.ytype.link = yyS[yypt-0].ytype
+			sualign(yyVAL.ytype)
 		}
 	case 202:
-		//line cc.y:1057
+		//line cc.y:1053
 		{
 			dotag(yyS[yypt-0].sym, TENUM, 0)
-			yyVAL.Type = yyS[yypt-0].sym.suetag
-			if yyVAL.Type.link == nil{
-				yyVAL.Type.link = types[TINT]
+			yyVAL.ytype = yyS[yypt-0].sym.suetag
+			if yyVAL.ytype.link == nil{
+				yyVAL.ytype.link = types[TINT]
 			}
-			yyVAL.Type = yyVAL.Type.link
+			yyVAL.ytype = yyVAL.ytype.link
 		}
 	case 203:
-		//line cc.y:1066
+		//line cc.y:1062
 		{
 			dotag(yyS[yypt-0].sym, TENUM, autobn)
 		}
 	case 204:
-		//line cc.y:1070
+		//line cc.y:1066
 		{
 			en.tenum = new(Type)
 			en.cenum = new(Type)
 		}
 	case 205:
-		//line cc.y:1075
+		//line cc.y:1071
 		{
-			yyVAL.Type = yyS[yypt-5].sym.suetag
-			if yyVAL.Type.link != nil{
+			yyVAL.ytype = yyS[yypt-5].sym.suetag
+			if yyVAL.ytype.link != nil{
 				diag(new(Node), "redeclare tag: %s", yyS[yypt-5].sym.name)
 			}
 			if en.tenum == nil{ 
 				diag(new(Node), "enum type ambiguous: %s", yyS[yypt-5].sym.name)
 				en.tenum = types[TINT]
 			}
-			yyVAL.Type.link = en.tenum
-			yyVAL.Type = en.tenum
+			yyVAL.ytype.link = en.tenum
+			yyVAL.ytype = en.tenum
 		}
 	case 206:
-		//line cc.y:1088
+		//line cc.y:1084
 		{
 			en.tenum = T
 			en.cenum = T
 		}
 	case 207:
-		//line cc.y:1093
+		//line cc.y:1089
 		{
-			yyVAL.Type = en.tenum
+			yyVAL.ytype = en.tenum
 		}
 	case 208:
-		//line cc.y:1097
+		//line cc.y:1093
 		{
-			yyVAL.Type = tcopy(yyS[yypt-0].sym.type)
+			yyVAL.ytype = tcopy(yyS[yypt-0].sym.Type)
 		}
 	case 209:
 		yyVAL.lval = yyS[yypt-0].lval
 	case 210:
-		//line cc.y:1104
+		//line cc.y:1100
 		{
 			yyVAL.lval = typebitor(yyS[yypt-1].lval, yyS[yypt-0].lval)
 		}
 	case 211:
-		//line cc.y:1109
+		//line cc.y:1105
 		{
 			yyVAL.lval = 0
 		}
 	case 212:
-		//line cc.y:1113
+		//line cc.y:1109
 		{
 			yyVAL.lval = typebitor(yyS[yypt-1].lval, yyS[yypt-0].lval)
 		}
@@ -2003,7 +1998,7 @@ yydefault:
 	case 216:
 		yyVAL.lval = yyS[yypt-0].lval
 	case 217:
-		//line cc.y:1125
+		//line cc.y:1121
 		{
 			yyVAL.lval = typebitor(yyS[yypt-1].lval, yyS[yypt-0].lval)
 		}
@@ -2012,98 +2007,98 @@ yydefault:
 	case 219:
 		yyVAL.lval = yyS[yypt-0].lval
 	case 220:
-		//line cc.y:1135
+		//line cc.y:1131
 		{
 			doenum(yyS[yypt-0].sym, new(Node))
 		}
 	case 221:
-		//line cc.y:1139
+		//line cc.y:1135
 		{
 			doenum(yyS[yypt-2].sym, yyS[yypt-0].node)
 		}
 	case 224:
-		//line cc.y:1146
+		//line cc.y:1142
 		{ yyVAL.lval = BCHAR }
 	case 225:
-		//line cc.y:1147
+		//line cc.y:1143
 		{ yyVAL.lval = BSHORT }
 	case 226:
-		//line cc.y:1148
+		//line cc.y:1144
 		{ yyVAL.lval = BINT }
 	case 227:
-		//line cc.y:1149
+		//line cc.y:1145
 		{ yyVAL.lval = BLONG }
 	case 228:
-		//line cc.y:1150
+		//line cc.y:1146
 		{ yyVAL.lval = BSIGNED }
 	case 229:
-		//line cc.y:1151
+		//line cc.y:1147
 		{ yyVAL.lval = BUNSIGNED }
 	case 230:
-		//line cc.y:1152
+		//line cc.y:1148
 		{ yyVAL.lval = BFLOAT }
 	case 231:
-		//line cc.y:1153
+		//line cc.y:1149
 		{ yyVAL.lval = BDOUBLE }
 	case 232:
-		//line cc.y:1154
+		//line cc.y:1150
 		{ yyVAL.lval = BVOID }
 	case 233:
-		//line cc.y:1157
+		//line cc.y:1153
 		{ yyVAL.lval = BAUTO }
 	case 234:
-		//line cc.y:1158
+		//line cc.y:1154
 		{ yyVAL.lval = BSTATIC }
 	case 235:
-		//line cc.y:1159
+		//line cc.y:1155
 		{ yyVAL.lval = BEXTERN }
 	case 236:
-		//line cc.y:1160
+		//line cc.y:1156
 		{ yyVAL.lval = BTYPEDEF }
 	case 237:
-		//line cc.y:1161
+		//line cc.y:1157
 		{ yyVAL.lval = BTYPESTR }
 	case 238:
-		//line cc.y:1162
+		//line cc.y:1158
 		{ yyVAL.lval = BREGISTER }
 	case 239:
-		//line cc.y:1163
+		//line cc.y:1159
 		{ yyVAL.lval = 0 }
 	case 240:
-		//line cc.y:1166
+		//line cc.y:1162
 		{ yyVAL.lval = BCONSTNT }
 	case 241:
-		//line cc.y:1167
+		//line cc.y:1163
 		{ yyVAL.lval = BVOLATILE }
 	case 242:
-		//line cc.y:1168
+		//line cc.y:1164
 		{ yyVAL.lval = 0 }
 	case 243:
-		//line cc.y:1172
+		//line cc.y:1168
 		{
 			yyVAL.node = Node.new(ONAME, new(Node), new(Node))
 			if yyS[yypt-0].sym.class == CLOCAL{
 				yyS[yypt-0].sym = mkstatic(yyS[yypt-0].sym)
 			}
 			yyVAL.node.sym = yyS[yypt-0].sym
-			yyVAL.node.type = yyS[yypt-0].sym.type
+			yyVAL.node.Type = yyS[yypt-0].sym.Type
 			yyVAL.node.etype = TVOID
-			if yyVAL.node.type != nil{
-				yyVAL.node.etype = yyVAL.node.type.etype
+			if yyVAL.node.Type != nil{
+				yyVAL.node.etype = yyVAL.node.Type.etype
 			}
 			yyVAL.node.xoffset = yyS[yypt-0].sym.offset
 			yyVAL.node.class = yyS[yypt-0].sym.class
 			yyS[yypt-0].sym.aused = 1
 		}
 	case 244:
-		//line cc.y:1189
+		//line cc.y:1185
 		{
 			yyVAL.node = Node.new(ONAME, new(Node), new(Node))
 			yyVAL.node.sym = yyS[yypt-0].sym
-			yyVAL.node.type = yyS[yypt-0].sym.type
+			yyVAL.node.Type = yyS[yypt-0].sym.Type
 			yyVAL.node.etype = TVOID
-			if yyVAL.node.type != nil{
-				yyVAL.node.etype = yyVAL.node.type.etype
+			if yyVAL.node.Type != nil{
+				yyVAL.node.etype = yyVAL.node.Type.etype
 			}
 			yyVAL.node.xoffset = yyS[yypt-0].sym.offset;
 			yyVAL.node.class = yyS[yypt-0].sym.class

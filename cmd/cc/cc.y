@@ -1,10 +1,11 @@
 %{
 package cc
 %}
+
 %union{
 	node *Node
 	sym *Sym
-	type_ *Type
+	type1 *Type
 	tycl struct{
 		t *Type
 		c byte
@@ -27,11 +28,11 @@ package cc
 %type	<sym>	ltag
 %type	<lval>	gctname gcname cname gname tname
 %type	<lval>	gctnlist gcnlist zgnlist
-%type	<Type>	tlist sbody complex
+%type	<ytype>	tlist sbody complex
 %type	<tycl>	types
 %type	<node>	zarglist arglist zcexpr
 %type	<node>	name block stmnt cexpr expr xuexpr pexpr
-%type	<node>	zelist elist adecl slist uexpr string lstring
+%type	<node>	zelist elist adecl slist uexpr nstring lstring
 %type	<node>	xdecor xdecor2 labels label ulstmnt
 %type	<node>	adlist edecor tag qual qlist
 %type	<node>	abdecor abdecor1 abdecor2 abdecor3
@@ -118,7 +119,7 @@ xdlist:
 	}
 	'=' init
 	{
-		doinit($1.sym, $1.type_, 0, $4)
+		doinit($1.sym, $1.Type, 0, $4)
 	}
 |	xdlist ',' xdlist
 
@@ -170,8 +171,8 @@ adlist:
 	}
 	'=' init
 	{
-		w := $1.sym.type_.width
-		$$ = doinit($1.sym, $1.type, 0, $4)
+		w := $1.sym.Type.width
+		$$ = doinit($1.sym, $1.Type, 0, $4)
 		$$ = contig($1.sym, $$, w)
 	}
 |	adlist ',' adlist
@@ -344,12 +345,12 @@ arglist:
 |	tlist abdecor
 	{
 		$$ = Node.new(OPROTO, $2, new(Node))
-		$$.type = $1;
+		$$.Type = $1;
 	}
 |	tlist xdecor
 	{
 		$$ = Node.new(OPROTO, $2, new(Node))
-		$$.type = $1;
+		$$.Type = $1;
 	}
 |	'.' '.' '.'
 	{
@@ -431,10 +432,11 @@ ulstmnt:
 	block
 	{
 		$$ = revertdcl()
-		if $$
+		if $${
 			$$ = Node.new(OLIST, $$, $2)
-		else
+		}else{
 			$$ = $2;
+		}
 	}
 |	LIF '(' cexpr ')' stmnt
 	{
@@ -476,18 +478,18 @@ ulstmnt:
 |	LRETURN zcexpr ';'
 	{
 		$$ = Node.new(ORETURN, $2, new(Node))
-		$$.type = thisfn.link;
+		$$.Type = thisfn.link;
 	}
 |	LSWITCH '(' cexpr ')' stmnt
 	{
 		$$ = Node.new(OCONST, new(Node), new(Node))
 		$$.vconst = 0;
-		$$.type = types[TINT];
+		$$.Type = types[TINT];
 		$3 = Node.new(OSUB, $$, $3)
 
 		$$ = Node.new(OCONST, new(Node), new(Node))
 		$$.vconst = 0;
-		$$.type = types[TINT];
+		$$.Type = types[TINT];
 		$3 = Node.new(OSUB, $$, $3)
 
 		$$ = Node.new(OSWITCH, $3, $5)
@@ -533,7 +535,7 @@ lexpr:
 	expr
 	{
 		$$ = Node.new(OCAST, $1, new(Node))
-		$$.type = types[TLONG];
+		$$.Type = types[TLONG];
 	}
 
 cexpr:
@@ -672,14 +674,14 @@ xuexpr:
 	{
 		$$ = Node.new(OCAST, $5, new(Node))
 		dodecl(NODECL, CXXX, $2, $3)
-		$$.type = lastdcl;
+		$$.Type = lastdcl;
 		$$.xcast = 1;
 	}
 |	'(' tlist abdecor ')' '{' ilist '}'	/* extension */
 	{
 		$$ = Node.new(OSTRUCT, $6, new(Node))
 		dodecl(NODECL, CXXX, $2, $3)
-		$$.type = lastdcl;
+		$$.Type = lastdcl;
 	}
 
 uexpr:
@@ -734,19 +736,19 @@ pexpr:
 	{
 		$$ = Node.new(OSIZE, new(Node), new(Node))
 		dodecl(NODECL, CXXX, $3, $4)
-		$$.type = lastdcl;
+		$$.Type = lastdcl;
 	}
 |	LSIGNOF '(' tlist abdecor ')'
 	{
 		$$ = Node.new(OSIGN, new(Node), new(Node))
 		dodecl(NODECL, CXXX, $3, $4)
-		$$.type = lastdcl;
+		$$.Type = lastdcl;
 	}
 |	pexpr '(' zelist ')'
 	{
 		$$ = Node.new(OFUNC, $1, new(Node))
 		if $1.op == ONAME{
-			if $1.type == nil{
+			if $1.Type == nil{
 				dodecl(xdecl, CXXX, types[TINT], $$)
 			}
 		}
@@ -778,87 +780,84 @@ pexpr:
 |	LCONST
 	{
 		$$ = Node.new(OCONST, new(Node), new(Node))
-		$$.type = types[TINT]
+		$$.Type = types[TINT]
 		$$.vconst = $1
 		$$.cstring = symb
 	}
 |	LLCONST
 	{
 		$$ = Node.new(OCONST, new(Node), new(Node))
-		$$.type = types[TLONG]
+		$$.Type = types[TLONG]
 		$$.vconst = $1
 		$$.cstring = symb
 	}
 |	LUCONST
 	{
 		$$ = Node.new(OCONST, new(Node), new(Node))
-		$$.type = types[TUINT]
+		$$.Type = types[TUINT]
 		$$.vconst = $1
 		$$.cstring = symb
 	}
 |	LULCONST
 	{
 		$$ = Node.new(OCONST, new(Node), new(Node))
-		$$.type = types[TULONG]
+		$$.Type = types[TULONG]
 		$$.vconst = $1
 		$$.cstring = symb
 	}
 |	LDCONST
 	{
 		$$ = Node.new(OCONST, new(Node), new(Node))
-		$$.type = types[TDOUBLE]
+		$$.Type = types[TDOUBLE]
 		$$.fconst = $1
 		$$.cstring = symb
 	}
 |	LFCONST
 	{
 		$$ = Node.new(OCONST, new(Node), new(Node))
-		$$.type = types[TFLOAT]
+		$$.Type = types[TFLOAT]
 		$$.fconst = $1
 		$$.cstring = symb
 	}
 |	LVLCONST
 	{
 		$$ = Node.new(OCONST, new(Node), new(Node))
-		$$.type = types[TVLONG]
+		$$.Type = types[TVLONG]
 		$$.vconst = $1
 		$$.cstring = symb
 	}
 |	LUVLCONST
 	{
 		$$ = Node.new(OCONST, new(Node), new(Node))
-		$$.type = types[TUVLONG]
+		$$.Type = types[TUVLONG]
 		$$.vconst = $1
 		$$.cstring = symb
 	}
-|	string
+|	nstring
 |	lstring
 
-string:
+nstring:
 	LSTRING
 	{
 		$$ = Node.new(OSTRING, new(Node), new(Node))
-		$$.type = typ(TARRAY, types[TCHAR])
-		$$.type.width = $1.l + 1
+		$$.Type = typ(TARRAY, types[TCHAR])
+		$$.Type.width = $1.l + 1
 		$$.cstring = $1.s
 		$$.sym = symstring
 		$$.etype = TARRAY
 		$$.class = CSTATIC
 	}
-|	string LSTRING
+|	nstring LSTRING
 	{
-		char *s
-		int n
-
-		n = $1.type.width - 1
-		s = alloc(n+$2.l+MAXALIGN)
+		n := $1.Type.width - 1
+		s := alloc(n+$2.l+MAXALIGN)
 
 		memcpy(s, $1.cstring, n)
 		memcpy(s+n, $2.s, $2.l)
 		s[n+$2.l] = 0
 
 		$$ = $1
-		$$.type.width += $2.l
+		$$.Type.width += $2.l
 		$$.cstring = s
 	}
 
@@ -866,28 +865,25 @@ lstring:
 	LLSTRING
 	{
 		$$ = Node.new(OLSTRING, new(Node), new(Node))
-		$$.type = typ(TARRAY, types[TUSHORT])
-		$$.type.width = $1.l + sizeof(ushort)
-		$$.rstring = (ushort*)$1.s
+		$$.Type = typ(TARRAY, types[TUSHORT])
+		$$.Type.width = $1.l + sizeof(ushort)
+		$$.rstring = *ushort($1.s)
 		$$.sym = symstring
 		$$.etype = TARRAY
 		$$.class = CSTATIC
 	}
 |	lstring LLSTRING
 	{
-		char *s
-		int n
-
-		n = $1.type.width - sizeof(ushort)
-		s = alloc(n+$2.l+MAXALIGN)
+		n := $1.Type.width - sizeof(ushort)
+		s := alloc(n+$2.l+MAXALIGN)
 
 		memcpy(s, $1.rstring, n)
 		memcpy(s+n, $2.s, $2.l)
-		*(ushort*)(s+n+$2.l) = 0
+		*(*ushort)(s+n+$2.l) = 0
 
 		$$ = $1
-		$$.type.width += $2.l
-		$$.rstring = (ushort*)s
+		$$.Type.width += $2.l
+		$$.rstring = *ushort(s)
 	}
 
 zelist:
@@ -1095,7 +1091,7 @@ complex:
 	}
 |	LTYPE
 	{
-		$$ = tcopy($1.type)
+		$$ = tcopy($1.Type)
 	}
 
 gctnlist:
@@ -1175,10 +1171,10 @@ name:
 			$1 = mkstatic($1)
 		}
 		$$.sym = $1
-		$$.type = $1.type
+		$$.Type = $1.Type
 		$$.etype = TVOID
-		if $$.type != nil{
-			$$.etype = $$.type.etype
+		if $$.Type != nil{
+			$$.etype = $$.Type.etype
 		}
 		$$.xoffset = $1.offset
 		$$.class = $1.class
@@ -1189,10 +1185,10 @@ tag:
 	{
 		$$ = Node.new(ONAME, new(Node), new(Node))
 		$$.sym = $1
-		$$.type = $1.type
+		$$.Type = $1.Type
 		$$.etype = TVOID
-		if $$.type != nil{
-			$$.etype = $$.type.etype
+		if $$.Type != nil{
+			$$.etype = $$.Type.etype
 		}
 		$$.xoffset = $1.offset;
 		$$.class = $1.class
