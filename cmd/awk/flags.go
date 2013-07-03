@@ -46,7 +46,28 @@ func processFlags() {
 				}
 			}
 		case 'v':
+			if argf, ok := args.Argf(); ok {
+				for i, ch := range argf {
+					if ch == '=' {
+						v, val := argf[:i], argf[i:]
+						if len(val) == 1 {
+							tmp := append([]byte(val), `\0`...)
+							val = string(tmp)
+						}
+						c := &cell{
+							name: v,
+							sval: val[1:],
+						}
+						vTable[v] = c
+					}
+				}
+				continue
+			}
+			fatal(fmt.Errorf("No flag value."))
 		case 'f':
 		}
+	}
+	for _, val := range vTable {
+		fmt.Println(*val)
 	}
 }
