@@ -5,38 +5,25 @@ import (
 	"os"
 )
 
-type flag struct {
-	usage [2]string
-	value interface{}
-}
+func usage() {
+	fmt.Println("Usage: awk [ -F fs ][ -mf n ][ -mr n ][ -safe ][ -v var=value ][ -f progfile | prog ][ file ... ]")
 
-var cmd = struct {
-	name  string
-	flags map[string]*flag
-}{name: "awk"}
-
-func usage(doc bool) {
-	var (
-		cat string = ""
-		ks         = []string{}
-	)
-	for key, val := range cmd.flags {
-		ks = append(ks, key)
-		cat = cat + val.usage[0]
-	}
-	fmt.Fprintf(os.Stderr, "Usage: %s  %s\n", cmd.name, cat)
-	if doc {
-		for _, x := range ks {
-			fmt.Printf("[-%s]\t%s\n", x, cmd.flags[x].usage[1])
-		}
-	}
+	fmt.Println("\n" +
+		"F:  \tinput field seperator regexp.\n" +
+		"mf: \tmaximum number of fields.\n" +
+		"mr: \tmaximum size of the input records.\n" +
+		"safe: \tNo shell commands, open files, or the ENVIRON variable.\n" +
+		"v:  \tPreallocated global variables.\n" +
+		"f:  \tAwk script.\n" +
+		"file: \tAccepts files, '-'(stdin), or 'var=value'.")
 	os.Exit(2)
 }
 
 func fatal(err error) {
-	fmt.Fprintf(os.Stderr, "%s:\t%s\n", cmd.name, err.Error())
+	fmt.Fprintf(os.Stderr, "%s:\t%s\n", "awk", err.Error())
+	usage()
 }
 
 func main() {
-
+	processFlags()
 }

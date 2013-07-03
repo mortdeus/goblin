@@ -1,12 +1,10 @@
 package main
 
-import (
-	"github.com/mortdeus/goblin/cmd/awk/scanner"
-)
-
-var varTab map[string]string
+type lexeme struct {
+	val string
+	typ token
+	sub token
+}
 
 func lex() {
-	s := new(scanner.Scanner)
-	_ = s
 }
