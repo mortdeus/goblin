@@ -8,118 +8,101 @@ import (
 )
 
 var (
-	curmonth, curyear int
-	daystr            = [...]string{
+	daystr = [...]string{
 		"", "01", "02", "03", "04", "05", "06", "07",
 		"08", "09", "10", "11", "12", "13", "14",
 		"15", "16", "17", "18", "19", "20", "21",
 		"22", "23", "24", "25", "26", "27", "28",
 		"29", "30", "31",
 	}
-	month = [...]int{0,
-		31, 29, 31, 30,
-		31, 30, 31, 31,
-		30, 31, 30, 31,
-	}
 	monthstr = [...]string{"",
 		"January", "February", "March", "April",
 		"May", "June", "July", "August", "September",
 		"October", "November", "December",
 	}
+	daysInMonth = [...]int{0,
+		31, 29, 31, 30,
+		31, 30, 31, 31,
+		30, 31, 30, 31,
+	}
+
 	today = time.Now()
 )
 
-const calander = "\n" +
+type year int
+
+const calTemplate = "\n" +
 	"  ]====================================[   \n" +
 	"  |  Su | Mo | Tu | We | Th | Fr | Sa  |   \n" +
 	"  ]====================================[   \n" +
-	"   | %S | %S | %S | %S | %S | %S | %S |    \n" +
-	"   | %S | %S | %S | %S | %S | %S | %S |    \n" +
-	"   | %S | %S | %S | %S | %S | %S | %S |    \n" +
-	"   | %S | %S | %S | %S | %S | %S | %S |    \n" +
-	"   | %S | %S | %S | %S | %S | %S | %S |    \n" +
-	"   | %S | %S | %S | %S | %S | %S | %S |    \n" +
+	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
+	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
+	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
+	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
+	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
+	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
 	"  ]====================================[   \n" +
-	" <                 %S                   >  \n" +
+	" <                 %v                   >  \n" +
 	"  ]====================================[   \n"
 
 func main() {
-	procFlags()
-	var p []byte
-	cal(curmonth, curyear, &p, 24)
-	fmt.Println(p)
+	cal(procFlags())
+
 }
 
-//	return day of the week
-//	of jan 1 of given year
-func jan1(yr int) int {
-
-	//	normal gregorian calendar
-	//	one extra day per four years
-
-	d := 4 + yr + (yr+3)/4
-
-	// 	julian calendar
-	// 	regular gregorian
-	// 	less three days per 400
-
-	if yr > 1800 {
-		d -= (yr - 1701) / 100
-		d += (yr - 1601) / 400
+func cal(m int, y year) {
+	y.numDaysPerMonth()
+	fmt.Println(daysInMonth)
+	var (
+		b          []byte
+		d          int
+		dayOfFirst = y.jan1()
+	)
+	for _, v := range daysInMonth {
+		d += v
 	}
 
-	// 	great calendar changeover instant
+	b = make([]byte, d+dayOfFirst)
 
-	if yr > 1752 {
-		d += 3
-	}
+	var offsetDays []byte
 
-	return d % 7
-}
-
-func cal(m, y int, p *[]byte, w int) {
-	d := jan1(y)
-
-	switch jan1((y+1)+7-d) % 7 {
-
-	//non-leap year
+	switch dayOfFirst {
+	case 0:
+		offsetDays = []byte{0}
 	case 1:
-		month[2] = 28
-		break
-	//1752
-	default:
-		month[9] = 19
-		break
-	//leap year
+		offsetDays = []byte{31}
 	case 2:
+		offsetDays = []byte{30, 31}
+	case 3:
+		offsetDays = []byte{29, 30, 31}
+	case 4:
+		offsetDays = []byte{28, 29, 30, 31}
+	case 5:
+		offsetDays = []byte{27, 28, 29, 30, 31}
+	case 6:
+		offsetDays = []byte{26, 27, 28, 29, 30, 31}
 	}
+	copy(b, offsetDays)
 
-	for i := 1; i < m; i++ {
-		d += month[i]
-	}
-	d %= 7
-	*p = make([]byte, 128)
-	s := (*p)[3*d:]
-
-	for i := 1; i <= month[m]; i++ {
-
-		if i == 3 && month[m] == 19 {
-			i += 11
-			month[m] += 11
-		}
-		if i > 9 {
-			s[0] = byte(i/10 + 48)
-		}
-		s = s[1:]
-		s[0] = byte(i%10 + 48)
-		s = s[2:]
-		d++
-		if d == 7 {
-			d = 0
-			s = (*p)[w:]
-			p = &s
+	var offs = len(offsetDays) - 1
+	for mo, ndays := range daysInMonth {
+		var _ = mo
+		for i := 0; i < ndays; i++ {
+			b[offs] = byte(i + 1)
+			offs++
 		}
 	}
+	/*
+		fmt.Printf(calTemplate,
+			daystr[b[offset+0]], daystr[b[offset+1]], daystr[b[offset+2]], daystr[b[offset+3]], daystr[b[offset+4]], daystr[b[offset+5]], daystr[b[offset+6]],
+			daystr[b[offset+7]], daystr[b[offset+8]], daystr[b[offset+9]], daystr[b[offset+10]], daystr[b[offset+11]], daystr[b[offset+12]], daystr[b[offset+13]],
+			daystr[b[offset+14]], daystr[b[offset+15]], daystr[b[offset+16]], daystr[b[offset+17]], daystr[b[offset+18]], daystr[b[offset+19]], daystr[b[offset+20]],
+			daystr[b[offset+21]], daystr[b[offset+22]], daystr[b[offset+23]], daystr[b[offset+24]], daystr[b[offset+25]], daystr[b[offset+26]], daystr[b[offset+27]],
+			daystr[b[offset+28]], daystr[b[offset+29]], daystr[b[offset+30]], daystr[b[offset+31]], daystr[b[offset+32]], daystr[b[offset+33]], daystr[b[offset+34]],
+			daystr[b[offset+35]], daystr[b[offset+36]], daystr[b[offset+37]], daystr[b[offset+38]], daystr[b[offset+39]], daystr[b[offset+40]], daystr[b[offset+41]],
+			daystr[b[offset+42]], daystr[b[offset+43]], daystr[b[offset+44]], daystr[b[offset+45]], daystr[b[offset+46]], daystr[b[offset+47]], daystr[b[offset+48]],
+			monthstr[mo])
+	}*/
 
 }
 
@@ -128,10 +111,11 @@ func fatal(err error) {
 	os.Exit(2)
 }
 
-func procFlags() {
+func procFlags() (m int, y year) {
 	args := os.Args[1:]
+	y = year(today.Year())
 	for _, a := range args {
-		if curmonth == 0 &&
+		if m == 0 &&
 			(a[0] >= 'A' && a[0] <= 'z' ||
 				(len(a) <= 2 && a[0] >= '0' && a[0] <= '9')) {
 
@@ -149,29 +133,29 @@ func procFlags() {
 			}
 			switch a {
 			case "jan", "january", "1":
-				curmonth = 1
+				m = 1
 			case "feb", "february", "2":
-				curmonth = 2
+				m = 2
 			case "mar", "march", "3":
-				curmonth = 3
+				m = 3
 			case "apr", "april", "4":
-				curmonth = 4
+				m = 4
 			case "may", "5":
-				curmonth = 5
+				m = 5
 			case "jun", "june", "6":
-				curmonth = 6
+				m = 6
 			case "jul", "july", "7":
-				curmonth = 7
+				m = 7
 			case "aug", "august", "8":
-				curmonth = 8
+				m = 8
 			case "sep", "september", "9":
-				curmonth = 9
+				m = 9
 			case "oct", "october", "10":
-				curmonth = 10
+				m = 10
 			case "nov", "november", "11":
-				curmonth = 11
+				m = 11
 			case "dec", "december", "12":
-				curmonth = 12
+				m = 12
 			default:
 				fatal(fmt.Errorf("Invalid month argument value: %s", a))
 			}
@@ -185,16 +169,55 @@ func procFlags() {
 					fatal(fmt.Errorf("Invalid year argument value: %s", a))
 				}
 			}
-
-			var err error
-			curyear, err = strconv.Atoi(a)
-			if err != nil {
+			if tmp, err := strconv.Atoi(a); err != nil {
 				fatal(err)
+			} else {
+				y = year(tmp)
 			}
+
 		} else {
 
 			fatal(fmt.Errorf("Invalid argument value: %s", a))
 		}
-
 	}
+	return
+}
+
+func (yr year) numDaysPerMonth() {
+	d := yr.jan1()
+	switch (year(int(yr)+1).jan1() + (7 - d)) % 7 {
+	case 2:
+	case 1:
+		daysInMonth[2] = 28
+	//1752
+	default:
+		daysInMonth[9] = 19
+	}
+}
+
+//	return day of the week
+//	of jan 1 of given year
+func (yr year) jan1() int {
+
+	//	normal gregorian calendar
+	//	one extra day per four years
+	y := int(yr)
+	d := 4 + y + (y+3)/4
+
+	// 	julian calendar
+	// 	regular gregorian
+	// 	less three days per 400
+
+	if y > 1800 {
+		d -= (y - 1701) / 100
+		d += (y - 1601) / 400
+	}
+
+	// 	great calendar changeover instant
+
+	if y > 1752 {
+		d += 3
+	}
+
+	return d % 7
 }
