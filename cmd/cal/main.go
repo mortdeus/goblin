@@ -9,16 +9,16 @@ import (
 
 var (
 	daystr = [...]string{
-		"", "01", "02", "03", "04", "05", "06", "07",
+		"##", "01", "02", "03", "04", "05", "06", "07",
 		"08", "09", "10", "11", "12", "13", "14",
 		"15", "16", "17", "18", "19", "20", "21",
 		"22", "23", "24", "25", "26", "27", "28",
 		"29", "30", "31",
 	}
 	monthstr = [...]string{"",
-		"January", "February", "March", "April",
-		"May", "June", "July", "August", "September",
-		"October", "November", "December",
+		"January  %-d", "February  %-d", "March  %-d", "April  %-d",
+		"May  %-d", "June  %-d", "July  %-d", " August    %-d", "September  %-d",
+		"October  %-d", "November  %-d", "December  %-d",
 	}
 	daysInMonth = [...]int{0,
 		31, 29, 31, 30,
@@ -30,90 +30,101 @@ var (
 )
 
 type year int
+type month struct {
+	days   []byte
+	first  int
+	offset int
+}
 
 const calTemplate = "\n" +
 	"  ]====================================[   \n" +
 	"  |  Su | Mo | Tu | We | Th | Fr | Sa  |   \n" +
 	"  ]====================================[   \n" +
-	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
-	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
-	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
-	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
-	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
-	"   | %v | %v | %v | %v | %v | %v | %v |    \n" +
+	"   | %s | %s | %s | %s | %s | %s | %s |    \n" +
+	"   | %s | %s | %s | %s | %s | %s | %s |    \n" +
+	"   | %s | %s | %s | %s | %s | %s | %s |    \n" +
+	"   | %s | %s | %s | %s | %s | %s | %s |    \n" +
+	"   | %s | %s | %s | %s | %s | %s | %s |    \n" +
+	"   | %s | %s | %s | %s | %s | %s | %s |    \n" +
 	"  ]====================================[   \n" +
-	" <                 %v                   >  \n" +
+	" <           %-s   	        >\n" +
 	"  ]====================================[   \n"
 
 func main() {
 	cal(procFlags())
-
 }
 
 func cal(m int, y year) {
 	y.numDaysPerMonth()
-	fmt.Println(daysInMonth)
-	var (
-		b          []byte
-		d          int
-		dayOfFirst = y.jan1()
-	)
-	for _, v := range daysInMonth {
-		d += v
+	var b = make([]byte, 0)
+
+	janPrefix := [...][]byte{
+		[]byte{},
+		[]byte{31},
+		[]byte{30, 31},
+		[]byte{29, 30, 31},
+		[]byte{28, 29, 30, 31},
+		[]byte{27, 28, 29, 30, 31},
+		[]byte{26, 27, 28, 29, 30, 31},
 	}
+	first := y.jan1()
+	b = append(b, janPrefix[first]...)
 
-	b = make([]byte, d+dayOfFirst)
-
-	var offsetDays []byte
-
-	switch dayOfFirst {
-	case 0:
-		offsetDays = []byte{0}
-	case 1:
-		offsetDays = []byte{31}
-	case 2:
-		offsetDays = []byte{30, 31}
-	case 3:
-		offsetDays = []byte{29, 30, 31}
-	case 4:
-		offsetDays = []byte{28, 29, 30, 31}
-	case 5:
-		offsetDays = []byte{27, 28, 29, 30, 31}
-	case 6:
-		offsetDays = []byte{26, 27, 28, 29, 30, 31}
-	}
-	copy(b, offsetDays)
-
-	var offs = len(offsetDays) - 1
+	offset := first
+	months := make([]month, 12)
 	for mo, ndays := range daysInMonth {
-		var _ = mo
+		if mo == 0 {
+			continue
+		}
 		for i := 0; i < ndays; i++ {
-			b[offs] = byte(i + 1)
-			offs++
+			b = append(b, byte(i+1))
+		}
+		s := make([]byte, ndays+first)
+		v := copy(s, b[offset-first:offset+ndays])
+		for i := 0; i < 42-v; i++ {
+
+			s = append(s, byte(i+1))
+
+		}
+
+		offset += ndays
+		mon := month{s, first, offset}
+		first = (first + ndays) % 7
+		months[mo-1] = mon
+	}
+	tyear, tmonth, tday := today.Date()
+	for i, mon := range months {
+		if tyear == int(y) && i+1 == int(tmonth) {
+			mon.days[(mon.first+tday)-1] = 0
+		}
+		if i+1 == m || m == 0 {
+			fmt.Printf(calTemplate,
+				daystr[mon.days[0]], daystr[mon.days[1]], daystr[mon.days[2]], daystr[mon.days[3]], daystr[mon.days[4]], daystr[mon.days[5]], daystr[mon.days[6]],
+				daystr[mon.days[7]], daystr[mon.days[8]], daystr[mon.days[9]], daystr[mon.days[10]], daystr[mon.days[11]], daystr[mon.days[12]], daystr[mon.days[13]],
+				daystr[mon.days[14]], daystr[mon.days[15]], daystr[mon.days[16]], daystr[mon.days[17]], daystr[mon.days[18]], daystr[mon.days[19]], daystr[mon.days[20]],
+				daystr[mon.days[21]], daystr[mon.days[22]], daystr[mon.days[23]], daystr[mon.days[24]], daystr[mon.days[25]], daystr[mon.days[26]], daystr[mon.days[27]],
+				daystr[mon.days[28]], daystr[mon.days[29]], daystr[mon.days[30]], daystr[mon.days[31]], daystr[mon.days[32]], daystr[mon.days[33]], daystr[mon.days[34]],
+				daystr[mon.days[35]], daystr[mon.days[36]], daystr[mon.days[37]], daystr[mon.days[38]], daystr[mon.days[39]], daystr[mon.days[40]], daystr[mon.days[41]],
+				fmt.Sprintf(monthstr[i+1], y))
 		}
 	}
-	/*
-		fmt.Printf(calTemplate,
-			daystr[b[offset+0]], daystr[b[offset+1]], daystr[b[offset+2]], daystr[b[offset+3]], daystr[b[offset+4]], daystr[b[offset+5]], daystr[b[offset+6]],
-			daystr[b[offset+7]], daystr[b[offset+8]], daystr[b[offset+9]], daystr[b[offset+10]], daystr[b[offset+11]], daystr[b[offset+12]], daystr[b[offset+13]],
-			daystr[b[offset+14]], daystr[b[offset+15]], daystr[b[offset+16]], daystr[b[offset+17]], daystr[b[offset+18]], daystr[b[offset+19]], daystr[b[offset+20]],
-			daystr[b[offset+21]], daystr[b[offset+22]], daystr[b[offset+23]], daystr[b[offset+24]], daystr[b[offset+25]], daystr[b[offset+26]], daystr[b[offset+27]],
-			daystr[b[offset+28]], daystr[b[offset+29]], daystr[b[offset+30]], daystr[b[offset+31]], daystr[b[offset+32]], daystr[b[offset+33]], daystr[b[offset+34]],
-			daystr[b[offset+35]], daystr[b[offset+36]], daystr[b[offset+37]], daystr[b[offset+38]], daystr[b[offset+39]], daystr[b[offset+40]], daystr[b[offset+41]],
-			daystr[b[offset+42]], daystr[b[offset+43]], daystr[b[offset+44]], daystr[b[offset+45]], daystr[b[offset+46]], daystr[b[offset+47]], daystr[b[offset+48]],
-			monthstr[mo])
-	}*/
 
 }
 
 func fatal(err error) {
-	fmt.Fprintf(os.Stderr, "%s:\t%s\n", "awk", err.Error())
+	fmt.Fprintf(os.Stderr, "%s:\t%s\n", "cal", err.Error())
 	os.Exit(2)
 }
 
 func procFlags() (m int, y year) {
 	args := os.Args[1:]
 	y = year(today.Year())
+
+	if len(args) == 0 {
+		m = int(today.Month())
+		return
+	}
+
 	for _, a := range args {
 		if m == 0 &&
 			(a[0] >= 'A' && a[0] <= 'z' ||
