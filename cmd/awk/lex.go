@@ -32,17 +32,15 @@ func lex(c *context) {
 		switch r := string(s.get()); {
 
 		case r == "_", unicode.IsLetter(rune(r[0])):
-			var b []byte
-			b = append(b, r...)
+			var b = []byte(r)
 
 			for c := string(s.peek()); unicode.IsDigit(rune(c[0])) ||
 				c == "_" || unicode.IsLetter(rune(c[0])); c = string(s.peek()) {
 				b = append(b, s.get()...)
-
 			}
 
-			l := &lexeme{val: string(b)}
-			if !keyword(l) {
+			l := lexeme{val: string(b)}
+			if !keyword(&l) {
 				if string(s.peek()) == "(" {
 					l.typ = FUNC_NAME
 					s.nlparen++
@@ -50,6 +48,7 @@ func lex(c *context) {
 					l.typ = NAME
 				}
 			}
+			s.lexemes = append(s.lexemes, l)
 		case unicode.IsNumber(rune(r[0])), r == ".":
 			seenDot := false
 			seenE := false

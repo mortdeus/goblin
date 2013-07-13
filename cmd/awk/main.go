@@ -11,7 +11,9 @@ func main() {
 	c := newContext()
 	flags(c)
 	lex(c)
-	fmt.Println(c.script.lexemes)
+	for _, l := range c.script.lexemes {
+		fmt.Println(l.val, "\t", l.typ)
+	}
 }
 
 func usage() {
