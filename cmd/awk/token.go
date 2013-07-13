@@ -51,6 +51,8 @@ const (
 	NEQ     // !=
 	LEQ     // <=
 	GEQ     // >=
+	LT      // <
+	GT      // >
 	INC     // ++
 	DEC     // --
 	APPEND  // >>
@@ -61,8 +63,6 @@ const (
 	RPAREN // )
 	LBRACK // [
 	RBRACK // ]
-	LCHEV  // <
-	RCHEV  // >
 
 	COMMA     // ,
 	SEMICOLON // ;

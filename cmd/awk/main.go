@@ -10,9 +10,8 @@ import (
 func main() {
 	c := newContext()
 	flags(c)
-	for _, v := range c.vars.tab {
-		fmt.Println(v)
-	}
+	lex(c)
+	fmt.Println(c.script.lexemes)
 }
 
 func usage() {
@@ -29,7 +28,8 @@ func usage() {
 }
 
 func fatal(err error) {
-	fmt.Fprintf(os.Stderr, "%s:\t%s\n", "awk", err.Error())
+	panic(err)
+	//fmt.Fprintf(os.Stderr, "%s:\t%s\n", "awk", err.Error())
 	os.Exit(2)
 }
 
@@ -83,11 +83,24 @@ func flags(ctx *context) {
 			fatal(flagValErr(0))
 		case 'f':
 			if argf, ok := args.Argf(); ok {
-				_ = argf
+				if f, err := os.Open(argf); err != nil {
+					fatal(err)
+				} else {
+					_, err := ctx.script.buf.ReadFrom(f)
+					if err != nil {
+						fatal(err)
+					}
+				}
 				continue
 			}
 			fatal(flagValErr(0))
 		}
 
 	}
+	in := args.Argv()
+
+	if ctx.script.buf.Len() <= 0 {
+		ctx.script.buf.WriteString(in[0])
+	}
+	ctx.input = in[1:]
 }
