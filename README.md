@@ -46,7 +46,7 @@ Legend:	[*cmd:done, &cmd:work in progress, !cmd: not started]
 *date       !idiff     !patch     !ssh2      !xd   
 !db         !join      !pcc       !stop      &yacc   
 !dc         !jpg       !pic       *strings   !yesterday   
-!dd         !kbmap     !pipefile  !strip   
+&dd         !kbmap     !pipefile  !strip   
 !delkey     !kill      !plot      !sum
 ```
 
