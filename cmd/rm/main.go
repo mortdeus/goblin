@@ -8,6 +8,10 @@ import (
 )
 
 var (
+	cmd = struct{name, flags string}{
+		"rm",
+		"[ -fr ] file...",
+	}
 	ignore = flag.Bool("f", false,
 		"Don't report files that can't be removed.")
 	recurse = flag.Bool("r", false,
@@ -15,13 +19,13 @@ var (
 )
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "Usage: rm [ –fr ] file ...\n")
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
 
-func error(s string) {
-	fmt.Fprint(os.Stderr, s, "\n")
+func fatal(err error) {
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
 	os.Exit(1)
 }
 
@@ -30,23 +34,23 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 	if len(args) == 0 {
-		error("No files were given as input. Enter 'rm -help' for more information.\n")
+		usage()
 	}
 	for _, s := range args {
 		info, err := os.Lstat(s)
 		if err != nil {
-			error(fmt.Sprintf("Lstat %s: %s", s, err))
+			fatal(err)
 		}
 		if info.IsDir() && !*recurse {
 			log.Println("Recurse flag must be set to remove directories. Skipping...")
 			continue
 		} else if info.IsDir() && *recurse {
 			if err := os.RemoveAll(info.Name()); err != nil {
-				error(fmt.Sprintf("RemoveAll %s: %s", s, err))
+				fatal(err)
 			}
 		} else {
 			if err := os.Remove(s); err != nil {
-				error(fmt.Sprintf("Remove %s: %s", s, err))
+				fatal(err)
 			}
 		}
 

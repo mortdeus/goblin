@@ -8,10 +8,17 @@ import (
 	"strings"
 )
 
-var dir = flag.String("d", "", "directory to use as working directory")
+var (
+	cmd = struct{ name, flags string }{
+		"cleanname",
+		"[-d pwd] name...",
+	}
+	dir = flag.String("d", "", "directory to use as working directory")
+)
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: cleanname [-d pwd] name ...\n")
+	fmt.Fprintf(os.Stderr, "Usage:", cmd.name, cmd.flags)
+	flag.PrintDefaults()
 	os.Exit(2)
 }
 

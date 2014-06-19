@@ -3,7 +3,7 @@ state 0
 	$accept: .prog $end 
 	prog: .    (1)
 
-	.  reduce 1 (src line 69)
+	.  reduce 1 (src line 70)
 
 	prog  goto 1
 
@@ -37,7 +37,7 @@ state 1
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 182 (src line 929)
+	.  reduce 182 (src line 925)
 
 	gcname  goto 22
 	cname  goto 24
@@ -53,7 +53,7 @@ state 1
 state 2
 	prog:  prog xdecl.    (2)
 
-	.  reduce 2 (src line 70)
+	.  reduce 2 (src line 71)
 
 
 state 3
@@ -77,13 +77,13 @@ state 3
 state 4
 	zctlist:  ctlist.    (183)
 
-	.  reduce 183 (src line 934)
+	.  reduce 183 (src line 930)
 
 
 state 5
 	ctlist:  types.    (193)
 
-	.  reduce 193 (src line 996)
+	.  reduce 193 (src line 992)
 
 
 state 6
@@ -109,7 +109,7 @@ state 6
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 184 (src line 936)
+	.  reduce 184 (src line 932)
 
 	gctname  goto 46
 	cname  goto 49
@@ -140,7 +140,7 @@ state 7
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 185 (src line 942)
+	.  reduce 185 (src line 938)
 
 	gctname  goto 46
 	cname  goto 49
@@ -179,7 +179,7 @@ state 8
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 186 (src line 947)
+	.  reduce 186 (src line 943)
 
 	gcname  goto 53
 	cname  goto 24
@@ -228,145 +228,145 @@ state 11
 state 12
 	complex:  LTYPE.    (208)
 
-	.  reduce 208 (src line 1096)
+	.  reduce 208 (src line 1092)
 
 
 state 13
 	tname:  LCHAR.    (224)
 
-	.  reduce 224 (src line 1145)
+	.  reduce 224 (src line 1141)
 
 
 state 14
 	tname:  LSHORT.    (225)
 
-	.  reduce 225 (src line 1147)
+	.  reduce 225 (src line 1143)
 
 
 state 15
 	tname:  LINT.    (226)
 
-	.  reduce 226 (src line 1148)
+	.  reduce 226 (src line 1144)
 
 
 state 16
 	tname:  LLONG.    (227)
 
-	.  reduce 227 (src line 1149)
+	.  reduce 227 (src line 1145)
 
 
 state 17
 	tname:  LSIGNED.    (228)
 
-	.  reduce 228 (src line 1150)
+	.  reduce 228 (src line 1146)
 
 
 state 18
 	tname:  LUNSIGNED.    (229)
 
-	.  reduce 229 (src line 1151)
+	.  reduce 229 (src line 1147)
 
 
 state 19
 	tname:  LFLOAT.    (230)
 
-	.  reduce 230 (src line 1152)
+	.  reduce 230 (src line 1148)
 
 
 state 20
 	tname:  LDOUBLE.    (231)
 
-	.  reduce 231 (src line 1153)
+	.  reduce 231 (src line 1149)
 
 
 state 21
 	tname:  LVOID.    (232)
 
-	.  reduce 232 (src line 1154)
+	.  reduce 232 (src line 1150)
 
 
 state 22
 	gcnlist:  gcname.    (216)
 
-	.  reduce 216 (src line 1122)
+	.  reduce 216 (src line 1118)
 
 
 state 23
 	gcname:  gname.    (218)
 
-	.  reduce 218 (src line 1129)
+	.  reduce 218 (src line 1125)
 
 
 state 24
 	gcname:  cname.    (219)
 
-	.  reduce 219 (src line 1131)
+	.  reduce 219 (src line 1127)
 
 
 state 25
 	gname:  LCONSTNT.    (240)
 
-	.  reduce 240 (src line 1165)
+	.  reduce 240 (src line 1161)
 
 
 state 26
 	gname:  LVOLATILE.    (241)
 
-	.  reduce 241 (src line 1167)
+	.  reduce 241 (src line 1163)
 
 
 state 27
 	gname:  LRESTRICT.    (242)
 
-	.  reduce 242 (src line 1168)
+	.  reduce 242 (src line 1164)
 
 
 state 28
 	cname:  LAUTO.    (233)
 
-	.  reduce 233 (src line 1156)
+	.  reduce 233 (src line 1152)
 
 
 state 29
 	cname:  LSTATIC.    (234)
 
-	.  reduce 234 (src line 1158)
+	.  reduce 234 (src line 1154)
 
 
 state 30
 	cname:  LEXTERN.    (235)
 
-	.  reduce 235 (src line 1159)
+	.  reduce 235 (src line 1155)
 
 
 state 31
 	cname:  LTYPEDEF.    (236)
 
-	.  reduce 236 (src line 1160)
+	.  reduce 236 (src line 1156)
 
 
 state 32
 	cname:  LTYPESTR.    (237)
 
-	.  reduce 237 (src line 1161)
+	.  reduce 237 (src line 1157)
 
 
 state 33
 	cname:  LREGISTER.    (238)
 
-	.  reduce 238 (src line 1162)
+	.  reduce 238 (src line 1158)
 
 
 state 34
 	cname:  LINLINE.    (239)
 
-	.  reduce 239 (src line 1163)
+	.  reduce 239 (src line 1159)
 
 
 state 35
 	xdecl:  zctlist ;.    (3)
 
-	.  reduce 3 (src line 75)
+	.  reduce 3 (src line 76)
 
 
 state 36
@@ -385,10 +385,10 @@ state 37
 	$$5: .    (5)
 	$$9: .    (9)
 
-	;  reduce 8 (src line 110)
-	,  reduce 8 (src line 110)
-	=  reduce 9 (src line 115)
-	.  reduce 5 (src line 81)
+	;  reduce 8 (src line 111)
+	,  reduce 8 (src line 111)
+	=  reduce 9 (src line 116)
+	.  reduce 5 (src line 82)
 
 	$$5  goto 63
 	$$9  goto 64
@@ -400,21 +400,21 @@ state 38
 
 	[  shift 66
 	(  shift 65
-	.  reduce 12 (src line 125)
+	.  reduce 12 (src line 126)
 
 
 state 39
 	xdecor:  *.zgnlist xdecor 
 	zgnlist: .    (211)
 
-	.  reduce 211 (src line 1108)
+	.  reduce 211 (src line 1104)
 
 	zgnlist  goto 67
 
 state 40
 	xdecor2:  tag.    (14)
 
-	.  reduce 14 (src line 133)
+	.  reduce 14 (src line 134)
 
 
 state 41
@@ -434,19 +434,19 @@ state 41
 state 42
 	tag:  ltag.    (244)
 
-	.  reduce 244 (src line 1187)
+	.  reduce 244 (src line 1183)
 
 
 state 43
 	ltag:  LNAME.    (245)
 
-	.  reduce 245 (src line 1200)
+	.  reduce 245 (src line 1196)
 
 
 state 44
 	ltag:  LTYPE.    (246)
 
-	.  reduce 246 (src line 1202)
+	.  reduce 246 (src line 1198)
 
 
 state 45
@@ -472,7 +472,7 @@ state 45
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 187 (src line 953)
+	.  reduce 187 (src line 949)
 
 	gctname  goto 69
 	cname  goto 49
@@ -482,25 +482,25 @@ state 45
 state 46
 	gctnlist:  gctname.    (209)
 
-	.  reduce 209 (src line 1101)
+	.  reduce 209 (src line 1097)
 
 
 state 47
 	gctname:  tname.    (213)
 
-	.  reduce 213 (src line 1117)
+	.  reduce 213 (src line 1113)
 
 
 state 48
 	gctname:  gname.    (214)
 
-	.  reduce 214 (src line 1119)
+	.  reduce 214 (src line 1115)
 
 
 state 49
 	gctname:  cname.    (215)
 
-	.  reduce 215 (src line 1120)
+	.  reduce 215 (src line 1116)
 
 
 state 50
@@ -526,7 +526,7 @@ state 50
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 188 (src line 962)
+	.  reduce 188 (src line 958)
 
 	gctname  goto 69
 	cname  goto 49
@@ -537,7 +537,7 @@ state 51
 	types:  gcnlist complex.zgnlist 
 	zgnlist: .    (211)
 
-	.  reduce 211 (src line 1108)
+	.  reduce 211 (src line 1104)
 
 	zgnlist  goto 70
 
@@ -564,7 +564,7 @@ state 52
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 190 (src line 974)
+	.  reduce 190 (src line 970)
 
 	gctname  goto 46
 	cname  goto 49
@@ -575,7 +575,7 @@ state 52
 state 53
 	gcnlist:  gcnlist gcname.    (217)
 
-	.  reduce 217 (src line 1124)
+	.  reduce 217 (src line 1120)
 
 
 state 54
@@ -583,22 +583,22 @@ state 54
 	complex:  LSTRUCT ltag.$$195 sbody 
 	$$195: .    (195)
 
-	{  reduce 195 (src line 1009)
-	.  reduce 194 (src line 1003)
+	{  reduce 195 (src line 1005)
+	.  reduce 194 (src line 999)
 
 	$$195  goto 72
 
 state 55
 	complex:  LSTRUCT sbody.    (197)
 
-	.  reduce 197 (src line 1022)
+	.  reduce 197 (src line 1018)
 
 
 state 56
 	sbody:  {.$$180 edecl } 
 	$$180: .    (180)
 
-	.  reduce 180 (src line 906)
+	.  reduce 180 (src line 902)
 
 	$$180  goto 73
 
@@ -607,15 +607,15 @@ state 57
 	complex:  LUNION ltag.$$199 sbody 
 	$$199: .    (199)
 
-	{  reduce 199 (src line 1035)
-	.  reduce 198 (src line 1030)
+	{  reduce 199 (src line 1031)
+	.  reduce 198 (src line 1026)
 
 	$$199  goto 74
 
 state 58
 	complex:  LUNION sbody.    (201)
 
-	.  reduce 201 (src line 1048)
+	.  reduce 201 (src line 1044)
 
 
 state 59
@@ -623,8 +623,8 @@ state 59
 	complex:  LENUM ltag.$$203 { $$204 enum } 
 	$$203: .    (203)
 
-	{  reduce 203 (src line 1065)
-	.  reduce 202 (src line 1056)
+	{  reduce 203 (src line 1061)
+	.  reduce 202 (src line 1052)
 
 	$$203  goto 75
 
@@ -632,14 +632,14 @@ state 60
 	complex:  LENUM {.$$206 enum } 
 	$$206: .    (206)
 
-	.  reduce 206 (src line 1087)
+	.  reduce 206 (src line 1083)
 
 	$$206  goto 76
 
 state 61
 	xdecl:  zctlist xdlist ;.    (4)
 
-	.  reduce 4 (src line 80)
+	.  reduce 4 (src line 81)
 
 
 state 62
@@ -661,7 +661,7 @@ state 63
 	xdecl:  zctlist xdecor $$5.pdecl $$6 block 
 	pdecl: .    (24)
 
-	.  reduce 24 (src line 192)
+	.  reduce 24 (src line 193)
 
 	pdecl  goto 79
 
@@ -701,7 +701,7 @@ state 65
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 62 (src line 332)
+	.  reduce 62 (src line 333)
 
 	gcname  goto 22
 	cname  goto 24
@@ -741,14 +741,14 @@ state 66
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 102 (src line 526)
+	.  reduce 102 (src line 528)
 
 	name  goto 105
 	expr  goto 90
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	zexpr  goto 88
 	lexpr  goto 89
@@ -782,7 +782,7 @@ state 68
 state 69
 	gctnlist:  gctnlist gctname.    (210)
 
-	.  reduce 210 (src line 1103)
+	.  reduce 210 (src line 1099)
 
 
 state 70
@@ -792,7 +792,7 @@ state 70
 	LCONSTNT  shift 25
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
-	.  reduce 189 (src line 968)
+	.  reduce 189 (src line 964)
 
 	gname  goto 119
 
@@ -819,7 +819,7 @@ state 71
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 191 (src line 980)
+	.  reduce 191 (src line 976)
 
 	gctname  goto 69
 	cname  goto 49
@@ -899,7 +899,7 @@ state 77
 	xdlist:  xdlist., xdlist 
 	xdlist:  xdlist , xdlist.    (11)
 
-	.  reduce 11 (src line 123)
+	.  reduce 11 (src line 124)
 
 
 state 78
@@ -907,8 +907,8 @@ state 78
 	xdlist:  xdecor.$$9 = init 
 	$$9: .    (9)
 
-	=  reduce 9 (src line 115)
-	.  reduce 8 (src line 110)
+	=  reduce 9 (src line 116)
+	.  reduce 8 (src line 111)
 
 	$$9  goto 64
 
@@ -940,7 +940,7 @@ state 79
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 6 (src line 95)
+	.  reduce 6 (src line 96)
 
 	gcname  goto 22
 	cname  goto 24
@@ -985,7 +985,7 @@ state 80
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	init  goto 130
 
@@ -1001,13 +1001,13 @@ state 82
 	arglist:  arglist., arglist 
 
 	,  shift 134
-	.  reduce 63 (src line 336)
+	.  reduce 63 (src line 337)
 
 
 state 83
 	arglist:  name.    (64)
 
-	.  reduce 64 (src line 342)
+	.  reduce 64 (src line 343)
 
 
 state 84
@@ -1020,7 +1020,7 @@ state 84
 	(  shift 140
 	LNAME  shift 43
 	LTYPE  shift 44
-	.  reduce 39 (src line 249)
+	.  reduce 39 (src line 250)
 
 	ltag  goto 42
 	xdecor  goto 136
@@ -1041,13 +1041,13 @@ state 85
 state 86
 	name:  LNAME.    (243)
 
-	.  reduce 243 (src line 1170)
+	.  reduce 243 (src line 1166)
 
 
 state 87
 	tlist:  types.    (192)
 
-	.  reduce 192 (src line 987)
+	.  reduce 192 (src line 983)
 
 
 state 88
@@ -1060,7 +1060,7 @@ state 88
 state 89
 	zexpr:  lexpr.    (103)
 
-	.  reduce 103 (src line 530)
+	.  reduce 103 (src line 532)
 
 
 state 90
@@ -1126,19 +1126,19 @@ state 90
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 104 (src line 532)
+	.  reduce 104 (src line 534)
 
 
 state 91
 	expr:  xuexpr.    (107)
 
-	.  reduce 107 (src line 546)
+	.  reduce 107 (src line 548)
 
 
 state 92
 	xuexpr:  uexpr.    (138)
 
-	.  reduce 138 (src line 669)
+	.  reduce 138 (src line 671)
 
 
 state 93
@@ -1207,7 +1207,7 @@ state 93
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 94
@@ -1225,7 +1225,7 @@ state 94
 	.  shift 181
 	[  shift 179
 	(  shift 178
-	.  reduce 141 (src line 685)
+	.  reduce 141 (src line 687)
 
 
 state 95
@@ -1259,7 +1259,7 @@ state 95
 	xuexpr  goto 184
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 96
@@ -1293,7 +1293,7 @@ state 96
 	xuexpr  goto 185
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 97
@@ -1327,7 +1327,7 @@ state 97
 	xuexpr  goto 186
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 98
@@ -1361,7 +1361,7 @@ state 98
 	xuexpr  goto 187
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 99
@@ -1395,7 +1395,7 @@ state 99
 	xuexpr  goto 188
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 100
@@ -1429,7 +1429,7 @@ state 100
 	xuexpr  goto 189
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 101
@@ -1463,7 +1463,7 @@ state 101
 	xuexpr  goto 190
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 102
@@ -1497,7 +1497,7 @@ state 102
 	xuexpr  goto 191
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 103
@@ -1531,7 +1531,7 @@ state 103
 	name  goto 105
 	pexpr  goto 94
 	uexpr  goto 192
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 104
@@ -1565,69 +1565,69 @@ state 104
 	name  goto 105
 	pexpr  goto 94
 	uexpr  goto 194
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 105
 	pexpr:  name.    (161)
 
-	.  reduce 161 (src line 777)
+	.  reduce 161 (src line 779)
 
 
 state 106
 	pexpr:  LCONST.    (162)
 
-	.  reduce 162 (src line 778)
+	.  reduce 162 (src line 780)
 
 
 state 107
 	pexpr:  LLCONST.    (163)
 
-	.  reduce 163 (src line 785)
+	.  reduce 163 (src line 787)
 
 
 state 108
 	pexpr:  LUCONST.    (164)
 
-	.  reduce 164 (src line 792)
+	.  reduce 164 (src line 794)
 
 
 state 109
 	pexpr:  LULCONST.    (165)
 
-	.  reduce 165 (src line 799)
+	.  reduce 165 (src line 801)
 
 
 state 110
 	pexpr:  LDCONST.    (166)
 
-	.  reduce 166 (src line 806)
+	.  reduce 166 (src line 808)
 
 
 state 111
 	pexpr:  LFCONST.    (167)
 
-	.  reduce 167 (src line 813)
+	.  reduce 167 (src line 815)
 
 
 state 112
 	pexpr:  LVLCONST.    (168)
 
-	.  reduce 168 (src line 820)
+	.  reduce 168 (src line 822)
 
 
 state 113
 	pexpr:  LUVLCONST.    (169)
 
-	.  reduce 169 (src line 827)
+	.  reduce 169 (src line 829)
 
 
 state 114
-	pexpr:  string.    (170)
-	string:  string.LSTRING 
+	pexpr:  nstring.    (170)
+	nstring:  nstring.LSTRING 
 
 	LSTRING  shift 196
-	.  reduce 170 (src line 834)
+	.  reduce 170 (src line 836)
 
 
 state 115
@@ -1635,43 +1635,43 @@ state 115
 	lstring:  lstring.LLSTRING 
 
 	LLSTRING  shift 197
-	.  reduce 171 (src line 835)
+	.  reduce 171 (src line 837)
 
 
 state 116
-	string:  LSTRING.    (172)
+	nstring:  LSTRING.    (172)
 
-	.  reduce 172 (src line 837)
+	.  reduce 172 (src line 839)
 
 
 state 117
 	lstring:  LLSTRING.    (174)
 
-	.  reduce 174 (src line 865)
+	.  reduce 174 (src line 864)
 
 
 state 118
 	xdecor:  * zgnlist xdecor.    (13)
 
-	.  reduce 13 (src line 127)
+	.  reduce 13 (src line 128)
 
 
 state 119
 	zgnlist:  zgnlist gname.    (212)
 
-	.  reduce 212 (src line 1112)
+	.  reduce 212 (src line 1108)
 
 
 state 120
 	xdecor2:  ( xdecor ).    (15)
 
-	.  reduce 15 (src line 135)
+	.  reduce 15 (src line 136)
 
 
 state 121
 	complex:  LSTRUCT ltag $$195 sbody.    (196)
 
-	.  reduce 196 (src line 1013)
+	.  reduce 196 (src line 1009)
 
 
 state 122
@@ -1717,21 +1717,21 @@ state 123
 	edecl:  tlist.$$28 zedlist ; 
 	$$28: .    (28)
 
-	.  reduce 28 (src line 205)
+	.  reduce 28 (src line 206)
 
 	$$28  goto 200
 
 state 124
 	complex:  LUNION ltag $$199 sbody.    (200)
 
-	.  reduce 200 (src line 1039)
+	.  reduce 200 (src line 1035)
 
 
 state 125
 	complex:  LENUM ltag $$203 {.$$204 enum } 
 	$$204: .    (204)
 
-	.  reduce 204 (src line 1069)
+	.  reduce 204 (src line 1065)
 
 	$$204  goto 201
 
@@ -1750,7 +1750,7 @@ state 127
 	enum:  LNAME.= expr 
 
 	=  shift 204
-	.  reduce 220 (src line 1133)
+	.  reduce 220 (src line 1129)
 
 
 state 128
@@ -1779,7 +1779,7 @@ state 129
 state 130
 	xdlist:  xdecor $$9 = init.    (10)
 
-	.  reduce 10 (src line 119)
+	.  reduce 10 (src line 120)
 
 
 state 131
@@ -1845,7 +1845,7 @@ state 131
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 50 (src line 293)
+	.  reduce 50 (src line 294)
 
 
 state 132
@@ -1883,7 +1883,7 @@ state 132
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	qual  goto 212
 	qlist  goto 210
@@ -1893,7 +1893,7 @@ state 132
 state 133
 	xdecor2:  xdecor2 ( zarglist ).    (16)
 
-	.  reduce 16 (src line 139)
+	.  reduce 16 (src line 140)
 
 
 state 134
@@ -1940,19 +1940,19 @@ state 134
 state 135
 	arglist:  tlist abdecor.    (65)
 
-	.  reduce 65 (src line 344)
+	.  reduce 65 (src line 345)
 
 
 state 136
 	arglist:  tlist xdecor.    (66)
 
-	.  reduce 66 (src line 349)
+	.  reduce 66 (src line 350)
 
 
 state 137
 	abdecor:  abdecor1.    (40)
 
-	.  reduce 40 (src line 253)
+	.  reduce 40 (src line 254)
 
 
 state 138
@@ -1961,7 +1961,7 @@ state 138
 	abdecor1:  *.zgnlist abdecor1 
 	zgnlist: .    (211)
 
-	.  reduce 211 (src line 1108)
+	.  reduce 211 (src line 1104)
 
 	zgnlist  goto 216
 
@@ -1972,7 +1972,7 @@ state 139
 
 	[  shift 218
 	(  shift 217
-	.  reduce 43 (src line 266)
+	.  reduce 43 (src line 267)
 
 
 state 140
@@ -1999,7 +1999,7 @@ state 140
 state 141
 	abdecor2:  abdecor3.    (44)
 
-	.  reduce 44 (src line 268)
+	.  reduce 44 (src line 269)
 
 
 state 142
@@ -2028,14 +2028,14 @@ state 142
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 102 (src line 526)
+	.  reduce 102 (src line 528)
 
 	name  goto 105
 	expr  goto 90
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	zexpr  goto 221
 	lexpr  goto 89
@@ -2050,7 +2050,7 @@ state 143
 state 144
 	xdecor2:  xdecor2 [ zexpr ].    (17)
 
-	.  reduce 17 (src line 143)
+	.  reduce 17 (src line 144)
 
 
 state 145
@@ -2085,7 +2085,7 @@ state 145
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 146
@@ -2120,7 +2120,7 @@ state 146
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 147
@@ -2155,7 +2155,7 @@ state 147
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 148
@@ -2190,7 +2190,7 @@ state 148
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 149
@@ -2225,7 +2225,7 @@ state 149
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 150
@@ -2260,7 +2260,7 @@ state 150
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 151
@@ -2295,7 +2295,7 @@ state 151
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 152
@@ -2330,7 +2330,7 @@ state 152
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 153
@@ -2365,7 +2365,7 @@ state 153
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 154
@@ -2400,7 +2400,7 @@ state 154
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 155
@@ -2435,7 +2435,7 @@ state 155
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 156
@@ -2470,7 +2470,7 @@ state 156
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 157
@@ -2505,7 +2505,7 @@ state 157
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 158
@@ -2540,7 +2540,7 @@ state 158
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 159
@@ -2575,7 +2575,7 @@ state 159
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 160
@@ -2610,7 +2610,7 @@ state 160
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 161
@@ -2645,7 +2645,7 @@ state 161
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 162
@@ -2680,7 +2680,7 @@ state 162
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 163
@@ -2716,7 +2716,7 @@ state 163
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 164
@@ -2751,7 +2751,7 @@ state 164
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 165
@@ -2786,7 +2786,7 @@ state 165
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 166
@@ -2821,7 +2821,7 @@ state 166
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 167
@@ -2856,7 +2856,7 @@ state 167
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 168
@@ -2891,7 +2891,7 @@ state 168
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 169
@@ -2926,7 +2926,7 @@ state 169
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 170
@@ -2961,7 +2961,7 @@ state 170
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 171
@@ -2996,7 +2996,7 @@ state 171
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 172
@@ -3031,7 +3031,7 @@ state 172
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 173
@@ -3066,7 +3066,7 @@ state 173
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 174
@@ -3101,7 +3101,7 @@ state 174
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 175
@@ -3112,7 +3112,7 @@ state 175
 	*  shift 254
 	[  shift 142
 	(  shift 255
-	.  reduce 39 (src line 249)
+	.  reduce 39 (src line 250)
 
 	abdecor  goto 253
 	abdecor1  goto 137
@@ -3191,7 +3191,7 @@ state 177
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 105 (src line 539)
+	.  reduce 105 (src line 541)
 
 
 state 178
@@ -3220,7 +3220,7 @@ state 178
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 176 (src line 893)
+	.  reduce 176 (src line 889)
 
 	name  goto 105
 	expr  goto 260
@@ -3229,7 +3229,7 @@ state 178
 	zelist  goto 258
 	elist  goto 259
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 179
@@ -3265,7 +3265,7 @@ state 179
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 180
@@ -3289,67 +3289,67 @@ state 181
 state 182
 	pexpr:  pexpr LPP.    (159)
 
-	.  reduce 159 (src line 769)
+	.  reduce 159 (src line 771)
 
 
 state 183
 	pexpr:  pexpr LMM.    (160)
 
-	.  reduce 160 (src line 773)
+	.  reduce 160 (src line 775)
 
 
 state 184
 	uexpr:  * xuexpr.    (142)
 
-	.  reduce 142 (src line 687)
+	.  reduce 142 (src line 689)
 
 
 state 185
 	uexpr:  & xuexpr.    (143)
 
-	.  reduce 143 (src line 691)
+	.  reduce 143 (src line 693)
 
 
 state 186
 	uexpr:  + xuexpr.    (144)
 
-	.  reduce 144 (src line 695)
+	.  reduce 144 (src line 697)
 
 
 state 187
 	uexpr:  - xuexpr.    (145)
 
-	.  reduce 145 (src line 699)
+	.  reduce 145 (src line 701)
 
 
 state 188
 	uexpr:  ! xuexpr.    (146)
 
-	.  reduce 146 (src line 703)
+	.  reduce 146 (src line 705)
 
 
 state 189
 	uexpr:  ~ xuexpr.    (147)
 
-	.  reduce 147 (src line 707)
+	.  reduce 147 (src line 709)
 
 
 state 190
 	uexpr:  LPP xuexpr.    (148)
 
-	.  reduce 148 (src line 711)
+	.  reduce 148 (src line 713)
 
 
 state 191
 	uexpr:  LMM xuexpr.    (149)
 
-	.  reduce 149 (src line 715)
+	.  reduce 149 (src line 717)
 
 
 state 192
 	uexpr:  LSIZEOF uexpr.    (150)
 
-	.  reduce 150 (src line 719)
+	.  reduce 150 (src line 721)
 
 
 state 193
@@ -3417,13 +3417,13 @@ state 193
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 194
 	uexpr:  LSIGNOF uexpr.    (151)
 
-	.  reduce 151 (src line 723)
+	.  reduce 151 (src line 725)
 
 
 state 195
@@ -3491,33 +3491,33 @@ state 195
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 196
-	string:  string LSTRING.    (173)
+	nstring:  nstring LSTRING.    (173)
 
-	.  reduce 173 (src line 848)
+	.  reduce 173 (src line 850)
 
 
 state 197
 	lstring:  lstring LLSTRING.    (175)
 
-	.  reduce 175 (src line 876)
+	.  reduce 175 (src line 875)
 
 
 state 198
 	edecl:  edecl tlist.$$30 zedlist ; 
 	$$30: .    (30)
 
-	.  reduce 30 (src line 211)
+	.  reduce 30 (src line 212)
 
 	$$30  goto 266
 
 state 199
 	sbody:  { $$180 edecl }.    (181)
 
-	.  reduce 181 (src line 920)
+	.  reduce 181 (src line 916)
 
 
 state 200
@@ -3529,7 +3529,7 @@ state 200
 	(  shift 41
 	LNAME  shift 43
 	LTYPE  shift 44
-	.  reduce 32 (src line 217)
+	.  reduce 32 (src line 218)
 
 	ltag  goto 42
 	xdecor  goto 270
@@ -3550,7 +3550,7 @@ state 201
 state 202
 	complex:  LENUM { $$206 enum }.    (207)
 
-	.  reduce 207 (src line 1092)
+	.  reduce 207 (src line 1088)
 
 
 state 203
@@ -3558,7 +3558,7 @@ state 203
 	enum:  enum ,.enum 
 
 	LNAME  shift 127
-	.  reduce 222 (src line 1142)
+	.  reduce 222 (src line 1138)
 
 	enum  goto 274
 
@@ -3594,20 +3594,20 @@ state 204
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 205
 	xdecl:  zctlist xdecor $$5 pdecl $$6 block.    (7)
 
-	.  reduce 7 (src line 99)
+	.  reduce 7 (src line 100)
 
 
 state 206
 	block:  {.slist } 
 	slist: .    (70)
 
-	.  reduce 70 (src line 374)
+	.  reduce 70 (src line 375)
 
 	slist  goto 276
 
@@ -3623,7 +3623,7 @@ state 207
 state 208
 	pdlist:  xdecor.    (26)
 
-	.  reduce 26 (src line 195)
+	.  reduce 26 (src line 196)
 
 
 state 209
@@ -3664,14 +3664,14 @@ state 210
 	{  shift 132
 	!  shift 99
 	~  shift 100
-	.  reduce 59 (src line 324)
+	.  reduce 59 (src line 325)
 
 	name  goto 105
 	expr  goto 131
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	qual  goto 281
 	init  goto 280
@@ -3681,7 +3681,7 @@ state 211
 	ilist:  init.    (60)
 
 	,  shift 282
-	.  reduce 60 (src line 326)
+	.  reduce 60 (src line 327)
 
 
 state 212
@@ -3689,7 +3689,7 @@ state 212
 	qlist:  qual.    (57)
 
 	=  shift 283
-	.  reduce 57 (src line 318)
+	.  reduce 57 (src line 319)
 
 
 state 213
@@ -3724,7 +3724,7 @@ state 213
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	lexpr  goto 284
 
@@ -3741,7 +3741,7 @@ state 215
 	arglist:  arglist., arglist 
 	arglist:  arglist , arglist.    (68)
 
-	.  reduce 68 (src line 358)
+	.  reduce 68 (src line 359)
 
 
 state 216
@@ -3758,7 +3758,7 @@ state 216
 	LCONSTNT  shift 25
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
-	.  reduce 41 (src line 255)
+	.  reduce 41 (src line 256)
 
 	ltag  goto 42
 	gname  goto 119
@@ -3798,7 +3798,7 @@ state 217
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	.  reduce 62 (src line 332)
+	.  reduce 62 (src line 333)
 
 	gcname  goto 22
 	cname  goto 24
@@ -3838,14 +3838,14 @@ state 218
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 102 (src line 526)
+	.  reduce 102 (src line 528)
 
 	name  goto 105
 	expr  goto 90
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	zexpr  goto 288
 	lexpr  goto 89
@@ -3853,7 +3853,7 @@ state 218
 state 219
 	abdecor3:  ( ).    (47)
 
-	.  reduce 47 (src line 279)
+	.  reduce 47 (src line 280)
 
 
 state 220
@@ -3873,7 +3873,7 @@ state 221
 state 222
 	arglist:  . . ..    (67)
 
-	.  reduce 67 (src line 354)
+	.  reduce 67 (src line 355)
 
 
 state 223
@@ -3909,7 +3909,7 @@ state 223
 	expr:  expr.LXORE expr 
 	expr:  expr.LORE expr 
 
-	.  reduce 108 (src line 548)
+	.  reduce 108 (src line 550)
 
 
 state 224
@@ -3945,7 +3945,7 @@ state 224
 	expr:  expr.LXORE expr 
 	expr:  expr.LORE expr 
 
-	.  reduce 109 (src line 552)
+	.  reduce 109 (src line 554)
 
 
 state 225
@@ -3981,7 +3981,7 @@ state 225
 	expr:  expr.LXORE expr 
 	expr:  expr.LORE expr 
 
-	.  reduce 110 (src line 556)
+	.  reduce 110 (src line 558)
 
 
 state 226
@@ -4020,7 +4020,7 @@ state 226
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 111 (src line 560)
+	.  reduce 111 (src line 562)
 
 
 state 227
@@ -4059,7 +4059,7 @@ state 227
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 112 (src line 564)
+	.  reduce 112 (src line 566)
 
 
 state 228
@@ -4100,7 +4100,7 @@ state 228
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 113 (src line 568)
+	.  reduce 113 (src line 570)
 
 
 state 229
@@ -4141,7 +4141,7 @@ state 229
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 114 (src line 572)
+	.  reduce 114 (src line 574)
 
 
 state 230
@@ -4184,7 +4184,7 @@ state 230
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 115 (src line 576)
+	.  reduce 115 (src line 578)
 
 
 state 231
@@ -4227,7 +4227,7 @@ state 231
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 116 (src line 580)
+	.  reduce 116 (src line 582)
 
 
 state 232
@@ -4270,7 +4270,7 @@ state 232
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 117 (src line 584)
+	.  reduce 117 (src line 586)
 
 
 state 233
@@ -4313,7 +4313,7 @@ state 233
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 118 (src line 588)
+	.  reduce 118 (src line 590)
 
 
 state 234
@@ -4360,7 +4360,7 @@ state 234
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 119 (src line 592)
+	.  reduce 119 (src line 594)
 
 
 state 235
@@ -4407,7 +4407,7 @@ state 235
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 120 (src line 596)
+	.  reduce 120 (src line 598)
 
 
 state 236
@@ -4456,7 +4456,7 @@ state 236
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 121 (src line 600)
+	.  reduce 121 (src line 602)
 
 
 state 237
@@ -4506,7 +4506,7 @@ state 237
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 122 (src line 604)
+	.  reduce 122 (src line 606)
 
 
 state 238
@@ -4557,7 +4557,7 @@ state 238
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 123 (src line 608)
+	.  reduce 123 (src line 610)
 
 
 state 239
@@ -4609,7 +4609,7 @@ state 239
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 124 (src line 612)
+	.  reduce 124 (src line 614)
 
 
 state 240
@@ -4662,7 +4662,7 @@ state 240
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 125 (src line 616)
+	.  reduce 125 (src line 618)
 
 
 state 241
@@ -4737,7 +4737,7 @@ state 242
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 127 (src line 624)
+	.  reduce 127 (src line 626)
 
 
 state 243
@@ -4803,7 +4803,7 @@ state 243
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 128 (src line 628)
+	.  reduce 128 (src line 630)
 
 
 state 244
@@ -4869,7 +4869,7 @@ state 244
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 129 (src line 632)
+	.  reduce 129 (src line 634)
 
 
 state 245
@@ -4935,7 +4935,7 @@ state 245
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 130 (src line 636)
+	.  reduce 130 (src line 638)
 
 
 state 246
@@ -5001,7 +5001,7 @@ state 246
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 131 (src line 640)
+	.  reduce 131 (src line 642)
 
 
 state 247
@@ -5067,7 +5067,7 @@ state 247
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 132 (src line 644)
+	.  reduce 132 (src line 646)
 
 
 state 248
@@ -5133,7 +5133,7 @@ state 248
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 133 (src line 648)
+	.  reduce 133 (src line 650)
 
 
 state 249
@@ -5199,7 +5199,7 @@ state 249
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 134 (src line 652)
+	.  reduce 134 (src line 654)
 
 
 state 250
@@ -5265,7 +5265,7 @@ state 250
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 135 (src line 656)
+	.  reduce 135 (src line 658)
 
 
 state 251
@@ -5331,7 +5331,7 @@ state 251
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 136 (src line 660)
+	.  reduce 136 (src line 662)
 
 
 state 252
@@ -5397,7 +5397,7 @@ state 252
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 137 (src line 664)
+	.  reduce 137 (src line 666)
 
 
 state 253
@@ -5413,7 +5413,7 @@ state 254
 	abdecor1:  *.zgnlist abdecor1 
 	zgnlist: .    (211)
 
-	.  reduce 211 (src line 1108)
+	.  reduce 211 (src line 1104)
 
 	zgnlist  goto 293
 
@@ -5464,13 +5464,13 @@ state 256
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 257
 	pexpr:  ( cexpr ).    (152)
 
-	.  reduce 152 (src line 728)
+	.  reduce 152 (src line 730)
 
 
 state 258
@@ -5485,7 +5485,7 @@ state 259
 	elist:  elist., elist 
 
 	,  shift 296
-	.  reduce 177 (src line 897)
+	.  reduce 177 (src line 893)
 
 
 state 260
@@ -5551,7 +5551,7 @@ state 260
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 178 (src line 899)
+	.  reduce 178 (src line 895)
 
 
 state 261
@@ -5566,13 +5566,13 @@ state 261
 state 262
 	pexpr:  pexpr LMG ltag.    (157)
 
-	.  reduce 157 (src line 759)
+	.  reduce 157 (src line 761)
 
 
 state 263
 	pexpr:  pexpr . ltag.    (158)
 
-	.  reduce 158 (src line 764)
+	.  reduce 158 (src line 766)
 
 
 state 264
@@ -5582,7 +5582,7 @@ state 264
 	*  shift 254
 	[  shift 142
 	(  shift 255
-	.  reduce 39 (src line 249)
+	.  reduce 39 (src line 250)
 
 	abdecor  goto 298
 	abdecor1  goto 137
@@ -5596,7 +5596,7 @@ state 265
 	*  shift 254
 	[  shift 142
 	(  shift 255
-	.  reduce 39 (src line 249)
+	.  reduce 39 (src line 250)
 
 	abdecor  goto 299
 	abdecor1  goto 137
@@ -5612,7 +5612,7 @@ state 266
 	(  shift 41
 	LNAME  shift 43
 	LTYPE  shift 44
-	.  reduce 32 (src line 217)
+	.  reduce 32 (src line 218)
 
 	ltag  goto 42
 	xdecor  goto 270
@@ -5634,19 +5634,19 @@ state 268
 	edlist:  edlist., edlist 
 
 	,  shift 302
-	.  reduce 33 (src line 222)
+	.  reduce 33 (src line 223)
 
 
 state 269
 	edlist:  edecor.    (34)
 
-	.  reduce 34 (src line 224)
+	.  reduce 34 (src line 225)
 
 
 state 270
 	edecor:  xdecor.    (36)
 
-	.  reduce 36 (src line 231)
+	.  reduce 36 (src line 232)
 
 
 state 271
@@ -5654,7 +5654,7 @@ state 271
 	edecor:  tag.: lexpr 
 
 	:  shift 303
-	.  reduce 14 (src line 133)
+	.  reduce 14 (src line 134)
 
 
 state 272
@@ -5689,7 +5689,7 @@ state 272
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	lexpr  goto 304
 
@@ -5708,7 +5708,7 @@ state 274
 	enum:  enum., enum 
 	enum:  enum , enum.    (223)
 
-	.  reduce 223 (src line 1143)
+	.  reduce 223 (src line 1139)
 
 
 state 275
@@ -5774,7 +5774,7 @@ state 275
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 221 (src line 1138)
+	.  reduce 221 (src line 1134)
 
 
 state 276
@@ -5786,7 +5786,7 @@ state 276
 	$$88: .    (88)
 
 	error  shift 310
-	;  reduce 100 (src line 520)
+	;  reduce 100 (src line 522)
 	&  shift 96
 	+  shift 97
 	-  shift 98
@@ -5816,7 +5816,7 @@ state 276
 	LDOUBLE  shift 20
 	LEXTERN  shift 30
 	LFLOAT  shift 19
-	LFOR  reduce 88 (src line 456)
+	LFOR  reduce 88 (src line 458)
 	LGOTO  shift 323
 	LIF  shift 315
 	LINT  shift 15
@@ -5844,7 +5844,7 @@ state 276
 	LSIGNOF  shift 104
 	LRESTRICT  shift 27
 	LINLINE  shift 34
-	{  reduce 84 (src line 428)
+	{  reduce 84 (src line 429)
 	}  shift 306
 	!  shift 99
 	~  shift 100
@@ -5866,7 +5866,7 @@ state 276
 	pexpr  goto 94
 	adecl  goto 307
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	labels  goto 312
 	label  goto 327
@@ -5878,7 +5878,7 @@ state 276
 state 277
 	pdecl:  pdecl ctlist pdlist ;.    (25)
 
-	.  reduce 25 (src line 193)
+	.  reduce 25 (src line 194)
 
 
 state 278
@@ -5899,7 +5899,7 @@ state 278
 state 279
 	init:  { ilist }.    (51)
 
-	.  reduce 51 (src line 295)
+	.  reduce 51 (src line 296)
 
 
 state 280
@@ -5907,7 +5907,7 @@ state 280
 	ilist:  qlist init.    (61)
 
 	,  shift 333
-	.  reduce 61 (src line 327)
+	.  reduce 61 (src line 328)
 
 
 state 281
@@ -5915,19 +5915,19 @@ state 281
 	qlist:  qlist qual.    (58)
 
 	=  shift 283
-	.  reduce 58 (src line 319)
+	.  reduce 58 (src line 320)
 
 
 state 282
 	qlist:  init ,.    (55)
 
-	.  reduce 55 (src line 312)
+	.  reduce 55 (src line 313)
 
 
 state 283
 	qual:  qual =.    (54)
 
-	.  reduce 54 (src line 310)
+	.  reduce 54 (src line 311)
 
 
 state 284
@@ -5940,13 +5940,13 @@ state 284
 state 285
 	qual:  . ltag.    (53)
 
-	.  reduce 53 (src line 305)
+	.  reduce 53 (src line 306)
 
 
 state 286
 	abdecor1:  * zgnlist abdecor1.    (42)
 
-	.  reduce 42 (src line 261)
+	.  reduce 42 (src line 262)
 
 
 state 287
@@ -5966,13 +5966,13 @@ state 288
 state 289
 	abdecor3:  ( abdecor1 ).    (49)
 
-	.  reduce 49 (src line 288)
+	.  reduce 49 (src line 289)
 
 
 state 290
 	abdecor3:  [ zexpr ].    (48)
 
-	.  reduce 48 (src line 284)
+	.  reduce 48 (src line 285)
 
 
 state 291
@@ -6007,7 +6007,7 @@ state 291
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 292
@@ -6043,7 +6043,7 @@ state 292
 	xuexpr  goto 338
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 293
@@ -6057,7 +6057,7 @@ state 293
 	LCONSTNT  shift 25
 	LVOLATILE  shift 26
 	LRESTRICT  shift 27
-	.  reduce 41 (src line 255)
+	.  reduce 41 (src line 256)
 
 	gname  goto 119
 	abdecor1  goto 286
@@ -6068,13 +6068,13 @@ state 294
 	cexpr:  cexpr., cexpr 
 	cexpr:  cexpr , cexpr.    (106)
 
-	.  reduce 106 (src line 541)
+	.  reduce 106 (src line 543)
 
 
 state 295
 	pexpr:  pexpr ( zelist ).    (155)
 
-	.  reduce 155 (src line 745)
+	.  reduce 155 (src line 747)
 
 
 state 296
@@ -6110,13 +6110,13 @@ state 296
 	pexpr  goto 94
 	elist  goto 340
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 297
 	pexpr:  pexpr [ cexpr ].    (156)
 
-	.  reduce 156 (src line 755)
+	.  reduce 156 (src line 757)
 
 
 state 298
@@ -6143,7 +6143,7 @@ state 300
 state 301
 	edecl:  tlist $$28 zedlist ;.    (29)
 
-	.  reduce 29 (src line 210)
+	.  reduce 29 (src line 211)
 
 
 state 302
@@ -6195,38 +6195,38 @@ state 303
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	lexpr  goto 345
 
 state 304
 	edecor:  : lexpr.    (38)
 
-	.  reduce 38 (src line 241)
+	.  reduce 38 (src line 242)
 
 
 state 305
 	complex:  LENUM ltag $$203 { $$204 enum }.    (205)
 
-	.  reduce 205 (src line 1074)
+	.  reduce 205 (src line 1070)
 
 
 state 306
 	block:  { slist }.    (69)
 
-	.  reduce 69 (src line 363)
+	.  reduce 69 (src line 364)
 
 
 state 307
 	slist:  slist adecl.    (71)
 
-	.  reduce 71 (src line 378)
+	.  reduce 71 (src line 379)
 
 
 state 308
 	slist:  slist stmnt.    (72)
 
-	.  reduce 72 (src line 382)
+	.  reduce 72 (src line 383)
 
 
 state 309
@@ -6256,7 +6256,7 @@ state 310
 state 311
 	stmnt:  ulstmnt.    (79)
 
-	.  reduce 79 (src line 413)
+	.  reduce 79 (src line 414)
 
 
 state 312
@@ -6289,7 +6289,7 @@ state 312
 	LCONTINUE  shift 322
 	LDEFAULT  shift 330
 	LDO  shift 318
-	LFOR  reduce 88 (src line 456)
+	LFOR  reduce 88 (src line 458)
 	LGOTO  shift 323
 	LIF  shift 315
 	LPREFETCH  shift 325
@@ -6300,10 +6300,10 @@ state 312
 	LWHILE  shift 317
 	LSET  shift 326
 	LSIGNOF  shift 104
-	{  reduce 84 (src line 428)
+	{  reduce 84 (src line 429)
 	!  shift 99
 	~  shift 100
-	.  reduce 100 (src line 520)
+	.  reduce 100 (src line 522)
 
 	zcexpr  goto 313
 	name  goto 105
@@ -6312,7 +6312,7 @@ state 312
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	label  goto 350
 	ulstmnt  goto 351
@@ -6363,7 +6363,7 @@ state 318
 	$$88: .    (88)
 
 	error  shift 310
-	;  reduce 100 (src line 520)
+	;  reduce 100 (src line 522)
 	&  shift 96
 	+  shift 97
 	-  shift 98
@@ -6387,7 +6387,7 @@ state 318
 	LCONTINUE  shift 322
 	LDEFAULT  shift 330
 	LDO  shift 318
-	LFOR  reduce 88 (src line 456)
+	LFOR  reduce 88 (src line 458)
 	LGOTO  shift 323
 	LIF  shift 315
 	LPREFETCH  shift 325
@@ -6398,7 +6398,7 @@ state 318
 	LWHILE  shift 317
 	LSET  shift 326
 	LSIGNOF  shift 104
-	{  reduce 84 (src line 428)
+	{  reduce 84 (src line 429)
 	!  shift 99
 	~  shift 100
 	.  error
@@ -6411,7 +6411,7 @@ state 318
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	labels  goto 312
 	label  goto 327
@@ -6445,7 +6445,7 @@ state 319
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 100 (src line 520)
+	.  reduce 100 (src line 522)
 
 	zcexpr  goto 358
 	name  goto 105
@@ -6454,7 +6454,7 @@ state 319
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 320
@@ -6511,7 +6511,7 @@ state 326
 state 327
 	labels:  label.    (73)
 
-	.  reduce 73 (src line 387)
+	.  reduce 73 (src line 388)
 
 
 state 328
@@ -6519,7 +6519,7 @@ state 328
 	cexpr:  cexpr., cexpr 
 
 	,  shift 256
-	.  reduce 101 (src line 524)
+	.  reduce 101 (src line 526)
 
 
 state 329
@@ -6554,7 +6554,7 @@ state 329
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 330
@@ -6569,38 +6569,38 @@ state 331
 	name:  LNAME.    (243)
 
 	:  shift 368
-	.  reduce 243 (src line 1170)
+	.  reduce 243 (src line 1166)
 
 
 state 332
 	pdlist:  pdlist., pdlist 
 	pdlist:  pdlist , pdlist.    (27)
 
-	.  reduce 27 (src line 200)
+	.  reduce 27 (src line 201)
 
 
 state 333
 	qlist:  qlist init ,.    (56)
 
-	.  reduce 56 (src line 314)
+	.  reduce 56 (src line 315)
 
 
 state 334
 	qual:  [ lexpr ].    (52)
 
-	.  reduce 52 (src line 300)
+	.  reduce 52 (src line 301)
 
 
 state 335
 	abdecor2:  abdecor2 ( zarglist ).    (45)
 
-	.  reduce 45 (src line 270)
+	.  reduce 45 (src line 271)
 
 
 state 336
 	abdecor2:  abdecor2 [ zexpr ].    (46)
 
-	.  reduce 46 (src line 274)
+	.  reduce 46 (src line 275)
 
 
 state 337
@@ -6655,13 +6655,13 @@ state 337
 	*  shift 145
 	/  shift 146
 	%  shift 147
-	.  reduce 126 (src line 620)
+	.  reduce 126 (src line 622)
 
 
 state 338
 	xuexpr:  ( tlist abdecor ) xuexpr.    (139)
 
-	.  reduce 139 (src line 671)
+	.  reduce 139 (src line 673)
 
 
 state 339
@@ -6699,7 +6699,7 @@ state 339
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	qual  goto 212
 	qlist  goto 210
@@ -6710,44 +6710,44 @@ state 340
 	elist:  elist., elist 
 	elist:  elist , elist.    (179)
 
-	.  reduce 179 (src line 901)
+	.  reduce 179 (src line 897)
 
 
 state 341
 	pexpr:  LSIZEOF ( tlist abdecor ).    (153)
 
-	.  reduce 153 (src line 733)
+	.  reduce 153 (src line 735)
 
 
 state 342
 	pexpr:  LSIGNOF ( tlist abdecor ).    (154)
 
-	.  reduce 154 (src line 739)
+	.  reduce 154 (src line 741)
 
 
 state 343
 	edecl:  edecl tlist $$30 zedlist ;.    (31)
 
-	.  reduce 31 (src line 215)
+	.  reduce 31 (src line 216)
 
 
 state 344
 	edlist:  edlist., edlist 
 	edlist:  edlist , edlist.    (35)
 
-	.  reduce 35 (src line 229)
+	.  reduce 35 (src line 230)
 
 
 state 345
 	edecor:  tag : lexpr.    (37)
 
-	.  reduce 37 (src line 237)
+	.  reduce 37 (src line 238)
 
 
 state 346
 	adecl:  ctlist ;.    (18)
 
-	.  reduce 18 (src line 151)
+	.  reduce 18 (src line 152)
 
 
 state 347
@@ -6764,39 +6764,39 @@ state 348
 	adlist:  xdecor.$$21 = init 
 	$$21: .    (21)
 
-	=  reduce 21 (src line 167)
-	.  reduce 20 (src line 161)
+	=  reduce 21 (src line 168)
+	.  reduce 20 (src line 162)
 
 	$$21  goto 372
 
 state 349
 	stmnt:  error ;.    (78)
 
-	.  reduce 78 (src line 408)
+	.  reduce 78 (src line 409)
 
 
 state 350
 	labels:  labels label.    (74)
 
-	.  reduce 74 (src line 389)
+	.  reduce 74 (src line 390)
 
 
 state 351
 	stmnt:  labels ulstmnt.    (80)
 
-	.  reduce 80 (src line 414)
+	.  reduce 80 (src line 415)
 
 
 state 352
 	ulstmnt:  zcexpr ;.    (83)
 
-	.  reduce 83 (src line 426)
+	.  reduce 83 (src line 427)
 
 
 state 353
 	ulstmnt:  $$84 block.    (85)
 
-	.  reduce 85 (src line 431)
+	.  reduce 85 (src line 432)
 
 
 state 354
@@ -6833,7 +6833,7 @@ state 354
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 355
@@ -6876,7 +6876,7 @@ state 356
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 357
@@ -6926,19 +6926,19 @@ state 359
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 360
 	ulstmnt:  LBREAK ;.    (94)
 
-	.  reduce 94 (src line 495)
+	.  reduce 94 (src line 497)
 
 
 state 361
 	ulstmnt:  LCONTINUE ;.    (95)
 
-	.  reduce 95 (src line 499)
+	.  reduce 95 (src line 501)
 
 
 state 362
@@ -6974,7 +6974,7 @@ state 363
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 176 (src line 893)
+	.  reduce 176 (src line 889)
 
 	name  goto 105
 	expr  goto 260
@@ -6983,7 +6983,7 @@ state 363
 	zelist  goto 380
 	elist  goto 259
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 364
@@ -7012,7 +7012,7 @@ state 364
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 176 (src line 893)
+	.  reduce 176 (src line 889)
 
 	name  goto 105
 	expr  goto 260
@@ -7021,7 +7021,7 @@ state 364
 	zelist  goto 381
 	elist  goto 259
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 365
@@ -7050,7 +7050,7 @@ state 365
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 176 (src line 893)
+	.  reduce 176 (src line 889)
 
 	name  goto 105
 	expr  goto 260
@@ -7059,7 +7059,7 @@ state 365
 	zelist  goto 382
 	elist  goto 259
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 366
@@ -7132,13 +7132,13 @@ state 366
 state 367
 	label:  LDEFAULT :.    (76)
 
-	.  reduce 76 (src line 399)
+	.  reduce 76 (src line 400)
 
 
 state 368
 	label:  LNAME :.    (77)
 
-	.  reduce 77 (src line 403)
+	.  reduce 77 (src line 404)
 
 
 state 369
@@ -7151,7 +7151,7 @@ state 369
 state 370
 	adecl:  ctlist adlist ;.    (19)
 
-	.  reduce 19 (src line 156)
+	.  reduce 19 (src line 157)
 
 
 state 371
@@ -7235,7 +7235,7 @@ state 374
 	LINLINE  shift 34
 	!  shift 99
 	~  shift 100
-	.  reduce 100 (src line 520)
+	.  reduce 100 (src line 522)
 
 	gcname  goto 22
 	cname  goto 24
@@ -7251,7 +7251,7 @@ state 374
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	forexpr  goto 388
 	ctlist  goto 390
@@ -7275,7 +7275,7 @@ state 376
 state 377
 	ulstmnt:  LRETURN zcexpr ;.    (92)
 
-	.  reduce 92 (src line 476)
+	.  reduce 92 (src line 478)
 
 
 state 378
@@ -7290,7 +7290,7 @@ state 378
 state 379
 	ulstmnt:  LGOTO ltag ;.    (96)
 
-	.  reduce 96 (src line 503)
+	.  reduce 96 (src line 505)
 
 
 state 380
@@ -7317,20 +7317,20 @@ state 382
 state 383
 	label:  LCASE expr :.    (75)
 
-	.  reduce 75 (src line 394)
+	.  reduce 75 (src line 395)
 
 
 state 384
 	xuexpr:  ( tlist abdecor ) { ilist }.    (140)
 
-	.  reduce 140 (src line 678)
+	.  reduce 140 (src line 680)
 
 
 state 385
 	adlist:  adlist., adlist 
 	adlist:  adlist , adlist.    (23)
 
-	.  reduce 23 (src line 177)
+	.  reduce 23 (src line 178)
 
 
 state 386
@@ -7366,7 +7366,7 @@ state 386
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	init  goto 397
 
@@ -7378,7 +7378,7 @@ state 387
 	$$88: .    (88)
 
 	error  shift 310
-	;  reduce 100 (src line 520)
+	;  reduce 100 (src line 522)
 	&  shift 96
 	+  shift 97
 	-  shift 98
@@ -7402,7 +7402,7 @@ state 387
 	LCONTINUE  shift 322
 	LDEFAULT  shift 330
 	LDO  shift 318
-	LFOR  reduce 88 (src line 456)
+	LFOR  reduce 88 (src line 458)
 	LGOTO  shift 323
 	LIF  shift 315
 	LPREFETCH  shift 325
@@ -7413,7 +7413,7 @@ state 387
 	LWHILE  shift 317
 	LSET  shift 326
 	LSIGNOF  shift 104
-	{  reduce 84 (src line 428)
+	{  reduce 84 (src line 429)
 	!  shift 99
 	~  shift 100
 	.  error
@@ -7426,7 +7426,7 @@ state 387
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	labels  goto 312
 	label  goto 327
@@ -7444,7 +7444,7 @@ state 388
 state 389
 	forexpr:  zcexpr.    (81)
 
-	.  reduce 81 (src line 419)
+	.  reduce 81 (src line 420)
 
 
 state 390
@@ -7469,7 +7469,7 @@ state 391
 	$$88: .    (88)
 
 	error  shift 310
-	;  reduce 100 (src line 520)
+	;  reduce 100 (src line 522)
 	&  shift 96
 	+  shift 97
 	-  shift 98
@@ -7493,7 +7493,7 @@ state 391
 	LCONTINUE  shift 322
 	LDEFAULT  shift 330
 	LDO  shift 318
-	LFOR  reduce 88 (src line 456)
+	LFOR  reduce 88 (src line 458)
 	LGOTO  shift 323
 	LIF  shift 315
 	LPREFETCH  shift 325
@@ -7504,7 +7504,7 @@ state 391
 	LWHILE  shift 317
 	LSET  shift 326
 	LSIGNOF  shift 104
-	{  reduce 84 (src line 428)
+	{  reduce 84 (src line 429)
 	!  shift 99
 	~  shift 100
 	.  error
@@ -7517,7 +7517,7 @@ state 391
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	labels  goto 312
 	label  goto 327
@@ -7558,7 +7558,7 @@ state 392
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 393
@@ -7568,7 +7568,7 @@ state 393
 	$$88: .    (88)
 
 	error  shift 310
-	;  reduce 100 (src line 520)
+	;  reduce 100 (src line 522)
 	&  shift 96
 	+  shift 97
 	-  shift 98
@@ -7592,7 +7592,7 @@ state 393
 	LCONTINUE  shift 322
 	LDEFAULT  shift 330
 	LDO  shift 318
-	LFOR  reduce 88 (src line 456)
+	LFOR  reduce 88 (src line 458)
 	LGOTO  shift 323
 	LIF  shift 315
 	LPREFETCH  shift 325
@@ -7603,7 +7603,7 @@ state 393
 	LWHILE  shift 317
 	LSET  shift 326
 	LSIGNOF  shift 104
-	{  reduce 84 (src line 428)
+	{  reduce 84 (src line 429)
 	!  shift 99
 	~  shift 100
 	.  error
@@ -7616,7 +7616,7 @@ state 393
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	labels  goto 312
 	label  goto 327
@@ -7648,7 +7648,7 @@ state 396
 state 397
 	adlist:  xdecor $$21 = init.    (22)
 
-	.  reduce 22 (src line 171)
+	.  reduce 22 (src line 172)
 
 
 398: shift/reduce conflict (shift 407(0), red'n 86(0)) on LELSE
@@ -7657,7 +7657,7 @@ state 398
 	ulstmnt:  LIF ( cexpr ) stmnt.LELSE stmnt 
 
 	LELSE  shift 407
-	.  reduce 86 (src line 439)
+	.  reduce 86 (src line 441)
 
 
 state 399
@@ -7686,7 +7686,7 @@ state 399
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 100 (src line 520)
+	.  reduce 100 (src line 522)
 
 	zcexpr  goto 408
 	name  goto 105
@@ -7695,7 +7695,7 @@ state 399
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 400
@@ -7703,13 +7703,13 @@ state 400
 	forexpr:  ctlist adlist.    (82)
 
 	,  shift 371
-	.  reduce 82 (src line 421)
+	.  reduce 82 (src line 422)
 
 
 state 401
 	ulstmnt:  LWHILE ( cexpr ) stmnt.    (90)
 
-	.  reduce 90 (src line 468)
+	.  reduce 90 (src line 470)
 
 
 state 402
@@ -7724,25 +7724,25 @@ state 402
 state 403
 	ulstmnt:  LSWITCH ( cexpr ) stmnt.    (93)
 
-	.  reduce 93 (src line 481)
+	.  reduce 93 (src line 483)
 
 
 state 404
 	ulstmnt:  LUSED ( zelist ) ;.    (97)
 
-	.  reduce 97 (src line 507)
+	.  reduce 97 (src line 509)
 
 
 state 405
 	ulstmnt:  LPREFETCH ( zelist ) ;.    (98)
 
-	.  reduce 98 (src line 511)
+	.  reduce 98 (src line 513)
 
 
 state 406
 	ulstmnt:  LSET ( zelist ) ;.    (99)
 
-	.  reduce 99 (src line 515)
+	.  reduce 99 (src line 517)
 
 
 state 407
@@ -7752,7 +7752,7 @@ state 407
 	$$88: .    (88)
 
 	error  shift 310
-	;  reduce 100 (src line 520)
+	;  reduce 100 (src line 522)
 	&  shift 96
 	+  shift 97
 	-  shift 98
@@ -7776,7 +7776,7 @@ state 407
 	LCONTINUE  shift 322
 	LDEFAULT  shift 330
 	LDO  shift 318
-	LFOR  reduce 88 (src line 456)
+	LFOR  reduce 88 (src line 458)
 	LGOTO  shift 323
 	LIF  shift 315
 	LPREFETCH  shift 325
@@ -7787,7 +7787,7 @@ state 407
 	LWHILE  shift 317
 	LSET  shift 326
 	LSIGNOF  shift 104
-	{  reduce 84 (src line 428)
+	{  reduce 84 (src line 429)
 	!  shift 99
 	~  shift 100
 	.  error
@@ -7800,7 +7800,7 @@ state 407
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	labels  goto 312
 	label  goto 327
@@ -7825,7 +7825,7 @@ state 409
 state 410
 	ulstmnt:  LIF ( cexpr ) stmnt LELSE stmnt.    (87)
 
-	.  reduce 87 (src line 446)
+	.  reduce 87 (src line 448)
 
 
 state 411
@@ -7854,7 +7854,7 @@ state 411
 	LSIGNOF  shift 104
 	!  shift 99
 	~  shift 100
-	.  reduce 100 (src line 520)
+	.  reduce 100 (src line 522)
 
 	zcexpr  goto 413
 	name  goto 105
@@ -7863,13 +7863,13 @@ state 411
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 
 state 412
 	ulstmnt:  LDO stmnt LWHILE ( cexpr ) ;.    (91)
 
-	.  reduce 91 (src line 472)
+	.  reduce 91 (src line 474)
 
 
 state 413
@@ -7886,7 +7886,7 @@ state 414
 	$$88: .    (88)
 
 	error  shift 310
-	;  reduce 100 (src line 520)
+	;  reduce 100 (src line 522)
 	&  shift 96
 	+  shift 97
 	-  shift 98
@@ -7910,7 +7910,7 @@ state 414
 	LCONTINUE  shift 322
 	LDEFAULT  shift 330
 	LDO  shift 318
-	LFOR  reduce 88 (src line 456)
+	LFOR  reduce 88 (src line 458)
 	LGOTO  shift 323
 	LIF  shift 315
 	LPREFETCH  shift 325
@@ -7921,7 +7921,7 @@ state 414
 	LWHILE  shift 317
 	LSET  shift 326
 	LSIGNOF  shift 104
-	{  reduce 84 (src line 428)
+	{  reduce 84 (src line 429)
 	!  shift 99
 	~  shift 100
 	.  error
@@ -7934,7 +7934,7 @@ state 414
 	xuexpr  goto 91
 	pexpr  goto 94
 	uexpr  goto 92
-	string  goto 114
+	nstring  goto 114
 	lstring  goto 115
 	labels  goto 312
 	label  goto 327
@@ -7945,7 +7945,7 @@ state 414
 state 415
 	ulstmnt:  $$88 LFOR ( forexpr ; zcexpr ; zcexpr ) stmnt.    (89)
 
-	.  reduce 89 (src line 456)
+	.  reduce 89 (src line 458)
 
 
 99 terminals, 75 nonterminals

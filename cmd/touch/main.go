@@ -7,8 +7,19 @@ import (
 	"time"
 )
 
-var dontCreate = flag.Bool("c", false, "If the file doesn't exist, don't create it.")
-var newt = flag.Int64("t", time.Now().Unix(), "Set the modified time.")
+var (
+	cmd = struct{ name, flags string }{
+		"touch",
+		"[ -c ] [ -t time] files...",
+	}
+	dontCreate = flag.Bool("c", false, "don't create non-existend file")
+	newt       = flag.Int64("t", time.Now().Unix(), "new modification time")
+)
+
+func fatal(err error) {
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmd.name, err)
+	os.Exit(1)
+}
 
 func main() {
 	flag.Usage = usage
@@ -26,8 +37,7 @@ func main() {
 
 		if os.IsNotExist(err) {
 			if *dontCreate {
-				fmt.Fprintf(os.Stderr, "touch: %s\n", err)
-				os.Exit(2)
+				fatal(err)
 			}
 			f, err := os.Create(a)
 			if err != nil {
@@ -39,15 +49,14 @@ func main() {
 			}
 
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "touch: %s\n", err)
-				os.Exit(2)
+				fatal(err)
 			}
 		}
 	}
 }
 
 func usage() {
-	fmt.Print("usage: touch [-c] [-t time] files...")
+	fmt.Fprintln(os.Stderr, "Usage:", cmd.name, cmd.flags)
 	flag.PrintDefaults()
 	os.Exit(2)
 }
