@@ -198,7 +198,16 @@ func dd(inf *os.File, outf *os.File) {
 		}
 
 		if len(obuf) > 0 {
+			l := len(obuf)
 			out.Write(obuf)
+
+			if convmod&sync == sync && (l<*ibs)||(l<*obs) {
+				outcnt++
+				for i := l; (i<*ibs)||(i<*obs); i++ {
+					out.WriteByte(0)
+				}
+			}
+
 			out.Flush()
 			incblkout++
 		}
