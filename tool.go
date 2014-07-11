@@ -2,71 +2,96 @@ package main
 
 import (
 	"fmt"
+	"go/build"
+	"log"
 	"os"
+	"os/exec"
 	//"runtime"
+	"path"
+	"strings"
 )
 
-var goblinroot string = os.Getenv("GOBLIN")
-var cmds = map[string]string{
-	"install": "installs core goblin system",
-	"update":  "update core goblin system",
-	"backup":  "create a compressed snapshot of the current goblin filesystem",
-	"get":     "fetch go packages from goblin repo",
-	"env":     "print information pertaining to the goblin environment",
+func init() {
+	log.SetPrefix("goblin:\t  ")
+	log.SetFlags(0)
 }
 
-func usage() {
-	for k, v := range cmds {
-		fmt.Printf("[%s]:\n%s\n\n", k, v)
+func getPkgPath() (string, error) {
+	p, err := exec.LookPath(os.Args[0])
+	if err != nil {
+		return "", err
 	}
+	cmd := exec.Command("go", "tool", "objdump", "-s=main.main", p)
+	out, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+
+	s := strings.SplitN(fmt.Sprintf("%s", out), "\n", 2)[0]
+	s = s[len("TEXT main.main(SB) "):]
+
+	return s[:len(s)-len("/install.go")], nil
+}
+
+func usage() (s string) {
+	install := "install:\tinstalls the goblin tools to $GOTOOLDIR"
+	return fmt.Sprintln(install)
 }
 
 func main() {
-	for i := range os.Args {
-		if i == 0 {
-			continue
-		}
-		switch os.Args[i] {
+	if len(os.Args) == 1 {
+		log.Println(usage())
+		return
+	}
+	for _, arg := range os.Args[1:] {
+		switch arg {
 		case "install":
 			install()
-		case "update":
-			update()
-		case "backup":
-			backup()
-		case "get":
-			get()
-		case "env":
-			env()
-		case "doc":
-			doc()
 		default:
-			usage()
+			log.Println("invalid input arg:", arg)
+			log.Println(usage())
 			return
 		}
-
 	}
 }
 
 func install() {
-	unimplemented()
-}
-func update() {
-	unimplemented()
-}
-func backup() {
-	unimplemented()
-}
-func get() {
-	unimplemented()
-}
-func env() {
-	unimplemented()
-}
-func doc() {
-	unimplemented()
-}
+	if p, err := getPkgPath(); err != nil {
+		log.Fatal(err)
+	} else {
+		os.Chdir(p)
+	}
 
-func unimplemented() {
-	fmt.Println(os.Args[1], "is not implemented yet")
-	os.Exit(2)
+	os.Chdir("cmd")
+	f, err := os.Open(".")
+	if err != nil {
+		log.Fatal(err)
+	}
+	dirs, err := f.Readdirnames(0)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, d := range dirs {
+		os.Chdir(d)
+		if d, err := os.Getwd(); err != nil {
+			log.Fatal(err)
+		} else {
+			log.Println(d)
+			nm := path.Base(d)
+			out, err := exec.Command("go", "build").CombinedOutput()
+			if err != nil {
+				log.Printf("go build %s failed\n\n", nm)
+				fmt.Fprintf(os.Stderr, "[go-build-log]\n%s", out)
+				goto quit
+			}
+
+			log.Printf("mv %s to $GOTOOLDIR\n", nm)
+			if err := os.Rename(d+"/"+nm, build.ToolDir+"/"+nm); err != nil {
+				log.Fatal(err)
+			}
+		}
+	quit:
+		os.Chdir("..")
+		fmt.Println()
+	}
 }
