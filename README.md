@@ -38,7 +38,7 @@ http://golang.org/LICENSE
 While this code is definitely inspired by plan9's tools, these
 tools are not a direct c to go source **port** of the original plan9 tools.
 
-All goblin code is written from scratch the ground up, Therefore 
+All goblin code is reimplemented a new code from the ground up, Therefore 
 goblin software is not legally tied the Lucent Public License, or any
 other licenses that plan9/inferno software has been licensed and distributed
 under.
