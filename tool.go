@@ -59,10 +59,14 @@ func install() {
 	if p, err := getPkgPath(); err != nil {
 		log.Fatal(err)
 	} else {
-		os.Chdir(p)
+		if err := os.Chdir(p); err != nil {
+			log.Fatal(err)
+		}
 	}
 
-	os.Chdir("cmd")
+	if err := os.Chdir("cmd"); err != nil {
+		log.Fatal(err)
+	}
 	f, err := os.Open(".")
 	if err != nil {
 		log.Fatal(err)
@@ -72,7 +76,9 @@ func install() {
 		log.Fatal(err)
 	}
 	for _, d := range dirs {
-		os.Chdir(d)
+		if err := os.Chdir(d); err != nil {
+			log.Fatal(err)
+		}
 		if d, err := os.Getwd(); err != nil {
 			log.Fatal(err)
 		} else {
@@ -91,7 +97,9 @@ func install() {
 			}
 		}
 	quit:
-		os.Chdir("..")
+		if err := os.Chdir(".."); err != nil {
+			log.Fatal(err)
+		}
 		fmt.Println()
 	}
 }
