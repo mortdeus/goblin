@@ -4,7 +4,7 @@ goblin
 plan9 inspired command line commands implemented in pure Go
 
 
-**installation:**
+#### **installation:**
 
 `go get github.com/mortdeus/goblin && goblin install`
 
@@ -14,7 +14,7 @@ os.Exec("go build") and compile each tool from source.
 If the tool is sucessfully compiled into an executable,
 the go tool then moves that binary to $GOTOOLDIR.
 
-*Caution:* 
+###### **Caution:** 
 At the moment there isn't a mechanism in place that checks 
 whether the tools in $GOTOOLDIR, (specifically the tools that don't belong to
 goblin), have filenames that clash with goblin's tools.
@@ -26,17 +26,21 @@ standard go tool. (i.e `"*g", "*l", "*a", "*c", "yacc", "objdump" etc)
 
 
 
-**usage:**
+#### **usage:**
+
 `go tool $cmd`
  
  run `go tool` to get the list of tools you can call with go tool. 
 
 
-**license:**
+
+#### license:
+
 Same license used for Go.
 http://golang.org/LICENSE
 
-*notice*
+###### **notice:**
+
 While this code is definitely inspired by plan9's tools, these
 tools are not a direct c to go ource *port* of the original plan9 tools.
 
