@@ -30,7 +30,9 @@ func getPkgPath() (string, error) {
 	s := strings.SplitN(fmt.Sprintf("%s", out), "\n", 2)[0]
 	s = s[len("TEXT main.main(SB) "):]
 
-	return s[:len(s)-len("/install.go")], nil
+	//makesure this source file's name matches whats hardcoded here.
+	// Otherwise things break.
+	return s[:len(s)-len("/tool.go")], nil
 }
 
 func usage() (s string) {
