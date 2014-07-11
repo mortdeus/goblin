@@ -36,7 +36,7 @@ Same license used for Go.
 http://golang.org/LICENSE
 ##### Notice:
 While this code is definitely inspired by plan9's tools, these
-tools are not a direct c to go ource *port* of the original plan9 tools.
+tools are not a direct c to go source **port** of the original plan9 tools.
 
 All goblin code is written from scratch the ground up, Therefore 
 goblin software is not legally tied the Lucent Public License, or any
