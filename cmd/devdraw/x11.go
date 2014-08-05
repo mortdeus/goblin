@@ -68,12 +68,9 @@ func SrvInit() {
 			}
 		}).Connect(display, win.Id)
 
-	xevent.ButtonPressFun(
-		func(display *xgbutil.XUtil, e xevent.ButtonPressEvent){
-			mousebind.DeduceButtonInfo(e.State, e.Detail)
-
-			}).Connect(display, win.Id)
-		)
+	xevent.ButtonPressFun(func(display *xgbutil.XUtil, e xevent.ButtonPressEvent) {
+		mousebind.DeduceButtonInfo(e.State, e.Detail)
+	}).Connect(display, win.Id)
 
 	log.Println("Program initialized. Start pressing keys!")
 	xevent.Main(display)
