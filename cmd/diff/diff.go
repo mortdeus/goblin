@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	//"hash/crc32"
 	"hash/adler32"
 	"io"
 	"os"
@@ -36,12 +37,17 @@ func Diff(r1, r2 io.Reader) io.Reader {
 			fmt.Fprintln(os.Stderr, err)
 		}
 	}
-	scan(f1, r1)
-	scan(f2, r2)
+	scan(f1, r2)
+	scan(f2, r1)
 
-	fmt.Println(f2, "\n")
+	for i, l := range f2.Line {
+		fmt.Printf("%v:\t%v\t\t\t%v\n", i+1, l.Hash, l.Offset+1)
+	}
 	f2.Sort()
-	fmt.Println(f2, "\n")
+	for i, l := range f2.Line {
+		fmt.Printf("%v:\t%v\t\t\t%v\n", i+1, l.Hash, l.Offset+1)
+	}
+
 	return nil
 
 }
@@ -54,16 +60,17 @@ type File struct {
 func (f *File) Sort() {
 	sort.Sort(f)
 
+	var last int
 	for hash, class := range f.Equiv {
-		for i := 0; ; i++ {
-			if hash+i > len(f.Line) || f.Line[hash+i].Hash == hash {
-				break
+		for i := last; i < len(f.Line); i++ {
+			if hash == f.Line[i].Hash {
+				last = i
+				for j := 0; hash == f.Line[i+j].Hash; j++ {
+					class.index = append(class.index, f.Line[i+j].Offset)
+				}
 			}
-			for _, ln := range f.Line[hash : hash+i] {
-				class.index = append(class.index, ln.Offset)
-			}
-			sort.Ints(class.index)
 		}
+		sort.Ints(class.index)
 	}
 }
 func (f *File) Len() int {
@@ -97,7 +104,10 @@ type line struct {
 	Offset int
 }
 
-func NewLine(s []byte, pos int) line { return line{int(adler32.Checksum(s)), pos} }
+func NewLine(s []byte, pos int) line {
+	//return line{int(crc32.Checksum(s, crc32.IEEETable)), pos}
+	return line{int(adler32.Checksum(s)), pos}
+}
 
 type equivClass struct {
 	index []int
