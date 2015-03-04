@@ -6,15 +6,17 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
+	"unicode"
 )
 
 var (
 	infile  = flag.String("if", "", "File to open for input")
 	outfile = flag.String("of", "", "File to open for output")
-	ibs     = flag.Int("ibs", 512, "Set input block size to n bytes (default 512)")
-	obs     = flag.Int("obs", 512, "Set output block size to n bytes (default 512)")
-	bs      = flag.Int("bs", 0, "Set both input and output block size, superseding ibs and obs.")
+	ibss     = flag.String("ibs", "", "Set input block size to n bytes (default 512)")
+	obss     = flag.String("obs", "", "Set output block size to n bytes (default 512)")
+	bss      = flag.String("bs", "", "Set both input and output block size, superseding ibs and obs.")
 	skip    = flag.Int("skip", 0, "Skip n records before copying.")
 	iseek   = flag.Int("iseek", 0, "Seek n records forward on input file before copying.")
 	oseek   = flag.Int("oseek", 0, "Seek n records from beginning of output file before copying.")
@@ -24,6 +26,9 @@ var (
 	//files = flag.Int("files", 1, "Catenate n input files.")
 	conv     = flag.String("conv", "", "Set conversion mode.")
 	conbufsz = flag.Int("cbs", 0, "Set conversion buffer size.")
+	ibs = 512
+	obs = 512
+	bs = 0
 )
 
 const (
@@ -42,9 +47,68 @@ func usage() {
 	os.Exit(2)
 }
 
-func errExit(err error) {
+func fatal(err error) {
 	fmt.Fprint(os.Stderr, "dd:", err)
 	os.Exit(1)
+}
+
+func errHandler(err error) {
+	if err != nil {
+		if convmod&noerror != noerror {
+			fatal(err)
+		} else {
+			fmt.Fprint(os.Stderr,"dd:",err)
+		}
+	}
+}
+
+func convert_byte_string(s string) int {
+	buf := make([]rune, 0, 128)
+	var val int = 0
+	var ret int = 0
+	var prod bool = false
+	
+	s = strings.Join(strings.Fields(s), "")
+
+	fmt.Println("A:",s)
+
+	l := len(s)
+
+	fmt.Println("l =",l)
+
+	if l == 0 {
+		fatal(nil)
+	}
+
+	for i:=0; i < l; i++ {
+		if unicode.IsDigit(rune(s[i])) {
+			buf = append(buf, rune(s[i]))
+		} else {
+			val, _ = strconv.Atoi(string(buf))
+			buf = buf[0:0]
+			
+			switch(s[i]) {
+			case 'k':
+				val *= 1024
+			case 'b':
+				val *= 512
+			case 'x':
+				prod = true
+				ret = val
+			}
+		}
+	}
+	fmt.Println("buf =",string(buf))
+	val, _ = strconv.Atoi(string(buf))
+	fmt.Println("val =",val)
+
+	if prod {
+		ret *= val
+	} else {
+		ret = val;
+	}
+	
+	return ret
 }
 
 func main() {
@@ -55,21 +119,25 @@ func main() {
 	var out *os.File = os.Stdout
 	var err error
 
-	if *bs > 0 {
-		*ibs = *bs
-		*obs = *bs
+	fmt.Println("bss =",*bss)
+	convstr := convert_byte_string(*bss)
+	fmt.Println("bs =",convstr)
+
+	if bs > 0 {
+		ibs = bs
+		obs = bs
 	}
 
 	if len(*infile) > 0 {
 		in, err = os.Open(*infile)
 		if err != nil {
-			errExit(err)
+			fatal(err)
 		}
 
 		if *iseek > 0 {
-			_, err = in.Seek((int64)((*iseek)*(*ibs)), 0)
+			_, err = in.Seek((int64)((*iseek)*(ibs)), 0)
 			if err != nil {
-				errExit(err)
+				fatal(err)
 			}
 		}
 	}
@@ -81,13 +149,13 @@ func main() {
 			out, err = os.OpenFile(*outfile, os.O_WRONLY, 0666)
 		}
 		if err != nil {
-			errExit(err)
+			fatal(err)
 		}
 
 		if *oseek > 0 {
-			_, err = out.Seek((int64)((*oseek)*(*obs)), 0)
+			_, err = out.Seek((int64)((*oseek)*(obs)), 0)
 			if err != nil {
-				errExit(err)
+				fatal(err)
 			}
 		}
 	}
@@ -95,21 +163,22 @@ func main() {
 	if len(*conv) > 0 {
 		clist := strings.Split(*conv, ",")
 		for _, opt := range clist {
-			if opt == "lcase" {
+			switch(opt) {
+			case "lcase":
 				convmod |= lcase
-			} else if opt == "ucase" {
+			case "ucase":
 				convmod |= ucase
-			} else if opt == "swab" {
+			case "swab":
 				convmod |= swab
-			} else if opt == "noerror" {
+			case "noerror":
 				convmod |= noerror
-			} else if opt == "sync" {
+			case "sync":
 				convmod |= sync
 			}
 		}
 	}
 
-	dd(in, out)
+	Dd(in, out)
 
 	in.Close()
 	out.Close()
@@ -117,9 +186,10 @@ func main() {
 	os.Exit(0)
 }
 
-func dd(inf *os.File, outf *os.File) {
-	ibuf := make([]byte, 0)
-	obuf := make([]byte, 0)
+
+func Dd(inf *os.File, outf *os.File) {
+	ibuf := make([]byte, 0, ibs)
+	obuf := make([]byte, 0, obs)
 	in := bufio.NewReader(inf)
 	out := bufio.NewWriter(outf)
 
@@ -132,8 +202,11 @@ func dd(inf *os.File, outf *os.File) {
 	var incblkout int = 0
 
 	passThrough := func() {
-		out.Write(ibuf)
-		out.Flush()
+		_, err := out.Write(ibuf)
+		errHandler(err)
+		
+		err = out.Flush()
+		errHandler(err)
 	}
 
 	uc := func(b *byte) {
@@ -164,7 +237,7 @@ func dd(inf *os.File, outf *os.File) {
 			swb()
 		}
 
-		if *ibs == *obs {
+		if ibs == obs {
 			passThrough()
 			outcnt++
 			return
@@ -173,9 +246,13 @@ func dd(inf *os.File, outf *os.File) {
 		for _, b := range ibuf {
 			obuf = append(obuf, b)
 
-			if len(obuf) >= *obs {
-				out.Write(obuf)
-				out.Flush()
+			if len(obuf) >= obs {
+				_, err := out.Write(obuf)
+				errHandler(err)
+				
+				err = out.Flush()
+				errHandler(err)
+				
 				obuf = obuf[0:0]
 				outcnt++
 			}
@@ -188,7 +265,7 @@ func dd(inf *os.File, outf *os.File) {
 				swb()
 			}
 
-			if *ibs == *obs {
+			if ibs == obs {
 				passThrough()
 				incblkout++
 			} else {
@@ -199,16 +276,21 @@ func dd(inf *os.File, outf *os.File) {
 
 		if len(obuf) > 0 {
 			l := len(obuf)
-			out.Write(obuf)
+			_, err := out.Write(obuf)
 
-			if convmod&sync == sync && (l<*ibs)||(l<*obs) {
+			errHandler(err)
+
+			if convmod&sync == sync && (l<ibs || l<obs) {
 				outcnt++
-				for i := l; (i<*ibs)||(i<*obs); i++ {
-					out.WriteByte(0)
+				for i := l; i<ibs || i<obs; i++ {
+					err = out.WriteByte(0)
+					errHandler(err)
 				}
 			}
 
-			out.Flush()
+			err = out.Flush()
+			errHandler(err)
+			
 			incblkout++
 		}
 	}
@@ -217,8 +299,7 @@ func dd(inf *os.File, outf *os.File) {
 		c, err := in.ReadByte()
 		if err != nil {
 			if err != io.EOF && convmod&noerror != noerror {
-				errExit(err)
-				continue
+				fatal(err)
 			}
 			finishUp()
 			break
@@ -233,7 +314,7 @@ func dd(inf *os.File, outf *os.File) {
 		}
 
 		ibuf = append(ibuf, c)
-		if len(ibuf) >= *ibs {
+		if len(ibuf) >= ibs {
 			if skipcnt < *skip {
 				skipcnt++
 			} else {
