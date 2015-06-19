@@ -42,17 +42,7 @@ func main() {
 }
 
 func cat(f io.Reader) {
-	b := make([]byte, 8*1024)
-	for {
-		n, err := f.Read(b)
-		if n == 0 {
-			return
-		}
-		if err != nil {
-			fatal(err)
-		}
-		if n, err = os.Stdout.Write(b[:n]); err != nil {
-			fatal(err)
-		}
+	if _, err := io.Copy(os.Stdout, f); err != nil {
+		fatal(err)
 	}
 }
