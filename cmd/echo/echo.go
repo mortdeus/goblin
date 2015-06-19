@@ -24,10 +24,9 @@ func main() {
 	flag.Usage = usage
 	flag.Parse()
 	args := flag.Args()
-	for _, arg := range args {
-		fmt.Printf("%v", arg)
-	}
-	if !*nflag {
-		fmt.Print("\n")
+	if *nflag {
+		fmt.Print(args...)
+	} else {
+		fmt.Println(args...)
 	}
 }
