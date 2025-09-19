@@ -1,4 +1,4 @@
-# 🤖 Goblin - Advanced Solana Trading Bot
+# Advanced Solana Trading Bot
 
 A sophisticated, high-performance Solana trading bot that automatically follows target wallets and executes trades across multiple DEX platforms. Built with real-time transaction monitoring, intelligent risk management, and comprehensive control interfaces.
 
